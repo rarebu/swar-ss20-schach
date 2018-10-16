@@ -1,4 +1,4 @@
-test
+test"2
 # Htwg Scala Seed Project 
 =====================================================
 ## the easiest way to start a project for the lecture SE
