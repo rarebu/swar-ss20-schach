@@ -11,16 +11,31 @@ trait Walker {
 
 import Colour.Colour
 
-case class Figure(name:String, ability:Boolean, walker:Walker)
+trait Figure {
+  def getName:String
+  def getPossibleDirections:Walker
+  def hasAbility:Boolean
+}
 
-val fig1 = Figure("King", true, null)
-fig1.name
-fig1.ability
-fig1.walker
+case class King() extends Figure {
+  case class SimpleWalker() extends Walker {
+    override def possibleCoordinates = (1, 1)
+  }
+
+  override def getName = "King"
+
+  override def getPossibleDirections = SimpleWalker()
+
+  override def hasAbility = true
+}
+
+val king1 = King()
+king1.getName
+king1.getPossibleDirections.possibleCoordinates
+king1.hasAbility
 
 case class Cell(colour:Colour, contains:Figure, coordinates:(Int, Int))
 
-//case class A()
 
 val cell1 = Cell(Colour.Black, null, (2, 3))
 
