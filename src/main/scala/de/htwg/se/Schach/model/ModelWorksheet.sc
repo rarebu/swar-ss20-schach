@@ -5,20 +5,18 @@ object Colour extends Enumeration {
   val Black, White = Value
 }
 
-object Direction extends Enumeration {
-  type Direction = Value
-  val Up, Down, Left, Right, UpLeft, UpRight, DownLeft, DownRight = Value
+trait Walker {
+  def possibleCoordinates:(Int, Int)
 }
 
 import Colour.Colour
-import Direction.Direction
 
-case class Figure(name:String, ability:Boolean, direction:Direction)
+case class Figure(name:String, ability:Boolean, walker:Walker)
 
-val fig1 = Figure("King", true, Direction.Down)
+val fig1 = Figure("King", true, null)
 fig1.name
 fig1.ability
-fig1.direction
+fig1.walker
 
 case class Cell(colour:Colour, contains:Figure, coordinates:(Int, Int))
 
