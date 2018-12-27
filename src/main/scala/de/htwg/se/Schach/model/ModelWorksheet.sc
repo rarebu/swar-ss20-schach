@@ -28,20 +28,27 @@ king1.getName
 king1.getPossibleNewPositions
 king1.hasAbility
 
-case class Cell(colour:Colour, contains:Figure, coordinates:(Int, Int))
+case class Cell(colour:Colour, contains:Figure)
 
 
-val cell1 = Cell(Colour.Black, null, (2, 3))
+val cell1 = Cell(Colour.Black, null)
 
 cell1.colour
 cell1.contains
-cell1.coordinates
 
-case class Matrix[T] (rows:Vector[Vector[T]])
+case class Matrix[T] (rows:Vector[Vector[T]]) {
+  def this(filling:T) = this(Vector.tabulate(8, 8){(row, col) => filling})
+  val size = rows.size
+}
 
-val matrix1 = Matrix(Vector(Vector(cell1)))
+val matrix1 = new Matrix[Cell](Cell(Colour.Black, null))
 
-matrix1.rows
+matrix1.rows(0)(0).colour == Colour.Black
+matrix1.rows(0)(1).colour == Colour.White
+matrix1.rows(7)(7).colour == Colour.Black
+matrix1.rows(7)(6).colour == Colour.White
+matrix1.size
+
 
 case class Field(cells: Matrix[Cell])
 
