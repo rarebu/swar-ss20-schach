@@ -36,12 +36,24 @@ val cell1 = Cell(Colour.Black, null)
 cell1.colour
 cell1.contains
 
-case class Matrix[T] (rows:Vector[Vector[T]]) {
-  def this(filling:T) = this(Vector.tabulate(8, 8){(row, col) => filling})
+case class Matrix[T] (rows:Vector[Vector[Cell]]) {
+  def this() = this(Vector.tabulate(8, 8){(row, col) => {
+    if (row % 2 == 0) {
+      if (col % 2 == 0)
+        Cell(Colour.Black, null)
+      else
+        Cell(Colour.White, null)
+    } else {
+      if (col % 2 == 0)
+        Cell(Colour.White, null)
+      else
+        Cell(Colour.Black, null)
+    }
+  }})
   val size = rows.size
 }
 
-val matrix1 = new Matrix[Cell](Cell(Colour.Black, null))
+val matrix1 = new Matrix[Cell]
 
 matrix1.rows(0)(0).colour == Colour.Black
 matrix1.rows(0)(1).colour == Colour.White
