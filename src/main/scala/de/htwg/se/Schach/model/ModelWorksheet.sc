@@ -5,33 +5,27 @@ object Colour extends Enumeration {
   val Black, White = Value
 }
 
-trait Walker {
-  def possibleCoordinates:(Int, Int)
-}
+case class Coordinates(x:Int, y:Int)
 
 import Colour.Colour
 
 trait Figure {
   def getName:String
-  def getPossibleDirections:Walker
+  def getPossibleNewPositions:List[Coordinates]
   def hasAbility:Boolean
 }
 
 case class King() extends Figure {
-  case class SimpleWalker() extends Walker {
-    override def possibleCoordinates = (1, 1)
-  }
-
   override def getName = "King"
 
-  override def getPossibleDirections = SimpleWalker()
+  override def getPossibleNewPositions = List(Coordinates(1, 1))
 
   override def hasAbility = true
 }
 
 val king1 = King()
 king1.getName
-king1.getPossibleDirections.possibleCoordinates
+king1.getPossibleNewPositions
 king1.hasAbility
 
 case class Cell(colour:Colour, contains:Figure, coordinates:(Int, Int))
