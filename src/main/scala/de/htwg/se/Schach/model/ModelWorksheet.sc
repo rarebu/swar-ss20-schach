@@ -11,7 +11,32 @@ object Utils {
   def validCoordinate(coordinates: Coordinates): Boolean =
     isAValidValueInsideTheField(coordinates.x) && isAValidValueInsideTheField(coordinates.y)
 
-  def isAValidValueInsideTheField(value: Int): Boolean = value > 0 && value < 8
+  def removeInvalidsFromVector(vector: Vector[Coordinates]): Vector[Coordinates] = {
+    vector.zipWithIndex foreach { case (coord, index) =>
+      if (!validCoordinate(coord)) {
+        //        print("Coord: " + coord + "\nIndex: ")
+        return vector.slice(0, index)
+      }
+    }
+    vector
+  }
+
+  def removeInvalidsFromMultiVector(multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
+    var newMultiVector: Vector[Vector[Coordinates]] = Vector()
+    multiVector foreach {
+      case vector =>
+
+        val b = removeInvalidsFromVector(vector)
+        if (b.size > 0) {
+          //          println("Not removed:\n" + b)
+          newMultiVector = newMultiVector :+ b
+          //          println("New:\n" + newMultiVector)
+        }
+    }
+    newMultiVector
+  }
+
+  def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 
   def goOneStepUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y + 1)
 
@@ -28,7 +53,24 @@ object Utils {
   def goOneStepRightUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 1, coordinates.y + 1)
 
   def goOneStepRightDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 1, coordinates.y - 1)
+
+  def oneStepCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+    Vector(Vector(goOneStepUp(coordinates)), Vector(goOneStepDown(coordinates)), Vector(goOneStepRight(coordinates)),
+      Vector(goOneStepLeft(coordinates))))
+
+  def oneStepDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+    Vector(Vector(goOneStepLeftUp(coordinates)), Vector(goOneStepLeftDown(coordinates)),
+      Vector(goOneStepRightUp(coordinates)), Vector(goOneStepRightDown(coordinates))))
+
+  def goOnStepInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] =
+    oneStepCross(coordinates) ++ oneStepDiagonal(coordinates)
 }
+
+val vector = Vector(Coordinates(0, 0), Coordinates(0, -1), Coordinates(2, 2))
+Utils.removeInvalidsFromVector(vector)
+val multivector = Vector(vector, Vector(Coordinates(4, 4), Coordinates(2, 3), Coordinates(3, -1)))
+Utils.removeInvalidsFromMultiVector(multivector)
+Utils.goOnStepInAllDirections(Coordinates(0, 4)).size == 5
 
 import Colour.Colour
 
@@ -62,10 +104,7 @@ case class King(colour: Colour, coordinates: Coordinates) extends Figure {
 
   def isValid(x: Int, y: Int, fn: (Int, Int) => Int): Boolean = isAValidValueInsideTheField(fn(x, y))
 
-  override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = {
-    //TODO: calculate new coordinates
-    Vector(Vector(goOneStepUp(coordinates)))
-  }
+  override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goOnStepInAllDirections(coordinates)
 
   override def hasAbility: Boolean = true
 
@@ -106,15 +145,16 @@ case class Matrix[T](rows: Vector[Vector[Cell]]) {
     import King._
     import Figure._
     Vector.tabulate(SIZE_CHESSFIELD, SIZE_CHESSFIELD) { (row, col) => {
-    val a = (row, col) match {
-      case (COL_FIGURE, ROW_BLACK) => Option.apply(new King(Colour.Black))
-      case _ => Option.empty
+      val a = (row, col) match {
+        case (COL_FIGURE, ROW_BLACK) => Option.apply(new King(Colour.Black))
+        case _ => Option.empty
+      }
+      if (row % 2 == 0)
+        if (col % 2 == 0) Cell(Colour.Black, Option.empty) else Cell(Colour.White, Option.empty)
+      else if (col % 2 == 0) Cell(Colour.White, Option.empty) else Cell(Colour.Black, Option.empty)
     }
-    if (row % 2 == 0)
-      if (col % 2 == 0) Cell(Colour.Black, Option.empty) else Cell(Colour.White, Option.empty)
-    else if (col % 2 == 0) Cell(Colour.White, Option.empty) else Cell(Colour.Black, Option.empty)
-  }
-  }})
+    }
+  })
 }
 
 object Matrix {
