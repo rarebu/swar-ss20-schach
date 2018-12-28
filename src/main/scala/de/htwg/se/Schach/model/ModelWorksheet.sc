@@ -14,7 +14,6 @@ object Utils {
   def removeInvalidsFromVector(vector: Vector[Coordinates]): Vector[Coordinates] = {
     vector.zipWithIndex foreach { case (coord, index) =>
       if (!validCoordinate(coord)) {
-        //        print("Coord: " + coord + "\nIndex: ")
         return vector.slice(0, index)
       }
     }
@@ -25,13 +24,8 @@ object Utils {
     var newMultiVector: Vector[Vector[Coordinates]] = Vector()
     multiVector foreach {
       case vector =>
-
         val b = removeInvalidsFromVector(vector)
-        if (b.size > 0) {
-          //          println("Not removed:\n" + b)
-          newMultiVector = newMultiVector :+ b
-          //          println("New:\n" + newMultiVector)
-        }
+        if (b.size > 0) newMultiVector = newMultiVector :+ b
     }
     newMultiVector
   }
@@ -67,9 +61,12 @@ object Utils {
 }
 
 val vector = Vector(Coordinates(0, 0), Coordinates(0, -1), Coordinates(2, 2))
-Utils.removeInvalidsFromVector(vector)
 val multivector = Vector(vector, Vector(Coordinates(4, 4), Coordinates(2, 3), Coordinates(3, -1)))
-Utils.removeInvalidsFromMultiVector(multivector)
+Utils.validCoordinate(Coordinates(0, 4))
+!Utils.validCoordinate(Coordinates(-1, 4))
+!Utils.validCoordinate(Coordinates(2, 8))
+Utils.removeInvalidsFromVector(vector).size == 1
+Utils.removeInvalidsFromMultiVector(multivector).size == 2
 Utils.goOnStepInAllDirections(Coordinates(0, 4)).size == 5
 
 import Colour.Colour
@@ -102,8 +99,6 @@ case class King(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getName: String = "King"
 
-  def isValid(x: Int, y: Int, fn: (Int, Int) => Int): Boolean = isAValidValueInsideTheField(fn(x, y))
-
   override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goOnStepInAllDirections(coordinates)
 
   override def hasAbility: Boolean = true
@@ -121,12 +116,8 @@ object King {
 
 
 val king1 = new King(Colour.Black)
-king1.getName
-king1.isValid(10, 2, _ - _)
-king1.isValid(10, 2, _ + _)
-king1.isValid(10, 2, _ * _)
-king1.isValid(10, 2, _ / _)
-king1.getPossibleNewPositions
+king1.getName == "King"
+king1.getPossibleNewPositions.size == 5
 king1.hasAbility
 
 case class Cell(colour: Colour, contains: Option[Figure])
@@ -134,8 +125,8 @@ case class Cell(colour: Colour, contains: Option[Figure])
 
 val cell1 = Cell(Colour.Black, Option.empty)
 
-cell1.colour
-cell1.contains
+cell1.colour == Colour.Black
+cell1.contains == None
 
 case class Matrix[T](rows: Vector[Vector[Cell]]) {
   val size = rows.size
@@ -168,11 +159,13 @@ matrix1.rows(0)(0).colour == Colour.Black
 matrix1.rows(0)(1).colour == Colour.White
 matrix1.rows(7)(7).colour == Colour.Black
 matrix1.rows(7)(6).colour == Colour.White
-matrix1.size
+matrix1.size == 8
 
 
 case class Field(cells: Matrix[Cell])
 
 val field1 = Field(matrix1)
 
-field1.cells
+field1.cells.size == 8
+
+
