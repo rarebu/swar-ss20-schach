@@ -1,8 +1,18 @@
 package de.htwg.se.Schach.model
 
-class CellSpec {
-  val cell1 = Cell(Colour.Black, Option.empty)
+import org.junit.runner.RunWith
+import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.junit.JUnitRunner
 
-  cell1.colour == Colour.Black
-  cell1.contains == None
+@RunWith(classOf[JUnitRunner])
+class CellSpec extends WordSpec with Matchers {
+  "A Cell" when { "new" should {
+    val cell = Cell(Colour.Black, Option.empty)
+    "have a colour"  in {
+      cell.colour should be(Colour.Black)
+    }
+    "have no Figure" in {
+      cell.contains should be(None)
+    }
+  }}
 }
