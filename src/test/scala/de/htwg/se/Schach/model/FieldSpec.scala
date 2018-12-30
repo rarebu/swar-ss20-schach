@@ -1,8 +1,15 @@
 package de.htwg.se.Schach.model
 
-class FieldSpec {
-  val field1 = Field(new Matrix[Cell])
+import org.junit.runner.RunWith
+import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.junit.JUnitRunner
 
-  field1.cells.size == 8
-
+@RunWith(classOf[JUnitRunner])
+class FieldSpec extends WordSpec with Matchers {
+  "A Field" when { "new" should {
+    val field = Field(new Matrix[Cell])
+    "have a 64 Cells" in {
+      field.cells.size should be(8)
+    }
+  }}
 }
