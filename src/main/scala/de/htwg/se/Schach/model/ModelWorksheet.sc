@@ -48,6 +48,14 @@ object Utils {
 
   def goOneStepRightDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 1, coordinates.y - 1)
 
+  def goTwoStepsUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y + 2)
+
+  def goTwoStepsDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y - 2)
+
+  def goTwoStepsRight(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 2, coordinates.y)
+
+  def goTwoStepsLeft(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x - 2, coordinates.y)
+
   def oneStepCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
     Vector(Vector(goOneStepUp(coordinates)), Vector(goOneStepDown(coordinates)), Vector(goOneStepRight(coordinates)),
       Vector(goOneStepLeft(coordinates))))
@@ -58,6 +66,21 @@ object Utils {
 
   def goOnStepInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] =
     oneStepCross(coordinates) ++ oneStepDiagonal(coordinates)
+
+  def horseJump(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    val twoUp = goTwoStepsUp(coordinates)
+    val twoDown = goTwoStepsDown(coordinates)
+    val twoLeft = goTwoStepsUp(coordinates)
+    val twoRight = goTwoStepsDown(coordinates)
+    val l1 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepRight(twoUp)) ++ Vector(goOneStepRight(twoDown))))
+    val l2 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepLeft(twoUp)) ++ Vector(goOneStepLeft(twoDown))))
+    val l3 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepUp(twoRight)) ++ Vector(goOneStepUp(twoLeft))))
+    val l4 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepDown(twoRight)) ++ Vector(goOneStepDown(twoLeft))))
+    val l12 = l1 ++ l2//concatenate l1 and l2 and l3 and l4
+    val l34 = l3 ++ l4
+    l12 ++ l34
+  }
+
 }
 
 val vector = Vector(Coordinates(0, 0), Coordinates(0, -1), Coordinates(2, 2))
@@ -78,11 +101,20 @@ Utils.goOneStepLeftUp(Coordinates(1, 1)) == Coordinates(0, 2)
 Utils.goOneStepLeftDown(Coordinates(1, 1)) == Coordinates(0, 0)
 Utils.goOneStepRightUp(Coordinates(1, 1)) == Coordinates(2, 2)
 Utils.goOneStepRightDown(Coordinates(1, 1)) == Coordinates(2, 0)
+Utils.goTwoStepsUp(Coordinates(0, 1)) == Coordinates(0, 3)
+Utils.goTwoStepsDown(Coordinates(0, 2)) == Coordinates(0, 0)
+Utils.goTwoStepsRight(Coordinates(1, 1)) == Coordinates(3, 1)
+Utils.goTwoStepsLeft(Coordinates(2, 1)) == Coordinates(0, 1)
 Utils.oneStepCross(Coordinates(1, 1)).size == 4
-Utils.oneStepCross((Coordinates(0, 0))).size == 2
+Utils.oneStepCross(Coordinates(0, 0)).size == 2
 Utils.oneStepDiagonal(Coordinates(1, 1)).size == 4
 Utils.oneStepDiagonal(Coordinates(0, 0)).size == 1
 Utils.goOnStepInAllDirections(Coordinates(0, 4)).size == 5
+Utils.horseJump(Coordinates(3, 0)).contains(Vector(Coordinates(4,2)))
+Utils.horseJump(Coordinates(3, 0)).contains(Vector(Coordinates(5,1)))
+Utils.horseJump(Coordinates(3, 0)).contains(Vector(Coordinates(1,1)))
+Utils.horseJump(Coordinates(3, 0)).contains(Vector(Coordinates(2,2)))
+
 
 import Colour.Colour
 
