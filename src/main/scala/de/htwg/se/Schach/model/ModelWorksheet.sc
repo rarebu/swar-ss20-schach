@@ -76,7 +76,9 @@ object Utils {
     val l2 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepLeft(twoUp)) ++ Vector(goOneStepLeft(twoDown))))
     val l3 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepUp(twoRight)) ++ Vector(goOneStepUp(twoLeft))))
     val l4 = removeInvalidsFromMultiVector(Vector(Vector(goOneStepDown(twoRight)) ++ Vector(goOneStepDown(twoLeft))))
-    l1 ++ l2 ++ l3 ++ l4 //concatenate l1 and l2 and l3 and l4
+    val l12 = l1 ++ l2//concatenate l1 and l2 and l3 and l4
+    val l34 = l3 ++ l4
+    l12 ++ l34
   }
 
 }
