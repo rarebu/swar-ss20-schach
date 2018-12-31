@@ -1,10 +1,23 @@
 package de.htwg.se.Schach
 
-import de.htwg.se.Schach.model.Player
+import de.htwg.se.Schach.model.{Field, Player}
+
+import scala.io.StdIn.readLine
 
 object Schach {
+//  var field = Field
+  //  val tui = new Tui
   def main(args: Array[String]): Unit = {
     val student = Player("Your Name")
     println("Hello, " + student.name)
+
+    println("|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|⁕♜⁕|#♞#|⁕♝⁕|#♛#|⁕♚⁕|#♝#|⁕♞⁕|#♜#|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|#♟#|⁕♟⁕|#♟#|⁕♟⁕|#♟#|⁕♟⁕|#♟#|⁕♟⁕|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|♦##♦|♦⁕⁕♦|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|⁕♙⁕|#♙#|⁕♙⁕|#♙#|⁕♙⁕|#♙#|⁕♙⁕|#♙#|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|\n|#♖#|⁕♘⁕|#♗#|⁕♕⁕|#♔#|⁕♗⁕|#♘#|⁕♖⁕|\n|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|♦––♦|")
+    var input: String = ""
+
+//    do {
+//      println("Grid : " + field.toString)
+//      input = readLine()
+//      field = tui.processInputLine(input, field)
+//    } while (input != "q")
   }
 }
