@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class FieldSpec extends WordSpec with Matchers {
   "A Field" when { "new" should {
-    val field = Field(new Matrix[Cell])
+    val field = new Field()
     "have a 64 Cells" in {
       field.cells.size should be(8)
     }

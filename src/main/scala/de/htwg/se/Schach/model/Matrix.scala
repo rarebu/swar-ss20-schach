@@ -1,25 +1,16 @@
 package de.htwg.se.Schach.model
 
 import Matrix._
-import King._
-import Figure._
 
-case class Matrix[T](rows: Vector[Vector[Cell]]) {
-  val size = rows.size
+case class Matrix[T](rows: Vector[Vector[T]]) {
+  def this(func:(Int, Int) => T) = this({
 
-  def this() = this({
-
-    Vector.tabulate(SIZE_CHESSFIELD, SIZE_CHESSFIELD) { (row, col) => {
-      val a = (row, col) match {
-        case (COL_FIGURE, ROW_BLACK) => Option.apply(new King(Colour.Black))
-        case _ => Option.empty
-      }
-      if (row % 2 == 0)
-        if (col % 2 == 0) Cell(Colour.Black, Option.empty) else Cell(Colour.White, Option.empty)
-      else if (col % 2 == 0) Cell(Colour.White, Option.empty) else Cell(Colour.Black, Option.empty)
-    }
+    Vector.tabulate(SIZE_CHESSFIELD, SIZE_CHESSFIELD) { (row, col) => func(row, col)
     }
   })
+  val size = rows.size
+
+  def cell(row: Int, col: Int): T = rows(row)(col)
 }
 
 object Matrix {
