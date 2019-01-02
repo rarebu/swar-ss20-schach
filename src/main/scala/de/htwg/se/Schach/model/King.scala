@@ -1,7 +1,7 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.util.Utils._
+import _root_.de.htwg.se.Schach.model.Colour.Colour
+import _root_.de.htwg.se.Schach.util.Utils._
 
 case class King(colour: Colour, coordinates: Coordinates) extends Figure {
   def this(colour: Colour) = this(colour, {

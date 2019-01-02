@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.Colour.Colour
+import _root_.de.htwg.se.Schach.model.Colour.Colour
 
 trait Figure {
   val colour: Colour
