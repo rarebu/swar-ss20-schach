@@ -15,6 +15,8 @@ case class King(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def hasAbility: Boolean = true
 
+  override def toString: String = if (colour == Colour.Black) "♚" else "♗"
+
 }
 
 object King {
