@@ -3,23 +3,23 @@ package de.htwg.se.Schach.model
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import _root_.de.htwg.se.Schach.util.Utils._
 
-case class King(colour: Colour, coordinates: Coordinates) extends Figure {
+case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
   def this(colour: Colour) = this(colour, {
-    import King._
+    import Queen._
     if (colour == Colour.Black) COORDINATES_BLACK else COORDINATES_WHITE
   })
 
-  override def getName: String = "King"
+  override def getName: String = "Queen"
 
-  override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goOneStepInAllDirections(coordinates)
+  override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goMultiStepsInAllDirections(coordinates)
 
-  override var hasAbility: Boolean = true
+  override var hasAbility: Boolean = false
 
-  override def toString: String = if (colour == Colour.Black) "♚" else "♗"
+  override def toString: String = if (colour == Colour.Black) "♛" else "♛"
 
 }
 
-object King {
+object Queen {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 
