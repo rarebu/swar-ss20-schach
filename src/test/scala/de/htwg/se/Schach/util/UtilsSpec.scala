@@ -16,7 +16,7 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.validCoordinate(Coordinates(-1, 4)) should be(false)
         Utils.validCoordinate(Coordinates(2, 8)) should be(false)
       }
-      "remove invalids from Vactor" in {
+      "remove invalids from Vector" in {
         Utils.removeInvalidsFromVector(vector).size should be(1)
       }
       "remove invalids from Multi-Vector" in {
@@ -38,11 +38,28 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.goOneStepRightDown(Coordinates(1, 1)) should be(Coordinates(2, 0))
       }
       "make complex single steps" in {
-          Utils.oneStepCross(Coordinates(1, 1)).size should be(4)
-          Utils.oneStepCross((Coordinates(0, 0))).size should be(2)
-          Utils.oneStepDiagonal(Coordinates(1, 1)).size should be(4)
-          Utils.oneStepDiagonal(Coordinates(0, 0)).size should be(1)
-          Utils.goOnStepInAllDirections(Coordinates(0, 4)).size should be(5)
+        Utils.oneStepCross(Coordinates(1, 1)).size should be(4)
+        Utils.oneStepCross(Coordinates(0, 0)).size should be(2)
+        Utils.oneStepDiagonal(Coordinates(1, 1)).size should be(4)
+        Utils.oneStepDiagonal(Coordinates(0, 0)).size should be(1)
+        Utils.goOneStepInAllDirections(Coordinates(0, 4)).size should be(5)
+      }
+      "make two steps" in {
+        Utils.twoStepsDown(Coordinates(0, 2)) should be(Coordinates(0, 0))
+        Utils.twoStepsUp(Coordinates(0, 2)) should be(Coordinates(0, 4))
+        Utils.twoStepsLeft(Coordinates(2, 2)) should be(Coordinates(0, 2))
+        Utils.twoStepsRight(Coordinates(2, 2)) should be(Coordinates(4, 2))
+      }
+      "make two steps OR one step" in {
+        Utils.goTwoStepsUpOrOneStepInAllDirections(Coordinates(3, 3)).size should be(9)
+      }
+      "make multiple steps" in {
+        Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(14)
+        Utils.goMultiStepsDiagonal(Coordinates(3, 3)).size should be(13)
+        Utils.goMultiStepsInAllDirections(Coordinates(3, 3)).size should be(27)
+      }
+      "make a knightJump" in {
+        Utils.goKnightJump(Coordinates(3, 3)).size should be(8)
       }
     }
   }
