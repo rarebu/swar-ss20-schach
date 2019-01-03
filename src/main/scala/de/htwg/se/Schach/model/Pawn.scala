@@ -9,19 +9,17 @@ case class Pawn(colour: Colour, coordinates: Coordinates) extends Figure {
     if (colour == Colour.Black) COORDINATES_BLACK else COORDINATES_WHITE
   })
 
-  var firstMove: Boolean = true
-
   override def getName: String = "Pawn"
 
   override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = {
-    if (firstMove) {
-      firstMove = false
-      goTwoStepsUpOrOneStepInAllDirections(coordinates)
+    if (hasAbility) {
+      hasAbility = false
+      goTwoStepsUpOrOneStepUp(coordinates)
     } else {
-      goOneStepInAllDirections(coordinates)
+      Vector(Vector(goOneStepUp(coordinates)))
     }
   }
-  override def hasAbility: Boolean = false
+  override var hasAbility: Boolean = true
 
   override def toString: String = if (colour == Colour.Black) "♟" else "♙"
 

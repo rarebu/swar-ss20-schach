@@ -13,7 +13,7 @@ case class Rook(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goMultiStepsCross(coordinates)
 
-  override def hasAbility: Boolean = true
+  override var hasAbility: Boolean = true
 
   override def toString: String = if (colour == Colour.Black) "♜" else "♖"
 

@@ -13,7 +13,7 @@ case class Bishop(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goMultiStepsDiagonal(coordinates)
 
-  override def hasAbility: Boolean = false
+  override var hasAbility: Boolean = false
 
   override def toString: String = if (colour == Colour.Black) "♝" else "♗"
 

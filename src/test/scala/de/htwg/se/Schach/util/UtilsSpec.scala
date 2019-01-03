@@ -51,7 +51,7 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.twoStepsRight(Coordinates(2, 2)) should be(Coordinates(4, 2))
       }
       "make two steps OR one step" in {
-        Utils.goTwoStepsUpOrOneStepInAllDirections(Coordinates(3, 3)).size should be(9)
+        Utils.goTwoStepsUpOrOneStepUp(Coordinates(3, 3)).size should be(2)
       }
       "make multiple steps" in {
         Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(14)

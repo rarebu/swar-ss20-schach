@@ -179,7 +179,7 @@ object Utils {
     removeInvalidsFromMultiVector(list)
   }
 
-  def goTwoStepsUpOrOneStepInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    goOneStepInAllDirections(coordinates) ++ Vector(Vector(twoStepsUp(coordinates)))
+  def goTwoStepsUpOrOneStepUp(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    Vector(Vector(goOneStepUp(coordinates))) ++ Vector(Vector(twoStepsUp(coordinates)))
   }
 }
