@@ -14,7 +14,7 @@ class RookSpec extends WordSpec with Matchers {
         rook.getName should be("Rook")
       }
       "have 24 possible new positions" in {
-        rook.getPossibleNewPositions.size should be(14)
+        rook.getPossibleNewPositions.size should be(2)
       }
       "have an ability" in {
         rook.hasAbility should be(true)

@@ -13,7 +13,7 @@ class QueenSpec extends WordSpec with Matchers {
         queen.getName should be("Queen")
       }
       "have 21 possible new positions" in {
-        queen.getPossibleNewPositions.size should be(21)
+        queen.getPossibleNewPositions.size should be(5)
       }
       "have an ability" in {
         queen.hasAbility should be(false)
