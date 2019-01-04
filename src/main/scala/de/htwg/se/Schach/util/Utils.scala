@@ -174,4 +174,8 @@ object Utils {
   def goTwoStepsUpOrOneStepUp(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
     Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates)))
   }
+
+  def goTwoStepsDownOrOneStepDown(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates)))
+  }
 }

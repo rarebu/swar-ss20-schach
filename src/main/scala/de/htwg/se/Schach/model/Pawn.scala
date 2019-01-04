@@ -12,11 +12,8 @@ case class Pawn(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
   override def getName: String = "Pawn"
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = {
-    if (ability) {
-      goTwoStepsUpOrOneStepUp(coordinates)
-    } else {
-      Vector(Vector(goOneStepUp(coordinates)))
-    }
+    if (colour == Colour.White) if (ability) goTwoStepsDownOrOneStepDown(coordinates) else Vector(Vector(goOneStepDown(coordinates)))
+    else if (ability) goTwoStepsUpOrOneStepUp(coordinates) else Vector(Vector(goOneStepUp(coordinates)))
   }
 
   override def toString: String = if (colour == Colour.Black) "♟" else "♙"
