@@ -2,11 +2,11 @@ package de.htwg.se.Schach.model
 
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import _root_.de.htwg.se.Schach.util.Utils._
-import Figure.{ROW_BLACK, ROW_WHITE}
+import Figure._
 
 case class Pawn(colour: Colour, coordinates: Coordinates) extends Figure {
   def this(colour: Colour, col: Int) = this(colour, {
-    if (colour == Colour.Black) Coordinates(ROW_BLACK, col) else Coordinates(ROW_WHITE, col)
+    if (colour == Colour.Black) Coordinates(ROW_BLACK_PAWN, col) else Coordinates(ROW_WHITE_PAWN, col)
   })
 
   override def getName: String = "Pawn"
