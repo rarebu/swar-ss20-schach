@@ -15,9 +15,6 @@ class PawnSpec extends WordSpec with Matchers {
       "have 2 possible new positions" in {
         pawn.getPossibleNewPositions(0).size should be(2)
       }
-      "have an ability" in {
-        pawn.hasAbility should be(false)
-      }
     }
   }
 }

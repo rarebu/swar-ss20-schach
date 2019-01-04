@@ -16,9 +16,6 @@ class KnightSpec extends WordSpec with Matchers {
       "have 3 possible new positions" in {
         knight.getPossibleNewPositions.size should be(3)
       }
-      "have an ability" in {
-        knight.hasAbility should be(false)
-      }
     }
   }
 }

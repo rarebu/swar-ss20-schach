@@ -16,8 +16,6 @@ case class Knight(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goKnightJump(coordinates)
 
-  override var hasAbility: Boolean = false
-
   override def toString: String = if (colour == Colour.Black) "♞" else "♘"
 
   override def move(coordinates: Coordinates): Figure = Knight(this.colour, coordinates)

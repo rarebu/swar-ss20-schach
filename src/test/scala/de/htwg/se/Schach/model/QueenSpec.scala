@@ -15,9 +15,6 @@ class QueenSpec extends WordSpec with Matchers {
       "have 21 possible new positions" in {
         queen.getPossibleNewPositions.size should be(5)
       }
-      "have an ability" in {
-        queen.hasAbility should be(false)
-      }
     }
   }
 }
