@@ -16,9 +16,6 @@ class RookSpec extends WordSpec with Matchers {
       "have 24 possible new positions" in {
         rook.getPossibleNewPositions.size should be(2)
       }
-      "have an ability" in {
-        rook.hasAbility should be(true)
-      }
     }
   }
 }

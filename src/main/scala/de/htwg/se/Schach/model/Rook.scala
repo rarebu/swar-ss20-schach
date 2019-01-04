@@ -5,22 +5,20 @@ import _root_.de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.Figure.Side
 import de.htwg.se.Schach.model.Figure.Side.Side
 
-case class Rook(colour: Colour, coordinates: Coordinates) extends Figure {
+case class Rook(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
   def this(colour: Colour, side: Side) = this(colour, {
     import Rook._
     if (colour == Colour.Black) if (side == Side.Left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
     else if (side == Side.Left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
-  })
+  }, true)
 
   override def getName: String = "Rook"
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsCross(coordinates)
 
-  override var hasAbility: Boolean = true
-
   override def toString: String = if (colour == Colour.Black) "♜" else "♖"
 
-  override def move(coordinates: Coordinates): Figure = Rook(this.colour, coordinates)
+  override def move(coordinates: Coordinates): Figure = Rook(this.colour, coordinates, ability = false)
 }
 
 object Rook {

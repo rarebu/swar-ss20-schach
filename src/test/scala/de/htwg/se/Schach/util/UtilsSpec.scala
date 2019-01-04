@@ -2,8 +2,8 @@ package de.htwg.se.Schach.util
 
 import de.htwg.se.Schach.model.Coordinates
 import org.junit.runner.RunWith
-import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.junit.JUnitRunner
+import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class UtilsSpec extends WordSpec with Matchers {
@@ -51,12 +51,12 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.twoStepsRight(Coordinates(2, 2)) should be(Coordinates(2, 4))
       }
       "make two steps OR one step" in {
-        Utils.goTwoStepsUpOrOneStepUp(Coordinates(3, 3)).size should be(2)
+        Utils.goTwoStepsUpOrOneStepUp(Coordinates(3, 3)).size should be(1)
       }
       "make multiple steps" in {
-        Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(14)
-        Utils.goMultiStepsDiagonal(Coordinates(3, 3)).size should be(13)
-        Utils.goMultiStepsInAllDirections(Coordinates(3, 3)).size should be(27)
+        Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(4)
+        Utils.goMultiStepsDiagonal(Coordinates(3, 3)).size should be(4)
+        Utils.goMultiStepsInAllDirections(Coordinates(3, 3)).size should be(8)
       }
       "make a knightJump" in {
         Utils.goKnightJump(Coordinates(3, 3)).size should be(8)
