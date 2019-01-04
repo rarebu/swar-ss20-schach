@@ -11,12 +11,13 @@ case class King(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getName: String = "King"
 
-  override def getPossibleNewPositions(): Vector[Vector[Coordinates]] = goOneStepInAllDirections(coordinates)
+  override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goOneStepInAllDirections(coordinates)
 
   override var hasAbility: Boolean = true
 
   override def toString: String = if (colour == Colour.Black) "♚" else "♗"
 
+  override def move(coordinates: Coordinates): Figure = King(this.colour, coordinates)
 }
 
 object King {
