@@ -84,8 +84,7 @@ object Utils {
     val lu6 = goOneStepLeftUp(lu5)
     val lu7 = goOneStepLeftUp(lu6)
     val lu8 = goOneStepLeftUp(lu7)
-    val listlu1 = Vector(Vector(lu1), Vector(lu2), Vector(lu3), Vector(lu4))
-    val listlu2 = Vector(Vector(lu5), Vector(lu6), Vector(lu7), Vector(lu8))
+    val listlu = Vector(lu1, lu2, lu3, lu4, lu5, lu6, lu7, lu8)
 
     val ru1 = goOneStepRightUp(coordinates)
     val ru2 = goOneStepRightUp(ru1)
@@ -95,8 +94,7 @@ object Utils {
     val ru6 = goOneStepRightUp(ru5)
     val ru7 = goOneStepRightUp(ru6)
     val ru8 = goOneStepRightUp(ru7)
-    val listru1 = Vector(Vector(ru1), Vector(ru2), Vector(ru3), Vector(ru4))
-    val listru2 = Vector(Vector(ru5), Vector(ru6), Vector(ru7), Vector(ru8))
+    val listru = Vector(ru1, ru2, ru3, ru4, ru5, ru6, ru7, ru8)
 
     val rd1 = goOneStepRightDown(coordinates)
     val rd2 = goOneStepRightDown(rd1)
@@ -106,8 +104,7 @@ object Utils {
     val rd6 = goOneStepRightDown(rd5)
     val rd7 = goOneStepRightDown(rd6)
     val rd8 = goOneStepRightDown(rd7)
-    val listrd1 = Vector(Vector(rd1), Vector(rd2), Vector(rd3), Vector(rd4))
-    val listrd2 = Vector(Vector(rd5), Vector(rd6), Vector(rd7), Vector(rd8))
+    val listrd = Vector(rd1, rd2, rd3, rd4, rd5, rd6, rd7, rd8)
 
     val ld1 = goOneStepLeftDown(coordinates)
     val ld2 = goOneStepLeftDown(ld1)
@@ -117,10 +114,9 @@ object Utils {
     val ld6 = goOneStepLeftDown(ld5)
     val ld7 = goOneStepLeftDown(ld6)
     val ld8 = goOneStepLeftDown(ld7)
-    val listld1 = Vector(Vector(ld1), Vector(ld2), Vector(ld3), Vector(ld4))
-    val listld2 = Vector(Vector(ld5), Vector(ld6), Vector(ld7), Vector(ld8))
+    val listld = Vector(ld1, ld2, ld3, ld4, ld5, ld6, ld7, ld8)
 
-    removeInvalidsFromMultiVector(listld1 ++ listld2 ++ listrd1 ++ listrd2 ++ listru1 ++ listru2 ++ listlu1 ++ listlu2)
+    removeInvalidsFromMultiVector(Vector(listld, listrd, listru, listlu))
   }
 
   def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
@@ -132,8 +128,7 @@ object Utils {
     val l6 = goOneStepLeft(l5)
     val l7 = goOneStepLeft(l6)
     val l8 = goOneStepLeft(l7)
-    val listl1 = Vector(Vector(l1), Vector(l2), Vector(l3), Vector(l4))
-    val listl2 = Vector(Vector(l5), Vector(l6), Vector(l7), Vector(l8))
+    val listl = Vector(l1, l2, l3, l4, l5, l6, l7, l8)
 
     val r1 = goOneStepRight(coordinates)
     val r2 = goOneStepRight(r1)
@@ -143,8 +138,7 @@ object Utils {
     val r6 = goOneStepRight(r5)
     val r7 = goOneStepRight(r6)
     val r8 = goOneStepRight(r7)
-    val listr1 = Vector(Vector(r1), Vector(r2), Vector(r3), Vector(r4))
-    val listr2 = Vector(Vector(r5), Vector(r6), Vector(r7), Vector(r8))
+    val listr = Vector(r1, r2, r3, r4, r5, r6, r7, r8)
 
     val d1 = goOneStepDown(coordinates)
     val d2 = goOneStepDown(d1)
@@ -154,8 +148,7 @@ object Utils {
     val d6 = goOneStepDown(d5)
     val d7 = goOneStepDown(d6)
     val d8 = goOneStepDown(d7)
-    val listd1 = Vector(Vector(d1), Vector(d2), Vector(d3), Vector(d4))
-    val listd2 = Vector(Vector(d5), Vector(d6), Vector(d7), Vector(d8))
+    val listd = Vector(d1, d2, d3, d4, d5, d6, d7, d8)
 
     val u1 = goOneStepUp(coordinates)
     val u2 = goOneStepUp(u1)
@@ -165,10 +158,9 @@ object Utils {
     val u6 = goOneStepUp(u5)
     val u7 = goOneStepUp(u6)
     val u8 = goOneStepUp(u7)
-    val listu1 = Vector(Vector(u1), Vector(u2), Vector(u3), Vector(u4))
-    val listu2 = Vector(Vector(u5), Vector(u6), Vector(u7), Vector(u8))
+    val listu = Vector(u1, u2, u3, u4, u5, u6, u7, u8)
 
-    removeInvalidsFromMultiVector(listl1 ++ listl2 ++ listr1 ++ listr2 ++ listu1 ++ listu2 ++ listd1 ++ listd2)
+    removeInvalidsFromMultiVector(Vector(listu, listd, listr, listl))
   }
 
   def goMultiStepsInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
@@ -180,6 +172,6 @@ object Utils {
   }
 
   def goTwoStepsUpOrOneStepUp(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    Vector(Vector(goOneStepUp(coordinates))) ++ Vector(Vector(twoStepsUp(coordinates)))
+    Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates)))
   }
 }
