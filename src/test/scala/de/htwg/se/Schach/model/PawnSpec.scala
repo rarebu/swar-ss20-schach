@@ -13,7 +13,7 @@ class PawnSpec extends WordSpec with Matchers {
         pawn.getName should be("Pawn")
       }
       "have 2 possible new positions" in {
-        pawn.getPossibleNewPositions.size should be(2)
+        pawn.getPossibleNewPositions(0).size should be(2)
       }
       "have an ability" in {
         pawn.hasAbility should be(false)

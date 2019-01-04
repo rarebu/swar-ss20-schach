@@ -14,7 +14,9 @@ class BishopSpec extends WordSpec with Matchers {
         bishop.getName should be("Bishop")
       }
       "have 7 possible new positions" in {
-        bishop.getPossibleNewPositions.size should be(7)
+        bishop.getPossibleNewPositions.size should be(2)
+        bishop.getPossibleNewPositions(0).size should be(5)
+        bishop.getPossibleNewPositions(1).size should be(2)
       }
       "have an ability" in {
         bishop.hasAbility should be(false)
