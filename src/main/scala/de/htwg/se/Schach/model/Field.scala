@@ -23,6 +23,7 @@ case class Field(cells: Matrix[Cell]) {
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Field = {
     if (cell(row, col).contains.isEmpty) this else {
       val figure = cell(row, col).contains.get
+      val t = figure.getPossibleNewPositions
       if (!figure.getPossibleNewPositions.flatten.contains(Coordinates(newRow, newCol))) this else copy(
         cells.replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(
           cell(newRow, newCol).colour, Option.apply(figure.move(Coordinates(newRow, newCol))))))
@@ -53,6 +54,7 @@ object Field {
       case Knight.COL_FIGURE_RIGHT => Option.apply(new Knight(colour, Side.Right))
       case Bishop.COL_FIGURE_LEFT => Option.apply(new Bishop(colour, Side.Left))
       case Bishop.COL_FIGURE_RIGHT => Option.apply(new Bishop(colour, Side.Right))
+
     }
   }
 }

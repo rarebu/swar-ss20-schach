@@ -28,14 +28,14 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.isAValidValueInsideTheField(8) should be(false)
       }
       "go single step" in {
-        Utils.goOneStepUp(Coordinates(0, 1)) should be(Coordinates(0, 2))
-        Utils.goOneStepDown(Coordinates(0, 1)) should be(Coordinates(0, 0))
-        Utils.goOneStepRight(Coordinates(1, 1)) should be(Coordinates(2, 1))
-        Utils.goOneStepLeft(Coordinates(1, 1)) should be(Coordinates(0, 1))
-        Utils.goOneStepLeftUp(Coordinates(1, 1)) should be(Coordinates(0, 2))
+        Utils.goOneStepUp(Coordinates(0, 1)) should be(Coordinates(1, 1))
+        Utils.goOneStepDown(Coordinates(1, 1)) should be(Coordinates(0, 1))
+        Utils.goOneStepRight(Coordinates(1, 1)) should be(Coordinates(1, 2))
+        Utils.goOneStepLeft(Coordinates(1, 1)) should be(Coordinates(1, 0))
+        Utils.goOneStepLeftUp(Coordinates(1, 1)) should be(Coordinates(2, 0))
         Utils.goOneStepLeftDown(Coordinates(1, 1)) should be(Coordinates(0, 0))
         Utils.goOneStepRightUp(Coordinates(1, 1)) should be(Coordinates(2, 2))
-        Utils.goOneStepRightDown(Coordinates(1, 1)) should be(Coordinates(2, 0))
+        Utils.goOneStepRightDown(Coordinates(1, 1)) should be(Coordinates(0, 2))
       }
       "make complex single steps" in {
         Utils.oneStepCross(Coordinates(1, 1)).size should be(4)
@@ -45,10 +45,10 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.goOneStepInAllDirections(Coordinates(0, 4)).size should be(5)
       }
       "make two steps" in {
-        Utils.twoStepsDown(Coordinates(0, 2)) should be(Coordinates(0, 0))
-        Utils.twoStepsUp(Coordinates(0, 2)) should be(Coordinates(0, 4))
-        Utils.twoStepsLeft(Coordinates(2, 2)) should be(Coordinates(0, 2))
-        Utils.twoStepsRight(Coordinates(2, 2)) should be(Coordinates(4, 2))
+        Utils.twoStepsDown(Coordinates(2, 2)) should be(Coordinates(0, 2))
+        Utils.twoStepsUp(Coordinates(2, 2)) should be(Coordinates(4, 2))
+        Utils.twoStepsLeft(Coordinates(2, 2)) should be(Coordinates(2, 0))
+        Utils.twoStepsRight(Coordinates(2, 2)) should be(Coordinates(2, 4))
       }
       "make two steps OR one step" in {
         Utils.goTwoStepsUpOrOneStepUp(Coordinates(3, 3)).size should be(2)

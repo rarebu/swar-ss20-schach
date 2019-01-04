@@ -5,7 +5,7 @@ import de.htwg.se.Schach.model.Coordinates
 
 object Utils {
   def validCoordinate(coordinates: Coordinates): Boolean =
-    isAValidValueInsideTheField(coordinates.x) && isAValidValueInsideTheField(coordinates.y)
+    isAValidValueInsideTheField(coordinates.row) && isAValidValueInsideTheField(coordinates.col)
 
   def removeInvalidsFromVector(vector: Vector[Coordinates]): Vector[Coordinates] = {
     vector.zipWithIndex foreach { case (coord, index) =>
@@ -19,7 +19,7 @@ object Utils {
   def removeInvalidsFromMultiVector(multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
     var newMultiVector: Vector[Vector[Coordinates]] = Vector()
     multiVector foreach {
-      case vector =>
+      vector =>
         val b = removeInvalidsFromVector(vector)
         if (b.nonEmpty) newMultiVector = newMultiVector :+ b
     }
@@ -28,29 +28,29 @@ object Utils {
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 
-  def goOneStepUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y + 1)
+  def goOneStepUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row + 1, coordinates.col)
 
-  def goOneStepDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y - 1)
+  def goOneStepDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row - 1, coordinates.col)
 
-  def goOneStepRight(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 1, coordinates.y)
+  def goOneStepRight(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row, coordinates.col + 1)
 
-  def goOneStepLeft(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x - 1, coordinates.y)
+  def goOneStepLeft(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row, coordinates.col - 1)
 
-  def goOneStepLeftUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x - 1, coordinates.y + 1)
+  def goOneStepLeftUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row + 1, coordinates.col - 1)
 
-  def goOneStepLeftDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x - 1, coordinates.y - 1)
+  def goOneStepLeftDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row - 1, coordinates.col - 1)
 
-  def goOneStepRightUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 1, coordinates.y + 1)
+  def goOneStepRightUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row + 1, coordinates.col + 1)
 
-  def goOneStepRightDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 1, coordinates.y - 1)
+  def goOneStepRightDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row - 1, coordinates.col + 1)
 
-  def twoStepsUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y + 2)
+  def twoStepsUp(coordinates: Coordinates): Coordinates = goOneStepUp(goOneStepUp(coordinates))
 
-  def twoStepsDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x, coordinates.y - 2)
+  def twoStepsDown(coordinates: Coordinates): Coordinates = goOneStepDown(goOneStepDown(coordinates))
 
-  def twoStepsRight(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x + 2, coordinates.y)
+  def twoStepsRight(coordinates: Coordinates): Coordinates = goOneStepRight(goOneStepRight(coordinates))
 
-  def twoStepsLeft(coordinates: Coordinates): Coordinates = Coordinates(coordinates.x - 2, coordinates.y)
+  def twoStepsLeft(coordinates: Coordinates): Coordinates = goOneStepLeft(goOneStepLeft(coordinates))
 
   def oneStepCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
     Vector(Vector(goOneStepUp(coordinates)), Vector(goOneStepDown(coordinates)), Vector(goOneStepRight(coordinates)),
