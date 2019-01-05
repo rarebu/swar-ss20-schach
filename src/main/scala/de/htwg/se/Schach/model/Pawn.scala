@@ -4,7 +4,7 @@ import _root_.de.htwg.se.Schach.model.Colour.Colour
 import _root_.de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.Figure._
 
-case class Pawn(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
+private[model] case class Pawn(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
   def this(colour: Colour, col: Int) = this(colour, {
     if (colour == Colour.black) Coordinates(ROW_BLACK_PAWN, col) else Coordinates(ROW_WHITE_PAWN, col)
   }, true)

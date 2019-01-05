@@ -5,7 +5,7 @@ import de.htwg.se.Schach.aview.TUI
 
 import scala.io.StdIn.readLine
 
-object Schach {
+private[Schach] object Schach {
   def main(args: Array[String]): Unit = {
     var field = new Field()
     val tui = new TUI

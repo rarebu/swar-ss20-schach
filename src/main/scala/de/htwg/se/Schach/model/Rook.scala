@@ -21,7 +21,7 @@ case class Rook(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
   override def move(coordinates: Coordinates): Figure = Rook(this.colour, coordinates, ability = false)
 }
 
-object Rook {
+private object Rook {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

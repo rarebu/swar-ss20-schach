@@ -18,7 +18,7 @@ case class King(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
   override def move(coordinates: Coordinates): Figure = King(this.colour, coordinates, ability = false)
 }
 
-object King {
+private object King {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

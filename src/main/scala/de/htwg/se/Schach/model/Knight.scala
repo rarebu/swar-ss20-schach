@@ -21,7 +21,7 @@ case class Knight(colour: Colour, coordinates: Coordinates) extends Figure {
   override def move(coordinates: Coordinates): Figure = Knight(this.colour, coordinates)
 }
 
-object Knight {
+private object Knight {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

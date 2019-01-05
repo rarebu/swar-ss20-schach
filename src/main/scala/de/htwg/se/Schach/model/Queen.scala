@@ -18,7 +18,7 @@ case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
   override def move(coordinates: Coordinates): Figure = Queen(this.colour, coordinates)
 }
 
-object Queen {
+private object Queen {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

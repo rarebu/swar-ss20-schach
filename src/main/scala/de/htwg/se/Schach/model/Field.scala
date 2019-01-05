@@ -44,7 +44,7 @@ case class Field(cells: Matrix[Cell]) {
   }
 }
 
-object Field {
+private object Field {
   def getFigure(colour: Colour, col: Int): Option[Figure] = {
     col match {
       case King.COL_FIGURE => Option.apply(new King(colour))
