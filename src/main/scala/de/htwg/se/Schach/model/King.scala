@@ -6,19 +6,19 @@ import _root_.de.htwg.se.Schach.util.Utils._
 case class King(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
   def this(colour: Colour) = this(colour, {
     import King._
-    if (colour == Colour.Black) COORDINATES_BLACK else COORDINATES_WHITE
+    if (colour == Colour.black) COORDINATES_BLACK else COORDINATES_WHITE
   }, true)
 
   override def getName: String = "King"
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goOneStepInAllDirections(coordinates)
 
-  override def toString: String = if (colour == Colour.Black) "♚" else "♗"
+  override def toString: String = if (colour == Colour.black) "♚" else "♔"
 
   override def move(coordinates: Coordinates): Figure = King(this.colour, coordinates, ability = false)
 }
 
-object King {
+private object King {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

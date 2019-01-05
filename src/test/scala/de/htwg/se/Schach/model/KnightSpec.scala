@@ -1,6 +1,5 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.Figure.Side
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
@@ -9,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class KnightSpec extends WordSpec with Matchers {
   "A black Knight" when {
     "new" should {
-      val knight = new Knight(Colour.Black, Side.Left)
+      val knight = new Knight(Colour.black, Side.left)
       "have a name" in {
         knight.getName should be("Knight")
       }

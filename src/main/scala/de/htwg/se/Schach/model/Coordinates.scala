@@ -1,3 +1,3 @@
 package de.htwg.se.Schach.model
 
-case class Coordinates(row: Int, col: Int)
+private[Schach] case class Coordinates(row: Int, col: Int)
