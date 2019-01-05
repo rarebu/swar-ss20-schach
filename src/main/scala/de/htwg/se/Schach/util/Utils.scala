@@ -1,7 +1,7 @@
 
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.Coordinates
+import de.htwg.se.Schach.model.{Coordinates, Field}
 
 object Utils {
   def validCoordinate(coordinates: Coordinates): Boolean =
@@ -72,20 +72,22 @@ object Utils {
       Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)))
     val multivectorlist2 = Vector(Vector(goOneStepUp(twoRight)), Vector(goOneStepUp(twoLeft)),
       Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
+    //TODO:Bug if a vector was sliced here, the whole vector is invalid! Implement correct validation!
     removeInvalidsFromMultiVector(multivectorlist1 ++ multivectorlist2)
   }
 
-  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    val lu1 = goOneStepLeftUp(coordinates)
-    val lu2 = goOneStepLeftUp(lu1)
-    val lu3 = goOneStepLeftUp(lu2)
-    val lu4 = goOneStepLeftUp(lu3)
-    val lu5 = goOneStepLeftUp(lu4)
-    val lu6 = goOneStepLeftUp(lu5)
-    val lu7 = goOneStepLeftUp(lu6)
-    val lu8 = goOneStepLeftUp(lu7)
-    val listlu = Vector(lu1, lu2, lu3, lu4, lu5, lu6, lu7, lu8)
 
+  def goMultiStepLeftUp(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepLeftUp(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepLeftUp(tmp(i))
+    }
+    tmp
+  }
+
+  //TODO: improve code
+  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
     val ru1 = goOneStepRightUp(coordinates)
     val ru2 = goOneStepRightUp(ru1)
     val ru3 = goOneStepRightUp(ru2)
@@ -116,9 +118,10 @@ object Utils {
     val ld8 = goOneStepLeftDown(ld7)
     val listld = Vector(ld1, ld2, ld3, ld4, ld5, ld6, ld7, ld8)
 
-    removeInvalidsFromMultiVector(Vector(listld, listrd, listru, listlu))
+    removeInvalidsFromMultiVector(Vector(listld, listrd, listru, goMultiStepLeftUp(coordinates)))
   }
 
+  //TODO: improve code
   def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
     val l1 = goOneStepLeft(coordinates)
     val l2 = goOneStepLeft(l1)
