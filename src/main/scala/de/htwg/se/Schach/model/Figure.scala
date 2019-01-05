@@ -23,7 +23,7 @@ object Figure {
 
 object Side extends Enumeration {
   type Side = Value
-  val Left, Right = Value
+  val left, right = Value
 }
 
 

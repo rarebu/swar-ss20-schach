@@ -6,14 +6,14 @@ import _root_.de.htwg.se.Schach.util.Utils._
 case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
   def this(colour: Colour) = this(colour, {
     import Queen._
-    if (colour == Colour.Black) COORDINATES_BLACK else COORDINATES_WHITE
+    if (colour == Colour.black) COORDINATES_BLACK else COORDINATES_WHITE
   })
 
   override def getName: String = "Queen"
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsInAllDirections(coordinates)
 
-  override def toString: String = if (colour == Colour.Black) "♛" else "♕"
+  override def toString: String = if (colour == Colour.black) "♛" else "♕"
 
   override def move(coordinates: Coordinates): Figure = Queen(this.colour, coordinates)
 }

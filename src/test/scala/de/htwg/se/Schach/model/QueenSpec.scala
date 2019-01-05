@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class QueenSpec extends WordSpec with Matchers {
   "A black Queen" when {
     "new" should {
-      val queen = new Queen(Colour.Black)
+      val queen = new Queen(Colour.black)
       "have a name" in {
         queen.getName should be("Queen")
       }

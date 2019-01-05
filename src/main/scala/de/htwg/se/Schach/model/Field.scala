@@ -7,15 +7,15 @@ import de.htwg.se.Schach.model.Colour.Colour
 case class Field(cells: Matrix[Cell]) {
   def this() = this(new Matrix[Cell]((row, col) => {
     val a = (row, col) match {
-      case (ROW_BLACK, column) => getFigure(Colour.Black, column)
-      case (ROW_WHITE, column) => getFigure(Colour.White, column)
-      case (ROW_BLACK_PAWN, column) => Option.apply(new Pawn(Colour.Black, column))
-      case (ROW_WHITE_PAWN, column) => Option.apply(new Pawn(Colour.White, column))
+      case (ROW_BLACK, column) => getFigure(Colour.black, column)
+      case (ROW_WHITE, column) => getFigure(Colour.white, column)
+      case (ROW_BLACK_PAWN, column) => Option.apply(new Pawn(Colour.black, column))
+      case (ROW_WHITE_PAWN, column) => Option.apply(new Pawn(Colour.white, column))
       case _ => Option.empty
     }
     if (row % 2 == 0)
-      if (col % 2 == 0) Cell(Colour.White, a) else Cell(Colour.Black, a)
-    else if (col % 2 == 0) Cell(Colour.Black, a) else Cell(Colour.White, a)
+      if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
+    else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
   }))
 
   def cell(row: Int, col: Int): Cell = cells.cell(row, col)
@@ -49,12 +49,12 @@ object Field {
     col match {
       case King.COL_FIGURE => Option.apply(new King(colour))
       case Queen.COL_FIGURE => Option.apply(new Queen(colour))
-      case Rook.COL_FIGURE_LEFT => Option.apply(new Rook(colour, Side.Left))
-      case Rook.COL_FIGURE_RIGHT => Option.apply(new Rook(colour, Side.Right))
-      case Knight.COL_FIGURE_LEFT => Option.apply(new Knight(colour, Side.Left))
-      case Knight.COL_FIGURE_RIGHT => Option.apply(new Knight(colour, Side.Right))
-      case Bishop.COL_FIGURE_LEFT => Option.apply(new Bishop(colour, Side.Left))
-      case Bishop.COL_FIGURE_RIGHT => Option.apply(new Bishop(colour, Side.Right))
+      case Rook.COL_FIGURE_LEFT => Option.apply(new Rook(colour, Side.left))
+      case Rook.COL_FIGURE_RIGHT => Option.apply(new Rook(colour, Side.right))
+      case Knight.COL_FIGURE_LEFT => Option.apply(new Knight(colour, Side.left))
+      case Knight.COL_FIGURE_RIGHT => Option.apply(new Knight(colour, Side.right))
+      case Bishop.COL_FIGURE_LEFT => Option.apply(new Bishop(colour, Side.left))
+      case Bishop.COL_FIGURE_RIGHT => Option.apply(new Bishop(colour, Side.right))
 
     }
   }

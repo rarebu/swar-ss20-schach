@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class RookSpec extends WordSpec with Matchers {
   "A black Rook" when {
     "new" should {
-      val rook = new Rook(Colour.Black, Side.Left)
+      val rook = new Rook(Colour.black, Side.left)
       "have a name" in {
         rook.getName should be("Rook")
       }

@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class PawnSpec extends WordSpec with Matchers {
   "A black Pawn" when {
     "new" should {
-      val pawn = new Pawn(Colour.Black, 4)
+      val pawn = new Pawn(Colour.black, 4)
       "have a name" in {
         pawn.getName should be("Pawn")
       }

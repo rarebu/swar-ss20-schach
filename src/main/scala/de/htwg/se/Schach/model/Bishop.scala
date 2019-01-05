@@ -7,15 +7,15 @@ import de.htwg.se.Schach.model.Side.Side
 case class Bishop(colour: Colour, coordinates: Coordinates) extends Figure {
   def this(colour: Colour, side: Side) = this(colour, {
     import Bishop._
-    if (colour == Colour.Black) if (side == Side.Left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
-    else if (side == Side.Left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
+    if (colour == Colour.black) if (side == Side.left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
+    else if (side == Side.left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
   })
 
   override def getName: String = "Bishop"
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsDiagonal(coordinates)
 
-  override def toString: String = if (colour == Colour.Black) "♝" else "♗"
+  override def toString: String = if (colour == Colour.black) "♝" else "♗"
 
   override def move(coordinates: Coordinates): Figure = Bishop(this.colour, coordinates)
 }

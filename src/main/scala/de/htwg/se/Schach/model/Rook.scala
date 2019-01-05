@@ -8,15 +8,15 @@ import de.htwg.se.Schach.model.Side.Side
 case class Rook(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
   def this(colour: Colour, side: Side) = this(colour, {
     import Rook._
-    if (colour == Colour.Black) if (side == Side.Left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
-    else if (side == Side.Left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
+    if (colour == Colour.black) if (side == Side.left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
+    else if (side == Side.left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
   }, true)
 
   override def getName: String = "Rook"
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsCross(coordinates)
 
-  override def toString: String = if (colour == Colour.Black) "♜" else "♖"
+  override def toString: String = if (colour == Colour.black) "♜" else "♖"
 
   override def move(coordinates: Coordinates): Figure = Rook(this.colour, coordinates, ability = false)
 }

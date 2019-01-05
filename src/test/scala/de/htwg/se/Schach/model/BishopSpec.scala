@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class BishopSpec extends WordSpec with Matchers {
   "A black Bishop" when {
     "new" should {
-      val bishop = new Bishop(Colour.Black, Side.Left)
+      val bishop = new Bishop(Colour.black, Side.left)
       "have a name" in {
         bishop.getName should be("Bishop")
       }

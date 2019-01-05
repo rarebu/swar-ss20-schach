@@ -7,9 +7,9 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class CellSpec extends WordSpec with Matchers {
   "A Cell" when { "new" should {
-    val cell = Cell(Colour.Black, Option.empty)
+    val cell = Cell(Colour.black, Option.empty)
     "have a colour"  in {
-      cell.colour should be(Colour.Black)
+      cell.colour should be(Colour.black)
     }
     "have no Figure" in {
       cell.contains should be(None)
