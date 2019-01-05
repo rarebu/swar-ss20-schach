@@ -18,8 +18,12 @@ object Figure {
   val ROW_BLACK = 0
   val ROW_BLACK_PAWN = 1
   val ROW_WHITE_PAWN = 6
-  object Side extends Enumeration {
-    type Side = Value
-    val Left, Right = Value
-  }
 }
+
+
+object Side extends Enumeration {
+  type Side = Value
+  val Left, Right = Value
+}
+
+

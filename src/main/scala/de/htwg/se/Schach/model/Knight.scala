@@ -2,8 +2,8 @@ package de.htwg.se.Schach.model
 
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import _root_.de.htwg.se.Schach.util.Utils._
-import de.htwg.se.Schach.model.Figure.Side
-import de.htwg.se.Schach.model.Figure.Side.Side
+import de.htwg.se.Schach.model.Side.Side
+
 
 case class Knight(colour: Colour, coordinates: Coordinates) extends Figure {
   def this(colour: Colour, side: Side) = this(colour, {

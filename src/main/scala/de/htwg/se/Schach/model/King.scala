@@ -13,7 +13,7 @@ case class King(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goOneStepInAllDirections(coordinates)
 
-  override def toString: String = if (colour == Colour.Black) "♚" else "♗"
+  override def toString: String = if (colour == Colour.Black) "♚" else "♔"
 
   override def move(coordinates: Coordinates): Figure = King(this.colour, coordinates, ability = false)
 }

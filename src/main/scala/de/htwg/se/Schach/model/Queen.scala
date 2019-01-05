@@ -13,7 +13,7 @@ case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsInAllDirections(coordinates)
 
-  override def toString: String = if (colour == Colour.Black) "♛" else "♛"
+  override def toString: String = if (colour == Colour.Black) "♛" else "♕"
 
   override def move(coordinates: Coordinates): Figure = Queen(this.colour, coordinates)
 }
