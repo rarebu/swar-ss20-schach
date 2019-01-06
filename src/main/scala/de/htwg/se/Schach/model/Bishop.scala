@@ -13,14 +13,14 @@ case class Bishop(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getName: String = "Bishop"
 
-  override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsDiagonal(coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsDiagonal(field, this, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♝" else "♗"
 
   override def move(coordinates: Coordinates): Figure = Bishop(this.colour, coordinates)
 }
 
-private object Bishop {
+object Bishop {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

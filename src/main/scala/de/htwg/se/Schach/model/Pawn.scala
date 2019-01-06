@@ -11,9 +11,9 @@ private[model] case class Pawn(colour: Colour, coordinates: Coordinates, ability
 
   override def getName: String = "Pawn"
 
-  override def getPossibleNewPositions: Vector[Vector[Coordinates]] = {
-    if (colour == Colour.white) if (ability) goTwoStepsDownOrOneStepDown(coordinates) else Vector(Vector(goOneStepDown(coordinates)))
-    else if (ability) goTwoStepsUpOrOneStepUp(coordinates) else Vector(Vector(goOneStepUp(coordinates)))
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    if (colour == Colour.white) if (ability) goTwoStepsDownOrOneStepDown(field, this, coordinates) else removeInvalidsFromMultiVector(field, this, Vector(Vector(goOneStepDown(coordinates))))
+    else if (ability) goTwoStepsUpOrOneStepUp(field, this, coordinates) else removeInvalidsFromMultiVector(field, this, Vector(Vector(goOneStepUp(coordinates))))
   }
 
   override def toString: String = if (colour == Colour.black) "♟" else "♙"

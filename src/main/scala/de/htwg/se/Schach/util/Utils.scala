@@ -1,7 +1,7 @@
 
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.{Coordinates, Field}
+import de.htwg.se.Schach.model.{Coordinates, Field, Figure}
 
 import scala.collection.mutable.ListBuffer
 
@@ -18,15 +18,34 @@ object Utils {
     vector
   }
 
-  def removeInvalidsFromMultiVector(multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
+  def removeInvalidsFromMultiVector(field: Field, figure: Figure, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
     var newMultiVector: Vector[Vector[Coordinates]] = Vector()
     multiVector foreach {
       vector =>
         val b = removeInvalidsFromVector(vector)
         if (b.nonEmpty) newMultiVector = newMultiVector :+ b
     }
-    newMultiVector
+    removeCollisionsFromMultiVector(field, figure, newMultiVector)
   }
+
+  def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
+
+  def cellContainsOwnFigure(field: Field, coordinates: Coordinates, figure: Figure): Boolean = field.cell(coordinates.row, coordinates.col)
+    .contains.get.colour == figure.colour
+
+
+  def cleanVec(field: Field, vector: Vector[Coordinates], figure: Figure): Vector[Coordinates] = {
+    vector.zipWithIndex foreach {
+      case (coordinate, index) =>
+        if (cellContainsFigure(field, coordinate))
+          if (cellContainsOwnFigure(field, coordinate, figure)) return vector.slice(0, index) else return vector.slice(0, index + 1)
+    }
+    vector
+  }
+
+  def removeCollisionsFromMultiVector(field: Field, figure: Figure, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] =
+    multiVector map { vector => cleanVec(field, vector, figure) }
+
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 
@@ -54,27 +73,13 @@ object Utils {
 
   def twoStepsLeft(coordinates: Coordinates): Coordinates = goOneStepLeft(goOneStepLeft(coordinates))
 
-  def oneStepCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+  def oneStepCross(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
     Vector(Vector(goOneStepUp(coordinates)), Vector(goOneStepDown(coordinates)), Vector(goOneStepRight(coordinates)),
       Vector(goOneStepLeft(coordinates))))
 
-  def oneStepDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+  def oneStepDiagonal(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
     Vector(Vector(goOneStepLeftUp(coordinates)), Vector(goOneStepLeftDown(coordinates)),
       Vector(goOneStepRightUp(coordinates)), Vector(goOneStepRightDown(coordinates))))
-
-  def goOneStepInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] =
-    oneStepCross(coordinates) ++ oneStepDiagonal(coordinates)
-
-  def goKnightJump(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    val twoUp = twoStepsUp(coordinates)
-    val twoDown = twoStepsDown(coordinates)
-    val twoLeft = twoStepsLeft(coordinates)
-    val twoRight = twoStepsRight(coordinates)
-    val mvl = Vector(Vector(goOneStepRight(twoUp)), Vector(goOneStepRight(twoDown)),
-      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)), Vector(goOneStepUp(twoRight)),
-      Vector(goOneStepUp(twoLeft)), Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
-    removeInvalidsFromMultiVector(mvl)
-  }
 
   def goMultiStepsLeftUp(coordinates: Coordinates): Vector[Coordinates] = {
     var tmp: ListBuffer[Coordinates] = ListBuffer()
@@ -148,29 +153,33 @@ object Utils {
     tmp.toVector
   }
 
-  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    removeInvalidsFromMultiVector(Vector(goMultiStepsRightDown(coordinates), goMultiStepsLeftDown(coordinates),
-      goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
+
+  def goOneStepInAllDirections(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
+    oneStepCross(field, figure, coordinates) ++ oneStepDiagonal(field, figure, coordinates)
+
+  def goKnightJump(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    val twoUp = twoStepsUp(coordinates)
+    val twoDown = twoStepsDown(coordinates)
+    val twoLeft = twoStepsLeft(coordinates)
+    val twoRight = twoStepsRight(coordinates)
+    val mvl = Vector(Vector(goOneStepRight(twoUp)), Vector(goOneStepRight(twoDown)),
+      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)), Vector(goOneStepUp(twoRight)),
+      Vector(goOneStepUp(twoLeft)), Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
+    removeInvalidsFromMultiVector(field, figure, mvl)
   }
 
-  def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    removeInvalidsFromMultiVector(Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates),
-      goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
-  }
+  def goMultiStepsDiagonal(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+    field, figure, Vector(goMultiStepsRightDown(coordinates), goMultiStepsLeftDown(coordinates), goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
 
-  def goMultiStepsInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    val listdiagonal = goMultiStepsDiagonal(coordinates)
-    val listcross = goMultiStepsCross(coordinates)
-    val list = listcross ++ listdiagonal
+  def goMultiStepsCross(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+    field, figure, Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates), goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
 
-    removeInvalidsFromMultiVector(list)
-  }
+  def goMultiStepsInAllDirections(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
+    goMultiStepsCross(field, figure, coordinates) ++ goMultiStepsDiagonal(field, figure, coordinates)
 
-  def goTwoStepsUpOrOneStepUp(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates)))
-  }
+  def goTwoStepsUpOrOneStepUp(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
+    Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates))))
 
-  def goTwoStepsDownOrOneStepDown(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates)))
-  }
+  def goTwoStepsDownOrOneStepDown(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
+    Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates))))
 }

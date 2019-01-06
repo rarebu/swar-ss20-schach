@@ -11,7 +11,7 @@ case class King(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
 
   override def getName: String = "King"
 
-  override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goOneStepInAllDirections(coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = goOneStepInAllDirections(field, this, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♚" else "♔"
 
