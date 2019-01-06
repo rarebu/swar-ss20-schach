@@ -81,78 +81,30 @@ object Utils {
     Vector(Vector(goOneStepLeftUp(coordinates)), Vector(goOneStepLeftDown(coordinates)),
       Vector(goOneStepRightUp(coordinates)), Vector(goOneStepRightDown(coordinates))))
 
-  def goMultiStepsLeftUp(coordinates: Coordinates): Vector[Coordinates] = {
+  def goMultiSteps(coordinates: Coordinates, fn: Coordinates => Coordinates): Vector[Coordinates] = {
     var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepLeftUp(coordinates)
+    tmp += fn(coordinates)
     0 to 6 foreach { i =>
-      tmp += goOneStepLeftUp(tmp(i))
+      tmp += fn(tmp(i))
     }
     tmp.toVector
   }
 
-  def goMultiStepsRightUp(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepRightUp(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepRightUp(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsLeftUp(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepLeftUp)
 
-  def goMultiStepsLeftDown(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepLeftDown(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepLeftDown(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsRightUp(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepRightUp)
 
-  def goMultiStepsRightDown(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepRightDown(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepRightDown(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsLeftDown(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepLeftDown)
 
-  def goMultiStepsRight(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepRight(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepRight(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsRightDown(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepRightDown)
 
-  def goMultiStepsLeft(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepLeft(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepLeft(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsRight(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepRight)
 
-  def goMultiStepsUp(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepUp(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepUp(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsLeft(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepLeft)
 
-  def goMultiStepsDown(coordinates: Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += goOneStepDown(coordinates)
-    0 to 6 foreach { i =>
-      tmp += goOneStepDown(tmp(i))
-    }
-    tmp.toVector
-  }
+  def goMultiStepsUp(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepUp)
 
+  def goMultiStepsDown(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepDown)
 
   def goOneStepInAllDirections(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
     oneStepCross(field, figure, coordinates) ++ oneStepDiagonal(field, figure, coordinates)
