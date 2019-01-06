@@ -3,7 +3,6 @@ package de.htwg.se.Schach.util
 
 import de.htwg.se.Schach.model.{Coordinates, Field}
 
-//noinspection ScalaStyle
 object Utils {
   def validCoordinate(coordinates: Coordinates): Boolean =
     isAValidValueInsideTheField(coordinates.row) && isAValidValueInsideTheField(coordinates.col)
@@ -70,9 +69,8 @@ object Utils {
     val twoLeft = twoStepsLeft(coordinates)
     val twoRight = twoStepsRight(coordinates)
     val mvl = Vector(Vector(goOneStepRight(twoUp)), Vector(goOneStepRight(twoDown)),
-      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)), Vector(goOneStepUp(twoRight)), Vector(goOneStepUp(twoLeft)),
-      Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
-    //TODO:Bug if a vector was sliced here, the whole vector is invalid! Implement correct validation!
+      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)), Vector(goOneStepUp(twoRight)),
+      Vector(goOneStepUp(twoLeft)), Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
     removeInvalidsFromMultiVector(mvl)
   }
 
@@ -154,7 +152,8 @@ object Utils {
   }
 
   def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    removeInvalidsFromMultiVector(Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates), goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
+    removeInvalidsFromMultiVector(Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates),
+      goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
   }
 
   def goMultiStepsInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
