@@ -11,7 +11,7 @@ case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def getName: String = "Queen"
 
-  override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsInAllDirections(coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsInAllDirections(field, this, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♛" else "♕"
 

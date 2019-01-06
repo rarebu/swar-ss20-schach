@@ -8,7 +8,7 @@ trait Figure {
 
   def getName: String
 
-  def getPossibleNewPositions: Vector[Vector[Coordinates]]
+  def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]]
 
   def move(coordinates: Coordinates): Figure
 }

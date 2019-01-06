@@ -9,11 +9,12 @@ class KingSpec extends WordSpec with Matchers {
   "A black King" when {
     "new" should {
       val king = new King(Colour.black)
+      val field = new Field()
       "have a name" in {
         king.getName should be("King")
       }
       "have 5 possible new positions" in {
-        king.getPossibleNewPositions.size should be(5)
+        king.getPossibleNewPositions(field, king.coordinates).size should be(5)
       }
     }
   }

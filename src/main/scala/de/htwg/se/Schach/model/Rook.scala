@@ -14,7 +14,7 @@ case class Rook(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
 
   override def getName: String = "Rook"
 
-  override def getPossibleNewPositions: Vector[Vector[Coordinates]] = goMultiStepsCross(coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsCross(field, this, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♜" else "♖"
 

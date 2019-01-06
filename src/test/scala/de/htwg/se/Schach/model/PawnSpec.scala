@@ -9,11 +9,12 @@ class PawnSpec extends WordSpec with Matchers {
   "A black Pawn" when {
     "new" should {
       val pawn = new Pawn(Colour.black, 4)
+      val field = new Field()
       "have a name" in {
         pawn.getName should be("Pawn")
       }
       "have 2 possible new positions" in {
-        pawn.getPossibleNewPositions(0).size should be(2)
+        pawn.getPossibleNewPositions(field, pawn.coordinates)(0).size should be(2)
       }
     }
   }

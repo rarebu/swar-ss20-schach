@@ -22,7 +22,7 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.removeInvalidsFromVector(vector).size should be(1)
       }
       "remove invalids from Multi-Vector" in {
-        Utils.removeInvalidsFromMultiVector(multivector).size should be(2)
+        Utils.removeInvalidsFromMultiVector(field, bishop, multivector).size should be(2)
       }
       "validate values" in {
         Utils.isAValidValueInsideTheField(2) should be(true)
@@ -40,11 +40,11 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.goOneStepRightDown(Coordinates(1, 1)) should be(Coordinates(0, 2))
       }
       "make complex single steps" in {
-        Utils.oneStepCross(Coordinates(1, 1)).size should be(4)
-        Utils.oneStepCross(Coordinates(0, 0)).size should be(2)
-        Utils.oneStepDiagonal(Coordinates(1, 1)).size should be(4)
-        Utils.oneStepDiagonal(Coordinates(0, 0)).size should be(1)
-        Utils.goOneStepInAllDirections(Coordinates(0, 4)).size should be(5)
+        Utils.oneStepCross(field, bishop, Coordinates(1, 1)).size should be(4)
+        Utils.oneStepCross(field, bishop, Coordinates(0, 0)).size should be(2)
+        Utils.oneStepDiagonal(field, bishop, Coordinates(1, 1)).size should be(4)
+        Utils.oneStepDiagonal(field, bishop, Coordinates(0, 0)).size should be(1)
+        Utils.goOneStepInAllDirections(field, bishop, Coordinates(0, 4)).size should be(5)
       }
       "make two steps" in {
         Utils.twoStepsDown(Coordinates(2, 2)) should be(Coordinates(0, 2))
@@ -53,17 +53,15 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.twoStepsRight(Coordinates(2, 2)) should be(Coordinates(2, 4))
       }
       "make two steps OR one step" in {
-        Utils.goTwoStepsUpOrOneStepUp(Coordinates(3, 3)).size should be(1)
+        Utils.goTwoStepsUpOrOneStepUp(field, bishop, Coordinates(3, 3)).size should be(1)
       }
       "make multiple steps" in {
-        Utils.removeInvalidsFromMultiVectorWithMultiSteps(field, bishop, bishop.getPossibleNewPositions)(2).size should be(3)
-        Utils.removeInvalidsFromMultiVectorWithMultiSteps(field, bishop, bishop.getPossibleNewPositions)(0).size should be(1)
-        Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(4)
-        Utils.goMultiStepsDiagonal(Coordinates(3, 3)).size should be(4)
-        Utils.goMultiStepsInAllDirections(Coordinates(3, 3)).size should be(8)
+        Utils.goMultiStepsCross(field, bishop, Coordinates(3, 3)).size should be(4)
+        Utils.goMultiStepsDiagonal(field, bishop, Coordinates(3, 3)).size should be(4)
+        Utils.goMultiStepsInAllDirections(field, bishop, Coordinates(3, 3)).size should be(8)
       }
       "make a knightJump" in {
-        Utils.goKnightJump(Coordinates(3, 3)).size should be(8)
+        Utils.goKnightJump(field, bishop, Coordinates(3, 3)).size should be(8)
       }
     }
   }
