@@ -13,7 +13,7 @@ private[Schach] object Schach {
     do {
       println("Grid :\n" + field.toString)
       input = readLine()
-      field = tui.processInputLine(input, field)
+      field = if(input == "q") field else tui.processInputLine(input, field)
     } while (input != "q")
   }
 }

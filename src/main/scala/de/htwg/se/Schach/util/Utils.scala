@@ -44,7 +44,7 @@ object Utils {
   }
 
   def removeInvalidsFromMultiVectorWithMultiSteps(field: Field, figure: Figure, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] =
-    removeInvalidsFromMultiVector(multiVector) map { vector => cleanVec(field, vector, figure)}
+    removeInvalidsFromMultiVector(multiVector) map { vector => cleanVec(field, vector, figure) }
 
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
@@ -167,29 +167,18 @@ object Utils {
     tmp.toVector
   }
 
-  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    removeInvalidsFromMultiVector(Vector(goMultiStepsRightDown(coordinates), goMultiStepsLeftDown(coordinates),
-      goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
-  }
+  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(Vector(goMultiStepsRightDown(coordinates),
+    goMultiStepsLeftDown(coordinates), goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
 
-  def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    removeInvalidsFromMultiVector(Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates),
-      goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
-  }
+  def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(Vector(goMultiStepsDown(coordinates),
+    goMultiStepsLeft(coordinates), goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
 
-  def goMultiStepsInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    val listdiagonal = goMultiStepsDiagonal(coordinates)
-    val listcross = goMultiStepsCross(coordinates)
-    val list = listcross ++ listdiagonal
-
-    removeInvalidsFromMultiVector(list)
-  }
+  def goMultiStepsInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] =
+    removeInvalidsFromMultiVector(goMultiStepsCross(coordinates) ++ goMultiStepsDiagonal(coordinates))
 
   def goTwoStepsUpOrOneStepUp(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
     Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates)))
   }
 
-  def goTwoStepsDownOrOneStepDown(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates)))
-  }
+  def goTwoStepsDownOrOneStepDown(coordinates: Coordinates): Vector[Vector[Coordinates]] = Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates)))
 }
