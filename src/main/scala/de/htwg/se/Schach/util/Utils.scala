@@ -28,6 +28,26 @@ object Utils {
     newMultiVector
   }
 
+  def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
+
+  def cleanVec(field: Field, vector: Vector[Coordinates]): Vector[Coordinates] = {
+    vector.zipWithIndex  foreach {
+      case (coordinate, index) =>
+      if (cellContainsFigure(field, coordinate)) return vector.slice(0, index)
+    }
+    vector
+  }
+
+  def removeInvalidsFromMultiVectorWithMultiSteps(field: Field, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
+    val a = removeInvalidsFromMultiVector(multiVector)
+    a map {
+      vector => cleanVec(field, vector)
+
+    }
+    a
+//    null
+  }
+
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 
   def goOneStepUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row + 1, coordinates.col)
