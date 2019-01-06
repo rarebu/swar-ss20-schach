@@ -20,7 +20,7 @@ case class Bishop(colour: Colour, coordinates: Coordinates) extends Figure {
   override def move(coordinates: Coordinates): Figure = Bishop(this.colour, coordinates)
 }
 
-private object Bishop {
+object Bishop {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

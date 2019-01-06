@@ -1,7 +1,7 @@
 
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.{Coordinates, Field}
+import de.htwg.se.Schach.model.{Coordinates, Field, Figure}
 
 import scala.collection.mutable.ListBuffer
 
@@ -30,23 +30,22 @@ object Utils {
 
   def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
 
-  def cleanVec(field: Field, vector: Vector[Coordinates]): Vector[Coordinates] = {
-    vector.zipWithIndex  foreach {
+  def cellContainsOwnFigure(field: Field, coordinates: Coordinates, figure: Figure): Boolean = field.cell(coordinates.row, coordinates.col)
+    .contains.get.colour == figure.colour
+
+
+  def cleanVec(field: Field, vector: Vector[Coordinates], figure: Figure): Vector[Coordinates] = {
+    vector.zipWithIndex foreach {
       case (coordinate, index) =>
-      if (cellContainsFigure(field, coordinate)) return vector.slice(0, index)
+        if (cellContainsFigure(field, coordinate))
+          if (cellContainsOwnFigure(field, coordinate, figure)) return vector.slice(0, index) else return vector.slice(0, index + 1)
     }
     vector
   }
 
-  def removeInvalidsFromMultiVectorWithMultiSteps(field: Field, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
-    val a = removeInvalidsFromMultiVector(multiVector)
-    a map {
-      vector => cleanVec(field, vector)
+  def removeInvalidsFromMultiVectorWithMultiSteps(field: Field, figure: Figure, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] =
+    removeInvalidsFromMultiVector(multiVector) map { vector => cleanVec(field, vector, figure)}
 
-    }
-    a
-//    null
-  }
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 

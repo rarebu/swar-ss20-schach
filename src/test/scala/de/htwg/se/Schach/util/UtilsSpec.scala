@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.{Coordinates, Field}
+import de.htwg.se.Schach.model.{Coordinates, Field, Bishop, Colour}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
@@ -12,7 +12,7 @@ class UtilsSpec extends WordSpec with Matchers {
       val vector = Vector(Coordinates(0, 0), Coordinates(0, -1), Coordinates(2, 2))
       val multivector = Vector(vector, Vector(Coordinates(4, 4), Coordinates(2, 3), Coordinates(3, -1)))
       val field = new Field()
-      val multivector2 = Vector(Vector(Coordinates(4,4), Coordinates(5,5), Coordinates(6,6), Coordinates(7,7)))
+      val bishop = Bishop(Colour.black, Coordinates(3, 3))
       "validate Coordinates" in {
         Utils.validCoordinate(Coordinates(0, 4)) should be(true)
         Utils.validCoordinate(Coordinates(-1, 4)) should be(false)
@@ -56,14 +56,12 @@ class UtilsSpec extends WordSpec with Matchers {
         Utils.goTwoStepsUpOrOneStepUp(Coordinates(3, 3)).size should be(1)
       }
       "make multiple steps" in {
-
-        val a = Utils.removeInvalidsFromMultiVectorWithMultiSteps(field, multivector2)
-        a should be(2)
+        Utils.removeInvalidsFromMultiVectorWithMultiSteps(field, bishop, bishop.getPossibleNewPositions)(2).size should be(3)
+        Utils.removeInvalidsFromMultiVectorWithMultiSteps(field, bishop, bishop.getPossibleNewPositions)(0).size should be(1)
+        Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(4)
+        Utils.goMultiStepsDiagonal(Coordinates(3, 3)).size should be(4)
+        Utils.goMultiStepsInAllDirections(Coordinates(3, 3)).size should be(8)
       }
-//        Utils.goMultiStepsCross(Coordinates(3, 3)).size should be(4)
-//        Utils.goMultiStepsDiagonal(Coordinates(3, 3)).size should be(4)
-//        Utils.goMultiStepsInAllDirections(Coordinates(3, 3)).size should be(8)
-//      }
       "make a knightJump" in {
         Utils.goKnightJump(Coordinates(3, 3)).size should be(8)
       }
