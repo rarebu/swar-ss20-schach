@@ -3,6 +3,8 @@ package de.htwg.se.Schach.util
 
 import de.htwg.se.Schach.model.{Coordinates, Field}
 
+import scala.collection.mutable.ListBuffer
+
 object Utils {
   def validCoordinate(coordinates: Coordinates): Boolean =
     isAValidValueInsideTheField(coordinates.row) && isAValidValueInsideTheField(coordinates.col)
@@ -74,76 +76,76 @@ object Utils {
     removeInvalidsFromMultiVector(mvl)
   }
 
-  def goMultiStepsLeftUp(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepLeftUp(coordinates)
+  def goMultiStepsLeftUp(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepLeftUp(coordinates)
     0 to 6 foreach { i =>
-      goOneStepLeftUp(tmp(i))
+      tmp += goOneStepLeftUp(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsRightUp(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepRightUp(coordinates)
+  def goMultiStepsRightUp(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepRightUp(coordinates)
     0 to 6 foreach { i =>
-      goOneStepRightUp(tmp(i))
+      tmp += goOneStepRightUp(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsLeftDown(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepLeftDown(coordinates)
+  def goMultiStepsLeftDown(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepLeftDown(coordinates)
     0 to 6 foreach { i =>
-      goOneStepLeftDown(tmp(i))
+      tmp += goOneStepLeftDown(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsRightDown(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepRightDown(coordinates)
+  def goMultiStepsRightDown(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepRightDown(coordinates)
     0 to 6 foreach { i =>
-      goOneStepRightDown(tmp(i))
+      tmp += goOneStepRightDown(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsRight(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepRight(coordinates)
+  def goMultiStepsRight(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepRight(coordinates)
     0 to 6 foreach { i =>
-      goOneStepRight(tmp(i))
+      tmp += goOneStepRight(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsLeft(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepLeft(coordinates)
+  def goMultiStepsLeft(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepLeft(coordinates)
     0 to 6 foreach { i =>
-      goOneStepLeft(tmp(i))
+      tmp += goOneStepLeft(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsUp(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepUp(coordinates)
+  def goMultiStepsUp(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepUp(coordinates)
     0 to 6 foreach { i =>
-      goOneStepUp(tmp(i))
+      tmp += goOneStepUp(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
-  def goMultiStepsDown(coordinates: Coordinates):Vector[Coordinates] = {
-    val tmp:Vector[Coordinates] = Vector()
-    tmp :+ goOneStepDown(coordinates)
+  def goMultiStepsDown(coordinates: Coordinates): Vector[Coordinates] = {
+    var tmp: ListBuffer[Coordinates] = ListBuffer()
+    tmp += goOneStepDown(coordinates)
     0 to 6 foreach { i =>
-      goOneStepDown(tmp(i))
+      tmp += goOneStepDown(tmp(i))
     }
-    tmp
+    tmp.toVector
   }
 
   def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
