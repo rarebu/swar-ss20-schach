@@ -3,6 +3,7 @@ package de.htwg.se.Schach.util
 
 import de.htwg.se.Schach.model.{Coordinates, Field}
 
+//noinspection ScalaStyle
 object Utils {
   def validCoordinate(coordinates: Coordinates): Boolean =
     isAValidValueInsideTheField(coordinates.row) && isAValidValueInsideTheField(coordinates.col)
@@ -68,16 +69,14 @@ object Utils {
     val twoDown = twoStepsDown(coordinates)
     val twoLeft = twoStepsLeft(coordinates)
     val twoRight = twoStepsRight(coordinates)
-    val multivectorlist1 = Vector(Vector(goOneStepRight(twoUp)), Vector(goOneStepRight(twoDown)),
-      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)))
-    val multivectorlist2 = Vector(Vector(goOneStepUp(twoRight)), Vector(goOneStepUp(twoLeft)),
+    val mvl = Vector(Vector(goOneStepRight(twoUp)), Vector(goOneStepRight(twoDown)),
+      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)), Vector(goOneStepUp(twoRight)), Vector(goOneStepUp(twoLeft)),
       Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
     //TODO:Bug if a vector was sliced here, the whole vector is invalid! Implement correct validation!
-    removeInvalidsFromMultiVector(multivectorlist1 ++ multivectorlist2)
+    removeInvalidsFromMultiVector(mvl)
   }
 
-
-  def goMultiStepLeftUp(coordinates: Coordinates):Vector[Coordinates] = {
+  def goMultiStepsLeftUp(coordinates: Coordinates):Vector[Coordinates] = {
     val tmp:Vector[Coordinates] = Vector()
     tmp :+ goOneStepLeftUp(coordinates)
     0 to 6 foreach { i =>
@@ -86,84 +85,76 @@ object Utils {
     tmp
   }
 
-  //TODO: improve code
-  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    val ru1 = goOneStepRightUp(coordinates)
-    val ru2 = goOneStepRightUp(ru1)
-    val ru3 = goOneStepRightUp(ru2)
-    val ru4 = goOneStepRightUp(ru3)
-    val ru5 = goOneStepRightUp(ru4)
-    val ru6 = goOneStepRightUp(ru5)
-    val ru7 = goOneStepRightUp(ru6)
-    val ru8 = goOneStepRightUp(ru7)
-    val listru = Vector(ru1, ru2, ru3, ru4, ru5, ru6, ru7, ru8)
-
-    val rd1 = goOneStepRightDown(coordinates)
-    val rd2 = goOneStepRightDown(rd1)
-    val rd3 = goOneStepRightDown(rd2)
-    val rd4 = goOneStepRightDown(rd3)
-    val rd5 = goOneStepRightDown(rd4)
-    val rd6 = goOneStepRightDown(rd5)
-    val rd7 = goOneStepRightDown(rd6)
-    val rd8 = goOneStepRightDown(rd7)
-    val listrd = Vector(rd1, rd2, rd3, rd4, rd5, rd6, rd7, rd8)
-
-    val ld1 = goOneStepLeftDown(coordinates)
-    val ld2 = goOneStepLeftDown(ld1)
-    val ld3 = goOneStepLeftDown(ld2)
-    val ld4 = goOneStepLeftDown(ld3)
-    val ld5 = goOneStepLeftDown(ld4)
-    val ld6 = goOneStepLeftDown(ld5)
-    val ld7 = goOneStepLeftDown(ld6)
-    val ld8 = goOneStepLeftDown(ld7)
-    val listld = Vector(ld1, ld2, ld3, ld4, ld5, ld6, ld7, ld8)
-
-    removeInvalidsFromMultiVector(Vector(listld, listrd, listru, goMultiStepLeftUp(coordinates)))
+  def goMultiStepsRightUp(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepRightUp(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepRightUp(tmp(i))
+    }
+    tmp
   }
 
-  //TODO: improve code
+  def goMultiStepsLeftDown(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepLeftDown(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepLeftDown(tmp(i))
+    }
+    tmp
+  }
+
+  def goMultiStepsRightDown(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepRightDown(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepRightDown(tmp(i))
+    }
+    tmp
+  }
+
+  def goMultiStepsRight(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepRight(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepRight(tmp(i))
+    }
+    tmp
+  }
+
+  def goMultiStepsLeft(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepLeft(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepLeft(tmp(i))
+    }
+    tmp
+  }
+
+  def goMultiStepsUp(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepUp(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepUp(tmp(i))
+    }
+    tmp
+  }
+
+  def goMultiStepsDown(coordinates: Coordinates):Vector[Coordinates] = {
+    val tmp:Vector[Coordinates] = Vector()
+    tmp :+ goOneStepDown(coordinates)
+    0 to 6 foreach { i =>
+      goOneStepDown(tmp(i))
+    }
+    tmp
+  }
+
+  def goMultiStepsDiagonal(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    removeInvalidsFromMultiVector(Vector(goMultiStepsRightDown(coordinates), goMultiStepsLeftDown(coordinates),
+      goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
+  }
+
   def goMultiStepsCross(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
-    val l1 = goOneStepLeft(coordinates)
-    val l2 = goOneStepLeft(l1)
-    val l3 = goOneStepLeft(l2)
-    val l4 = goOneStepLeft(l3)
-    val l5 = goOneStepLeft(l4)
-    val l6 = goOneStepLeft(l5)
-    val l7 = goOneStepLeft(l6)
-    val l8 = goOneStepLeft(l7)
-    val listl = Vector(l1, l2, l3, l4, l5, l6, l7, l8)
-
-    val r1 = goOneStepRight(coordinates)
-    val r2 = goOneStepRight(r1)
-    val r3 = goOneStepRight(r2)
-    val r4 = goOneStepRight(r3)
-    val r5 = goOneStepRight(r4)
-    val r6 = goOneStepRight(r5)
-    val r7 = goOneStepRight(r6)
-    val r8 = goOneStepRight(r7)
-    val listr = Vector(r1, r2, r3, r4, r5, r6, r7, r8)
-
-    val d1 = goOneStepDown(coordinates)
-    val d2 = goOneStepDown(d1)
-    val d3 = goOneStepDown(d2)
-    val d4 = goOneStepDown(d3)
-    val d5 = goOneStepDown(d4)
-    val d6 = goOneStepDown(d5)
-    val d7 = goOneStepDown(d6)
-    val d8 = goOneStepDown(d7)
-    val listd = Vector(d1, d2, d3, d4, d5, d6, d7, d8)
-
-    val u1 = goOneStepUp(coordinates)
-    val u2 = goOneStepUp(u1)
-    val u3 = goOneStepUp(u2)
-    val u4 = goOneStepUp(u3)
-    val u5 = goOneStepUp(u4)
-    val u6 = goOneStepUp(u5)
-    val u7 = goOneStepUp(u6)
-    val u8 = goOneStepUp(u7)
-    val listu = Vector(u1, u2, u3, u4, u5, u6, u7, u8)
-
-    removeInvalidsFromMultiVector(Vector(listu, listd, listr, listl))
+    removeInvalidsFromMultiVector(Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates), goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
   }
 
   def goMultiStepsInAllDirections(coordinates: Coordinates): Vector[Vector[Coordinates]] = {
