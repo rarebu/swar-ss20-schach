@@ -27,6 +27,15 @@ class BishopSpec extends WordSpec with Matchers {
       "have" in {
         bishop.colour should be(Colour.black)
       }
+      "have a symbol" in {
+        bishop.toString should be("♝")
+      }
+      "be able to move" in {
+        bishop.move(Coordinates(0, 0)).toString should be("♝")
+      }
+      "have" in {
+        bishop.colour should be(Colour.black)
+      }
     }
   }
 }
