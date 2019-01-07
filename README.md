@@ -1,3 +1,7 @@
+[![Travis](https://travis-ci.org/Sloug/SchachSE.svg?branch=master)]()
+
+
+
 # Htwg Scala Seed Project
 =====================================================
 ## the easiest way to start a project for the lecture SE
