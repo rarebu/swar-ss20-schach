@@ -25,6 +25,9 @@ class MatrixSpec extends WordSpec with Matchers {
       "should have a size of 8" in {
         matrix.size should be(8)
       }
+      "should be able to replace a Cell" in {
+        matrix.replaceCell(3,3,Cell(Colour.white, Option.empty))
+      }
     }
   }
 }

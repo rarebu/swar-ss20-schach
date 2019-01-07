@@ -11,5 +11,11 @@ class FieldSpec extends WordSpec with Matchers {
     "have a 64 Cells" in {
       field.cells.size should be(8)
     }
+    "have a 8 Rows" in {
+      field.cells.rows.size should be(8)
+    }
+    "have a String in a Cell" in {
+      field.cells.cell(0,0).contains.get.toString should be("♜")
+    }
   }}
 }

@@ -14,5 +14,21 @@ class CellSpec extends WordSpec with Matchers {
     "have no Figure" in {
       cell.contains should be(None)
     }
+    "have a String for TUI" in {
+      cell.toString should be("♦##♦")
+    }
+  }}
+  def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
+  "A Cell" when { "used" should {
+    val cell = Cell(Colour.white, Option.apply(new Rook(Colour.white, Side.right)))
+    "have a colour"  in {
+      cell.colour should be(Colour.white)
+    }
+    "have a Figure" in {
+      cellContainsFigure(new Field,Coordinates(0,0)) should be(true)
+    }
+    "have a String for TUI" in {
+      cell.toString should be("⁕♖⁕")
+    }
   }}
 }
