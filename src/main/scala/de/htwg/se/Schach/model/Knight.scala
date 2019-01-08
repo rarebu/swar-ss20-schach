@@ -5,12 +5,7 @@ import _root_.de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.Side.Side
 
 
-case class Knight(colour: Colour, coordinates: Coordinates) extends Figure {
-  def this(colour: Colour, side: Side) = this(colour, {
-    import Knight._
-    if (colour == Colour.black) if (side == Side.left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
-    else if (side == Side.left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
-  })
+case class Knight(colour: Colour) extends Figure {
 
   override def getName: String = "Knight"
 
@@ -18,7 +13,7 @@ case class Knight(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def toString: String = if (colour == Colour.black) "♞" else "♘"
 
-  override def move(coordinates: Coordinates): Figure = Knight(this.colour, coordinates)
+  override def move: Figure = Knight(this.colour)
 }
 
 private object Knight {

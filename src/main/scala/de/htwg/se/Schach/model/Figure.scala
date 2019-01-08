@@ -4,13 +4,12 @@ import _root_.de.htwg.se.Schach.model.Colour.Colour
 
 trait Figure {
   val colour: Colour
-  val coordinates: Coordinates
 
   def getName: String
 
   def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]]
 
-  def move(coordinates: Coordinates): Figure
+  def move: Figure
 }
 
 private[model] object Figure {

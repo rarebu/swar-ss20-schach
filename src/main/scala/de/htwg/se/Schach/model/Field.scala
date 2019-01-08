@@ -9,8 +9,8 @@ case class Field(cells: Matrix[Cell]) {
     val a = (row, col) match {
       case (ROW_BLACK, column) => getFigure(Colour.black, column)
       case (ROW_WHITE, column) => getFigure(Colour.white, column)
-      case (ROW_BLACK_PAWN, column) => Option.apply(new Pawn(Colour.black, column))
-      case (ROW_WHITE_PAWN, column) => Option.apply(new Pawn(Colour.white, column))
+      case (ROW_BLACK_PAWN, column) => Option.apply(new Pawn(Colour.black, true))
+      case (ROW_WHITE_PAWN, column) => Option.apply(new Pawn(Colour.white, true))
       case _ => Option.empty
     }
     if (row % 2 == 0)
@@ -26,7 +26,7 @@ case class Field(cells: Matrix[Cell]) {
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
       if (!t.contains(Coordinates(newRow, newCol))) this else copy(cells.replaceCell(row, col, Cell(cell(
         row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(
-        cell(newRow, newCol).colour, Option.apply(figure.move(Coordinates(newRow, newCol))))))
+        cell(newRow, newCol).colour, Option.apply(figure.move))))
 
     }
   }
@@ -47,14 +47,14 @@ case class Field(cells: Matrix[Cell]) {
 private object Field {
   def getFigure(colour: Colour, col: Int): Option[Figure] = {
     col match {
-      case King.COL_FIGURE => Option.apply(new King(colour))
+      case King.COL_FIGURE => Option.apply(new King(colour, true))
       case Queen.COL_FIGURE => Option.apply(new Queen(colour))
-      case Rook.COL_FIGURE_LEFT => Option.apply(new Rook(colour, Side.left))
-      case Rook.COL_FIGURE_RIGHT => Option.apply(new Rook(colour, Side.right))
-      case Knight.COL_FIGURE_LEFT => Option.apply(new Knight(colour, Side.left))
-      case Knight.COL_FIGURE_RIGHT => Option.apply(new Knight(colour, Side.right))
-      case Bishop.COL_FIGURE_LEFT => Option.apply(new Bishop(colour, Side.left))
-      case Bishop.COL_FIGURE_RIGHT => Option.apply(new Bishop(colour, Side.right))
+      case Rook.COL_FIGURE_LEFT => Option.apply(new Rook(colour, true))
+      case Rook.COL_FIGURE_RIGHT => Option.apply(new Rook(colour, true))
+      case Knight.COL_FIGURE_LEFT => Option.apply(new Knight(colour))
+      case Knight.COL_FIGURE_RIGHT => Option.apply(new Knight(colour))
+      case Bishop.COL_FIGURE_LEFT => Option.apply(new Bishop(colour))
+      case Bishop.COL_FIGURE_RIGHT => Option.apply(new Bishop(colour))
 
     }
   }

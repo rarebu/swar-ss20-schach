@@ -22,10 +22,10 @@ object Utils {
     var newMultiVector: Vector[Vector[Coordinates]] = Vector()
     multiVector foreach {
       vector =>
-        val b = removeInvalidsFromVector(vector)
+        val b = cleanVec(field, removeInvalidsFromVector(vector), figure)
         if (b.nonEmpty) newMultiVector = newMultiVector :+ b
     }
-    removeCollisionsFromMultiVector(field, figure, newMultiVector)
+    newMultiVector
   }
 
   def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
@@ -42,10 +42,6 @@ object Utils {
     }
     vector
   }
-
-  def removeCollisionsFromMultiVector(field: Field, figure: Figure, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] =
-    multiVector map { vector => cleanVec(field, vector, figure) }
-
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 

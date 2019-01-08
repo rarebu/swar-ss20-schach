@@ -5,12 +5,7 @@ import _root_.de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.Side.Side
 
 
-case class Rook(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
-  def this(colour: Colour, side: Side) = this(colour, {
-    import Rook._
-    if (colour == Colour.black) if (side == Side.left) COORDINATES_BLACK_LEFT else COORDINATES_BLACK_RIGHT
-    else if (side == Side.left) COORDINATES_WHITE_LEFT else COORDINATES_WHITE_RIGHT
-  }, true)
+case class Rook(colour: Colour, ability: Boolean) extends Figure {
 
   override def getName: String = "Rook"
 
@@ -18,7 +13,7 @@ case class Rook(colour: Colour, coordinates: Coordinates, ability: Boolean) exte
 
   override def toString: String = if (colour == Colour.black) "♜" else "♖"
 
-  override def move(coordinates: Coordinates): Figure = Rook(this.colour, coordinates, ability = false)
+  override def move: Figure = Rook(this.colour, ability = false)
 }
 
 private object Rook {
