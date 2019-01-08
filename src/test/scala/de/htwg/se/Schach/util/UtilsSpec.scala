@@ -66,4 +66,3 @@ class UtilsSpec extends WordSpec with Matchers {
     }
   }
 }
-
