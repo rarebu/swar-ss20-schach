@@ -107,7 +107,7 @@ object Utils {
   def goMultiStepsDown(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepDown)
 
   def goOneStepInAllDirections(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
-    oneStepCross(field, figure, coordinates) ++ oneStepDiagonal(field, figure, coordinates)
+    removeInvalidsFromMultiVector(field, figure, oneStepCross(field, figure, coordinates) ++ oneStepDiagonal(field, figure, coordinates))
 
   def goKnightJump(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = {
     val twoUp = twoStepsUp(coordinates)
