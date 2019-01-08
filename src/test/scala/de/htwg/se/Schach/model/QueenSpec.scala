@@ -10,11 +10,12 @@ class QueenSpec extends WordSpec with Matchers {
     "new" should {
       val queen = new Queen(Colour.black)
       val field = new Field()
+      val coordinates = Coordinates(0, 3)
       "have a name" in {
         queen.getName should be("Queen")
       }
       "have 21 possible new positions" in {
-        queen.getPossibleNewPositions(field, queen.coordinates).size should be(5)
+        queen.getPossibleNewPositions(field, coordinates).size should be(0)
       }
     }
   }

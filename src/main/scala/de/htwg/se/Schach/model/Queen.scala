@@ -3,11 +3,7 @@ package de.htwg.se.Schach.model
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import _root_.de.htwg.se.Schach.util.Utils._
 
-case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
-  def this(colour: Colour) = this(colour, {
-    import Queen._
-    if (colour == Colour.black) COORDINATES_BLACK else COORDINATES_WHITE
-  })
+case class Queen(colour: Colour) extends Figure {
 
   override def getName: String = "Queen"
 
@@ -15,7 +11,7 @@ case class Queen(colour: Colour, coordinates: Coordinates) extends Figure {
 
   override def toString: String = if (colour == Colour.black) "♛" else "♕"
 
-  override def move(coordinates: Coordinates): Figure = Queen(this.colour, coordinates)
+  override def move: Figure = Queen(this.colour)
 }
 
 private object Queen {

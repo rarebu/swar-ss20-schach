@@ -6,10 +6,7 @@ import de.htwg.se.Schach.model.Figure._
 
 import scala.collection.mutable
 
-private[model] case class Pawn(colour: Colour, coordinates: Coordinates, ability: Boolean) extends Figure {
-  def this(colour: Colour, col: Int) = this(colour, {
-    if (colour == Colour.black) Coordinates(ROW_BLACK_PAWN, col) else Coordinates(ROW_WHITE_PAWN, col)
-  }, true)
+private[model] case class Pawn(colour: Colour, ability: Boolean) extends Figure {
 
   override def getName: String = "Pawn"
 
@@ -50,5 +47,5 @@ private[model] case class Pawn(colour: Colour, coordinates: Coordinates, ability
 
   override def toString: String = if (colour == Colour.black) "♟" else "♙"
 
-  override def move(coordinates: Coordinates): Figure = Pawn(this.colour, coordinates, ability = false)
+  override def move: Figure = Pawn(this.colour, ability = false)
 }
