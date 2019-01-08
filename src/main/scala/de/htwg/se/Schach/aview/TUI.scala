@@ -1,7 +1,6 @@
 package de.htwg.se.Schach.aview
 
 import de.htwg.se.Schach.controller.Controller
-import de.htwg.se.Schach.model.Field
 import de.htwg.se.Schach.util.Observer
 
 class TUI(controller: Controller) extends Observer {
