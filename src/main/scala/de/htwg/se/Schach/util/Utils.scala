@@ -1,7 +1,7 @@
 
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.{Coordinates, Field, Figure}
+import de.htwg.se.Schach.model.{Coordinates, Field, Figure, Rook}
 
 import scala.collection.mutable.ListBuffer
 
@@ -104,6 +104,51 @@ object Utils {
 
   def goOneStepInAllDirections(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
     removeInvalidsFromMultiVector(field, figure, oneStepCross(field, figure, coordinates) ++ oneStepDiagonal(field, figure, coordinates))
+
+  def castlingPossible(field: Field, coordinates: Coordinates, towerCol: Int, range: Range): Boolean = {
+    val tmp = field.cell(coordinates.row, towerCol).contains
+    (tmp.isDefined && (
+      tmp.get match {
+        case fig: Rook => fig.ability
+        case _ => false
+      }) && { // check if fields between rook and king are empty
+      var u = true
+      for (x <- range) {
+        field.cell(coordinates.row, x).contains match {
+          case Some(_) => u = false
+          case _ =>
+        }
+      }
+      u
+    })
+  }
+
+  def castleKingside(field: Field, coordinates: Coordinates): Option[Coordinates] = {
+    if (castlingPossible(field, coordinates, 7, 5 to 6)) Option.apply(Coordinates(coordinates.row, 6))
+    else None
+
+  }
+
+  def castleQueenside(field: Field, coordinates: Coordinates): Option[Coordinates] = {
+    if (castlingPossible(field, coordinates, 0, 1 to 3))
+      Option.apply(Coordinates(coordinates.row, 2))
+    else None
+  }
+
+  def kingMove(field: Field, figure: Figure, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {
+    val tmp = goOneStepInAllDirections(field, figure, coordinates).toBuffer
+    if (ability) {
+      castleKingside(field, coordinates) match {
+        case Some(coord) => tmp += Vector(coord)
+        case _ =>
+      }
+      castleQueenside(field, coordinates) match {
+        case Some(coord) => tmp += Vector(coord)
+        case _ =>
+      }
+    }
+    tmp.toVector
+  }
 
   def goKnightJump(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = {
     val twoUp = twoStepsUp(coordinates)
