@@ -7,15 +7,14 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class ControllerSpec extends WordSpec with Matchers {
-  "The TUI" when {
-    "new" should {
+  "A Controller" when {
+    "empty" should {
       val field = new Field
       val controller = new Controller(field)
-      "process a 'q" in {
-        controller.newField().toString should be("()")
-      }
-      "process a 'qf" in {
-        controller.move(1,2,3,4) should be()
+      "handle" in {
+        controller.field.cells.size should be(8)
+        controller.move(0,0,1,1) should be()
+        controller.newField() should be()
       }
     }
   }

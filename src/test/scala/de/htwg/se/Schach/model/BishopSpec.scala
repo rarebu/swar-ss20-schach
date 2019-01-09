@@ -20,7 +20,6 @@ class BishopSpec extends WordSpec with Matchers {
         bishop.getPossibleNewPositions(field, coordinates)(1).size should be(2)
         bishop.getPossibleNewPositions(field, coordinates)(2).size should be(2)
         bishop.getPossibleNewPositions(field, coordinates)(3).size should be(2)
-
       }
       "have a symbol" in {
         bishop.toString should be("♝")

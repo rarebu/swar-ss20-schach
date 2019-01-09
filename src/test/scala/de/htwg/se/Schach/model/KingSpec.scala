@@ -34,7 +34,7 @@ class KingSpec extends WordSpec with Matchers {
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
       var field = Field(matrix)
-      "be able to do a 'rochade'" in {
+      "be able to do castling (rochade)" in {
         field.cells.cell(7,4).toString should be("#♔#")
         field.cells.cell(7,5).toString should be("♦⁕⁕♦")
         field.cells.cell(7,6).toString should be("♦##♦")
