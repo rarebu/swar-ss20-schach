@@ -24,9 +24,27 @@ case class Field(cells: Matrix[Cell]) {
     if (cell(row, col).contains.isEmpty) this else {
       val figure = cell(row, col).contains.get
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
-      if (!t.contains(Coordinates(newRow, newCol))) this else copy(cells.replaceCell(row, col, Cell(cell(
-        row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(
-        cell(newRow, newCol).colour, Option.apply(figure.move))))
+      if (!t.contains(Coordinates(newRow, newCol))) this else {
+        figure match {
+          case king: King => {
+            val tmp = col - newCol
+            if (Math.abs(tmp) == 2) {
+              if (tmp > 0) {
+                return copy(cells.replaceCell(row, 0, Cell(cell(row, 0).colour, Option.empty)).replaceCell(row, 3, Cell(cell(row, 3).colour,
+                  Option.apply(cell(row, 0).contains.get.move))).replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol,
+                  Cell(cell(newRow, newCol).colour, Option.apply(figure.move))))
+              } else {
+                return copy(cells.replaceCell(row, 7, Cell(cell(row, 7).colour, Option.empty)).replaceCell(row, 5, Cell(cell(row, 5).colour,
+                  Option.apply(cell(row, 7).contains.get.move))).replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol,
+                  Cell(cell(newRow, newCol).colour, Option.apply(figure.move))))
+              }
+            }
+          }
+          case _ =>
+        }
+        copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
+          Option.apply(figure.move))))
+      }
 
     }
   }
