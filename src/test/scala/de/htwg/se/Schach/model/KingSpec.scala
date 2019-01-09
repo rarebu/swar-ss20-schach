@@ -21,22 +21,29 @@ class KingSpec extends WordSpec with Matchers {
       }
     }
   }
-  "A black King" when {
+  "A white King" when {
     "alone with a Rook" should {
-      val cell = Cell(Colour.black, Option.empty)
       val matrix = new Matrix[Cell]((row, col) => {
         val a = (row, col) match {
-          case (7, 3) => Option.apply(new King(Colour.black, true))
-          case (7, 0) => Option.apply(new Rook(Colour.black, true))
+          case (7, 4) => Option.apply(new King(Colour.white, true))
+          case (7, 7) => Option.apply(new Rook(Colour.white, true))
           case _ => Option.empty
         }
         if (row % 2 == 0)
           if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
-      val field = Field(matrix)
-      "have the possibility to do a 'rochade'" in {
-        field.move(7,3,7,1).toString should be() //to see whats in the field
+      var field = Field(matrix)
+      "be able to do a 'rochade'" in {
+        field.cells.cell(7,4).toString should be("#♔#")
+        field.cells.cell(7,5).toString should be("♦⁕⁕♦")
+        field.cells.cell(7,6).toString should be("♦##♦")
+        field.cells.cell(7,7).toString should be("⁕♖⁕")
+        field = field.move(7,4,7,6)
+        field.cells.cell(7,4).toString should be("♦##♦")
+        field.cells.cell(7,5).toString should be("⁕♖⁕")
+        field.cells.cell(7,6).toString should be("#♔#")
+        field.cells.cell(7,7).toString should be("♦⁕⁕♦")
       }
 
     }
