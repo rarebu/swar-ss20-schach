@@ -41,4 +41,24 @@ class PawnSpec extends WordSpec with Matchers {
 
     }
   }
+  "A white Pawn" when {
+    "new on 5,2" should {
+      val pawn = Pawn(Colour.white, ability = true)
+      val field = new Field()
+      val coordinates = Coordinates(5, 2)
+      "have 2 possible new positions in one direction" in {
+        pawn.getPossibleNewPositions(field, coordinates).size should be(1)
+        pawn.getPossibleNewPositions(field, coordinates)(0).size should be(2)
+      }
+    }
+    "used on 5,2" should {
+      val pawn = Pawn(Colour.white, ability = false)
+      val field = new Field()
+      val coordinates = Coordinates(5, 2)
+      "have 1 possible new position in one dircetion" in {
+        pawn.getPossibleNewPositions(field, coordinates).size should be(1)
+        pawn.getPossibleNewPositions(field, coordinates)(0).size should be(1)
+      }
+    }
+  }
 }

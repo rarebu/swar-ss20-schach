@@ -8,6 +8,6 @@ import org.scalatest.{Matchers, WordSpec}
 class ObservableSpec extends WordSpec with Matchers {
   "An Observable" should {
     val observable = new Observable
-
+    //todo
   }
 }
