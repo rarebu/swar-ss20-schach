@@ -1,4 +1,5 @@
 [![Travis](https://travis-ci.org/Sloug/SchachSE.svg?branch=master)]()
+[![Coverage Status](https://coveralls.io/repos/github/Sloug/SchachSE/badge.svg?branch=master)](https://coveralls.io/github/Sloug/SchachSE?branch=master)
 
 
 
