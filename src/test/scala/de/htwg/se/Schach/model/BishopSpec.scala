@@ -8,33 +8,46 @@ import org.scalatest.{Matchers, WordSpec}
 class BishopSpec extends WordSpec with Matchers {
   "A black Bishop" when {
     "new" should {
-      val bishop = new Bishop(Colour.black, Side.left)
+      val bishop = new Bishop(Colour.black)
       val field = new Field()
+      val coordinates = Coordinates(4, 4)
       "have a name" in {
         bishop.getName should be("Bishop")
       }
-      "have 7 possible new positions" in {
-        bishop.getPossibleNewPositions(field, bishop.coordinates).size should be(2)
-        bishop.getPossibleNewPositions(field, bishop.coordinates)(0).size should be(0)
-        bishop.getPossibleNewPositions(field, bishop.coordinates)(1).size should be(0)
+      "have 4 possible new directions and 8 new positions" in {
+        bishop.getPossibleNewPositions(field, coordinates).size should be(4)
+        bishop.getPossibleNewPositions(field, coordinates)(0).size should be(2)
+        bishop.getPossibleNewPositions(field, coordinates)(1).size should be(2)
+        bishop.getPossibleNewPositions(field, coordinates)(2).size should be(2)
+        bishop.getPossibleNewPositions(field, coordinates)(3).size should be(2)
+
       }
       "have a symbol" in {
         bishop.toString should be("♝")
       }
-      "be able to move" in {
-        bishop.move(Coordinates(0, 0)).toString should be("♝")
-      }
-      "have" in {
+      "have a colour" in {
         bishop.colour should be(Colour.black)
       }
-      "have a symbol" in {
-        bishop.toString should be("♝")
+    }
+  }
+  "A white Bishop" when {
+    "new on 4,7" should {
+      val bishop = new Bishop(Colour.white)
+      val field = new Field()
+      val coordinates = Coordinates(4, 7)
+      "have 2 possible new directions and 4 new positions" in {
+        bishop.getPossibleNewPositions(field, coordinates).size should be(2)
+        bishop.getPossibleNewPositions(field, coordinates)(0).size should be(3)
+        bishop.getPossibleNewPositions(field, coordinates)(1).size should be(1)
       }
-      "be able to move" in {
-        bishop.move(Coordinates(0, 0)).toString should be("♝")
-      }
-      "have" in {
-        bishop.colour should be(Colour.black)
+    }
+    "new on 5,7" should {
+      val bishop = new Bishop(Colour.white)
+      val field = new Field()
+      val coordinates = Coordinates(5, 7)
+      "have 1 possible new direction and 4 new positions" in {
+        bishop.getPossibleNewPositions(field, coordinates).size should be(1)
+        bishop.getPossibleNewPositions(field, coordinates)(0).size should be(4)
       }
     }
   }
