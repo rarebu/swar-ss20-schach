@@ -15,6 +15,7 @@ class ControllerSpec extends WordSpec with Matchers {
         controller.field.cells.size should be(8)
         controller.move(0,0,1,1) should be()
         controller.newField() should be()
+        //todo
       }
     }
   }

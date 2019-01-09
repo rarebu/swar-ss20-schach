@@ -19,4 +19,29 @@ class RookSpec extends WordSpec with Matchers {
       }
     }
   }
+  "A white Rook" when {
+    "new on 4,7" should {
+      val rook = new Rook(Colour.white, ability = false)
+      val field = new Field()
+      val coordinates = Coordinates(4, 7)
+      "have 11 possible new possible positions in 3 directions" in {
+        rook.getPossibleNewPositions(field, coordinates).size should be(3)
+        rook.getPossibleNewPositions(field, coordinates)(0).size should be(3)
+        rook.getPossibleNewPositions(field, coordinates)(1).size should be(7)
+        rook.getPossibleNewPositions(field, coordinates)(2).size should be(1)
+      }
+    }
+    "new on 4,4" should {
+      val rook = new Rook(Colour.white, ability = false)
+      val field = new Field()
+      val coordinates = Coordinates(4, 4)
+      "have 13 possible new possible positions in 4 directions" in {
+        rook.getPossibleNewPositions(field, coordinates).size should be(4)
+        rook.getPossibleNewPositions(field, coordinates)(0).size should be(3)
+        rook.getPossibleNewPositions(field, coordinates)(1).size should be(4)
+        rook.getPossibleNewPositions(field, coordinates)(2).size should be(3)
+        rook.getPossibleNewPositions(field, coordinates)(2).size should be(3)
+      }
+    }
+  }
 }
