@@ -12,11 +12,13 @@ trait Figure {
   def move: Figure
 }
 
-private[model] object Figure {
+private[Schach] object Figure {
   val ROW_WHITE = 7
   val ROW_BLACK = 0
   val ROW_BLACK_PAWN = 1
   val ROW_WHITE_PAWN = 6
+  val CHANGABLE_WHITE_FIGURES = "♕♖♗♘"
+  val CHANGABLE_BLACK_FIGURES = "♛♜♝♞"
 }
 
 
