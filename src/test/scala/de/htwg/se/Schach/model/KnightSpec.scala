@@ -19,4 +19,25 @@ class KnightSpec extends WordSpec with Matchers {
       }
     }
   }
+  "A white Knight" when {
+    "new on 7,7" should {
+      val knight = new Knight(Colour.white)
+      val field = new Field()
+      val coordinates = Coordinates(7, 7)
+      "have 1 possible new positions" in {
+        knight.getPossibleNewPositions(field, coordinates).size should be(1)
+        knight.getPossibleNewPositions(field, coordinates)(0).size should be(1)
+      }
+    }
+    "new on 3,3" should {
+      val knight = new Knight(Colour.white)
+      val field = new Field()
+      val coordinates = Coordinates(5, 7)
+      "have 2 possible new direction and 2 new positions" in {
+        knight.getPossibleNewPositions(field, coordinates).size should be(2)
+        knight.getPossibleNewPositions(field, coordinates)(0).size should be(1)
+        knight.getPossibleNewPositions(field, coordinates)(1).size should be(1)
+      }
+    }
+  }
 }
