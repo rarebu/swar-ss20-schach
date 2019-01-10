@@ -1,18 +1,30 @@
 package de.htwg.se.Schach.model.rules
 
 import de.htwg.se.Schach.model.{Colour, Coordinates, Field, Figure}
-import de.htwg.se.Schach.util.Utils.{kingMove, _}
+import de.htwg.se.Schach.util.Utils._
+import de.htwg.se.Schach.model.rules.Castling._
+import de.htwg.se.Schach.util.Validation.{removeInvalidsFromMultiVector, isOponent}
 
 import scala.collection.mutable
 
 object Moves {
   def bishopMove(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsDiagonal(field, figure, coordinates)
 
-  def knightMove(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = goKnightJump(field, figure, coordinates)
+  def knightMove(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = {
+    val twoUp = twoStepsUp(coordinates)
+    val twoDown = twoStepsDown(coordinates)
+    val twoLeft = twoStepsLeft(coordinates)
+    val twoRight = twoStepsRight(coordinates)
+    val mvl = Vector(Vector(goOneStepRight(twoUp)), Vector(goOneStepRight(twoDown)),
+      Vector(goOneStepLeft(twoUp)), Vector(goOneStepLeft(twoDown)), Vector(goOneStepUp(twoRight)),
+      Vector(goOneStepUp(twoLeft)), Vector(goOneStepDown(twoRight)), Vector(goOneStepDown(twoLeft)))
+    removeInvalidsFromMultiVector(field, figure, mvl)
+  }
 
   def rookMove(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsCross(field, figure, coordinates)
 
-  def queenMove(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsInAllDirections(field, this, coordinates)
+  def queenMove(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
+    goMultiStepsCross(field, figure, coordinates) ++ goMultiStepsDiagonal(field, figure, coordinates)
 
   def pawnMove(field: Field, figure: Figure, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {
     if (figure.colour == Colour.white) {
@@ -40,5 +52,18 @@ object Moves {
     }
   }
 
-  def kingMove(field: Field, figure: Figure, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = kingMove(field, figure, coordinates, ability)
+  def kingMove(field: Field, figure: Figure, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {
+    val tmp = goOneStepInAllDirections(field, figure, coordinates).toBuffer
+    if (ability) {
+      castleKingside(field, coordinates) match {
+        case Some(coord) => tmp += Vector(coord)
+        case _ =>
+      }
+      castleQueenside(field, coordinates) match {
+        case Some(coord) => tmp += Vector(coord)
+        case _ =>
+      }
+    }
+    tmp.toVector
+  }
 }
