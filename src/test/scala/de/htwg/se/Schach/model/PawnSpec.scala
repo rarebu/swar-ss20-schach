@@ -30,17 +30,16 @@ class PawnSpec extends WordSpec with Matchers {
           if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
-      val cf = ToChange
-      var field = Field(matrix, None)
-      "be able to switch itself to a queen" in {
-        field.cells.cell(6,1).toString should be("#♟#")
-        field = field.move(6,1,7,1)
-
-        field.cells.cell(7,1).toString should be("⁕♟⁕")
-        //TODO
-
+      val field = Field(matrix, None)
+      "be asked what figure to switch itself into" in {
+        field.pawnChange(Colour.black) should be("♛♜♝♞")
       }
-
+      field.cells.cell(6, 1).toString should be("#♟#")
+      var newfield = field.move(6, 1, 7, 1)
+      "be able to switch itself to a queen" in {
+        newfield = newfield.changePawn("♜")
+        newfield.cells.cell(7,1).toString should be("⁕♜⁕")
+      }
     }
   }
   "A white Pawn" when {
