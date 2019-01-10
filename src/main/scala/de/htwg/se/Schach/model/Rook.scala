@@ -1,15 +1,14 @@
 package de.htwg.se.Schach.model
 
 import _root_.de.htwg.se.Schach.model.Colour.Colour
-import _root_.de.htwg.se.Schach.util.Utils._
-import de.htwg.se.Schach.model.Side.Side
+import de.htwg.se.Schach.model.rules.Moves
 
 
 case class Rook(colour: Colour, ability: Boolean) extends Figure {
 
   override def getName: String = "Rook"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsCross(field, this, coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = Moves.rookMove(field, this, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♜" else "♖"
 

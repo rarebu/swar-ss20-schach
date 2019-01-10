@@ -134,3 +134,4 @@ private object Field {
 
 case class ToChange(coordinates: Coordinates, cell: Cell, figure: Figure)
 
+//TODO refactor

@@ -1,6 +1,7 @@
 
 package de.htwg.se.Schach.util
 
+import de.htwg.se.Schach.model.Colour.Colour
 import de.htwg.se.Schach.model.{Coordinates, Field, Figure, Rook}
 
 import scala.collection.mutable.ListBuffer
@@ -41,6 +42,15 @@ object Utils {
           if (cellContainsOwnFigure(field, coordinate, figure)) return vector.slice(0, index) else return vector.slice(0, index + 1)
     }
     vector
+  }
+
+  def isOponent(field: Field, coordinates: Coordinates, colour: Colour): Boolean = {
+    if (validCoordinate(coordinates)) {
+      val container = field.cell(coordinates.row, coordinates.col).contains
+      if (container.isDefined)
+        if (container.get.colour == colour) false else true
+      else false
+    } else false
   }
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
@@ -176,3 +186,5 @@ object Utils {
   def goTwoStepsDownOrOneStepDown(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
     Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates))))
 }
+
+//TODO: refactor
