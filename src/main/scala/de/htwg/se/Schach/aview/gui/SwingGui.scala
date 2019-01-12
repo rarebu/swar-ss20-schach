@@ -47,7 +47,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
       })
     }
   }
-  
+
   visible = true
 
   override def update(): Boolean = true
