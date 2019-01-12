@@ -1,20 +1,12 @@
 package de.htwg.se.Schach.aview.gui
 
-import java.awt.GridLayout
-import java.awt.event.WindowEvent
-
-import com.sun.corba.se.spi.orbutil.threadpool.Work
 import de.htwg.se.Schach.controller.Controller
-import de.htwg.se.Schach.model.Colour
 import de.htwg.se.Schach.util.Observer
-import javax.swing.{JFrame, WindowConstants}
-
+import javax.swing. WindowConstants
 import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
-import javax.swing.JTextArea
-import javax.swing.JScrollPane
-import java.awt.BorderLayout
+
 
 class SwingGui(controller: Controller) extends Frame with Observer {
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
@@ -27,7 +19,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
       outerRow <- 0 until 8
       outerColumn <- 0 until 8
     } {
-      contents += new TextField("X")
+      contents += Button("X") { println("Thank you") }
     }
   }
 
@@ -45,7 +37,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
         println("new")
       })
       contents += new MenuItem(Action("Quit") {
-        println("quit")
+        sys.exit(0)
       })
     }
     contents += new Menu("Edit") {
@@ -55,7 +47,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
       })
     }
   }
-
+  
   visible = true
 
   override def update(): Boolean = true
