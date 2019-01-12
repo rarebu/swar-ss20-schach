@@ -1,68 +1,63 @@
 package de.htwg.se.Schach.aview.gui
 
+import java.awt.GridLayout
 import java.awt.event.WindowEvent
 
+import com.sun.corba.se.spi.orbutil.threadpool.Work
 import de.htwg.se.Schach.controller.Controller
+import de.htwg.se.Schach.model.Colour
 import de.htwg.se.Schach.util.Observer
-import javax.swing.WindowConstants
+import javax.swing.{JFrame, WindowConstants}
 
 import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
+import javax.swing.JTextArea
+import javax.swing.JScrollPane
+import java.awt.BorderLayout
 
 class SwingGui(controller: Controller) extends Frame with Observer {
-
-
-  title = "HTWG Sudoku"
-
-
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
+  title = "HTWG Schach"
 
-  def highlightpanel = new FlowPanel {
-    contents += new Label("Highlight:")
-    for {index <- 0 to 20} {
-      val button = Button(if (index == 0) "" else index.toString) {
-        //
-      }
-      button.preferredSize_=(new Dimension(30, 30))
-      resizable = false
-      resizable = true
-      contents += button
-      listenTo(button)
-    }
-    resizable = false
-    resizable = true
-  }
-
-  def gridPanel = new GridPanel(1, 15) {
-    border = LineBorder(java.awt.Color.BLACK, 300)
+  def gridPanel: GridPanel = new GridPanel(8, 8) {
+    border = LineBorder(java.awt.Color.BLACK, 2)
     background = java.awt.Color.BLACK
     for {
-      outerRow <- 0 until 5
-      outerColumn <- 0 until 5
+      outerRow <- 0 until 8
+      outerColumn <- 0 until 8
     } {
-      contents += new GridPanel(5,15) {
-        border = LineBorder(java.awt.Color.GREEN, 2)
-        for {
-          innerRow <- 0 until 15
-          innerColumn <- 0 until 15
-        } {
-          val x = outerRow * 5 + innerRow
-          val y = outerColumn * 5 + innerColumn
-        }
-      }
+      contents += new TextField("X")
     }
   }
 
+  val statusline = new TextField("status textfield")
 
   contents = new BorderPanel {
-    add(highlightpanel, BorderPanel.Position.North)
     add(gridPanel, BorderPanel.Position.Center)
+    add(statusline, BorderPanel.Position.South)
+  }
+
+  menuBar = new MenuBar {
+    contents += new Menu("File") {
+      mnemonic = Key.F
+      contents += new MenuItem(Action("New") {
+        println("new")
+      })
+      contents += new MenuItem(Action("Quit") {
+        println("quit")
+      })
+    }
+    contents += new Menu("Edit") {
+      mnemonic = Key.E
+      contents += new MenuItem(Action("Undo") {
+        println("undo")
+      })
+    }
   }
 
   visible = true
 
-
-override def update: Boolean = true
+  override def update(): Boolean = true
 
 }
