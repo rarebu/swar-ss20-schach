@@ -16,11 +16,11 @@ object Validation {
     vector
   }
 
-  def removeInvalidsFromMultiVector(field: Field, figure: Figure, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
+  def removeInvalidsFromMultiVector(field: Field, colour: Colour, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
     var newMultiVector: Vector[Vector[Coordinates]] = Vector()
     multiVector foreach {
       vector =>
-        val b = cleanVec(field, removeInvalidsFromVector(vector), figure)
+        val b = cleanVec(field, removeInvalidsFromVector(vector), colour)
         if (b.nonEmpty) newMultiVector = newMultiVector :+ b
     }
     newMultiVector
@@ -29,15 +29,15 @@ object Validation {
 
   def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
 
-  def cellContainsOwnFigure(field: Field, coordinates: Coordinates, figure: Figure): Boolean = field.cell(coordinates.row, coordinates.col)
-    .contains.get.colour == figure.colour
+  def cellContainsOwnFigure(field: Field, coordinates: Coordinates, colour: Colour): Boolean = field.cell(coordinates.row, coordinates.col)
+    .contains.get.colour == colour
 
 
-  def cleanVec(field: Field, vector: Vector[Coordinates], figure: Figure): Vector[Coordinates] = {
+  def cleanVec(field: Field, vector: Vector[Coordinates], colour: Colour): Vector[Coordinates] = {
     vector.zipWithIndex foreach {
       case (coordinate, index) =>
         if (cellContainsFigure(field, coordinate))
-          if (cellContainsOwnFigure(field, coordinate, figure)) return vector.slice(0, index) else return vector.slice(0, index + 1)
+          if (cellContainsOwnFigure(field, coordinate, colour)) return vector.slice(0, index) else return vector.slice(0, index + 1)
     }
     vector
   }

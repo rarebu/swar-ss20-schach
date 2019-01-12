@@ -45,7 +45,6 @@ class KingSpec extends WordSpec with Matchers {
         field.cells.cell(7,6).toString should be("#♔#")
         field.cells.cell(7,7).toString should be("♦⁕⁕♦")
       }
-
     }
   }
 }

@@ -7,7 +7,7 @@ case class King(colour: Colour, ability: Boolean) extends Figure {
 
   override def getName: String = "King"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = kingMove(field, this, coordinates, ability)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = kingMove(field, this.colour, coordinates, ability)
 
   override def toString: String = if (colour == Colour.black) "♚" else "♔"
 

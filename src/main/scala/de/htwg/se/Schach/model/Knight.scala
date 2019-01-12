@@ -8,7 +8,7 @@ case class Knight(colour: Colour) extends Figure {
 
   override def getName: String = "Knight"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = knightMove(field, this, coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = knightMove(field, this.colour, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♞" else "♘"
 

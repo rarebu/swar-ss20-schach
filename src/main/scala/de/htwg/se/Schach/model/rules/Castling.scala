@@ -22,14 +22,13 @@ object Castling {
   }
 
   def castleKingside(field: Field, coordinates: Coordinates): Option[Coordinates] = {
-    if (castlingPossible(field, coordinates, 7, 5 to 6)) Option.apply(Coordinates(coordinates.row, 6))
-    else None
+    val towerCol = 7
+    if (castlingPossible(field, coordinates, towerCol, (coordinates.col + 1) to (towerCol - 1))) Option.apply(Coordinates(coordinates.row, towerCol - 1)) else None
 
   }
 
   def castleQueenside(field: Field, coordinates: Coordinates): Option[Coordinates] = {
-    if (castlingPossible(field, coordinates, 0, 1 to 3))
-      Option.apply(Coordinates(coordinates.row, 2))
-    else None
+    val towerCol = 0
+    if (castlingPossible(field, coordinates, towerCol, (towerCol + 1) to (coordinates.col - 1))) Option.apply(Coordinates(coordinates.row, 2))else None
   }
 }

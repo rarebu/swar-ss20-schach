@@ -8,7 +8,7 @@ case class Rook(colour: Colour, ability: Boolean) extends Figure {
 
   override def getName: String = "Rook"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = Moves.rookMove(field, this, coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = Moves.rookMove(field, this.colour, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♜" else "♖"
 

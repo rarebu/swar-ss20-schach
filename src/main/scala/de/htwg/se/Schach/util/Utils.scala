@@ -1,7 +1,9 @@
 
 package de.htwg.se.Schach.util
 
+import de.htwg.se.Schach.model.Colour.Colour
 import de.htwg.se.Schach.model.{Coordinates, Field, Figure}
+
 import scala.collection.mutable.ListBuffer
 import de.htwg.se.Schach.util.Validation.removeInvalidsFromMultiVector
 
@@ -31,11 +33,11 @@ object Utils {
 
   def twoStepsLeft(coordinates: Coordinates): Coordinates = goOneStepLeft(goOneStepLeft(coordinates))
 
-  def oneStepCross(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
+  def oneStepCross(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, colour,
     Vector(Vector(goOneStepUp(coordinates)), Vector(goOneStepDown(coordinates)), Vector(goOneStepRight(coordinates)),
       Vector(goOneStepLeft(coordinates))))
 
-  def oneStepDiagonal(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, figure,
+  def oneStepDiagonal(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field, colour,
     Vector(Vector(goOneStepLeftUp(coordinates)), Vector(goOneStepLeftDown(coordinates)),
       Vector(goOneStepRightUp(coordinates)), Vector(goOneStepRightDown(coordinates))))
 
@@ -64,18 +66,18 @@ object Utils {
 
   def goMultiStepsDown(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepDown)
 
-  def goOneStepInAllDirections(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] =
-    removeInvalidsFromMultiVector(field, figure, oneStepCross(field, figure, coordinates) ++ oneStepDiagonal(field, figure, coordinates))
+  def goOneStepInAllDirections(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] =
+    removeInvalidsFromMultiVector(field, colour, oneStepCross(field, colour, coordinates) ++ oneStepDiagonal(field, colour, coordinates))
 
-  def goMultiStepsDiagonal(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
-    field, figure, Vector(goMultiStepsRightDown(coordinates), goMultiStepsLeftDown(coordinates), goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
+  def goMultiStepsDiagonal(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+    field, colour, Vector(goMultiStepsRightDown(coordinates), goMultiStepsLeftDown(coordinates), goMultiStepsRightUp(coordinates), goMultiStepsLeftUp(coordinates)))
 
-  def goMultiStepsCross(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
-    field, figure, Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates), goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
+  def goMultiStepsCross(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(
+    field, colour, Vector(goMultiStepsDown(coordinates), goMultiStepsLeft(coordinates), goMultiStepsRight(coordinates), goMultiStepsUp(coordinates)))
 
-  def goTwoStepsUpOrOneStepUp(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field,
-    figure, Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates))))
+  def goTwoStepsUpOrOneStepUp(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field,
+    colour, Vector(Vector(goOneStepUp(coordinates)) ++ Vector(twoStepsUp(coordinates))))
 
-  def goTwoStepsDownOrOneStepDown(field: Field, figure: Figure, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field,
-    figure, Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates))))
+  def goTwoStepsDownOrOneStepDown(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field,
+    colour, Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates))))
 }

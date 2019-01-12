@@ -7,7 +7,7 @@ case class Bishop(colour: Colour) extends Figure {
 
   override def getName: String = "Bishop"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = bishopMove(field, this, coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = bishopMove(field, this.colour, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♝" else "♗"
 
