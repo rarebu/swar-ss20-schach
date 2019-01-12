@@ -27,6 +27,9 @@ class CastilingSpec extends WordSpec with Matchers {
         Castling.castleQueenside(field, coordinates) should be(None)
         Castling.castleQueenside(castlingField, coordinates) should be(Some(Coordinates(0, 2)))
       }
+      "do castling" in {
+        Castling.doCastling(Coordinates(0, 4), Coordinates(0, 2), field, King(Colour.black, true)) should not be(field)
+      }
     }
   }
 }

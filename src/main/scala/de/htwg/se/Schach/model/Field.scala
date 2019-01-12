@@ -3,6 +3,7 @@ package de.htwg.se.Schach.model
 import Figure._
 import Field._
 import de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.model.rules.{Castling, PawnPromotion, ToChange}
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange]) {
 
@@ -27,29 +28,10 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange]) {
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
       if (!t.contains(Coordinates(newRow, newCol))) this else {
         figure match {
-          case king: King => {
-            val tmp = col - newCol
-            if (Math.abs(tmp) == 2) {
-              if (tmp > 0) {
-                return copy(cells.replaceCell(row, 0, Cell(cell(row, 0).colour, Option.empty)).replaceCell(row, 3, Cell(cell(row, 3).colour,
-                  Option.apply(cell(row, 0).contains.get.move))).replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol,
-                  Cell(cell(newRow, newCol).colour, Option.apply(figure.move))), None)
-              } else {
-                return copy(cells.replaceCell(row, 7, Cell(cell(row, 7).colour, Option.empty)).replaceCell(row, 5, Cell(cell(row, 5).colour,
-                  Option.apply(cell(row, 7).contains.get.move))).replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol,
-                  Cell(cell(newRow, newCol).colour, Option.apply(figure.move))), None)
-              }
-            }
-          }
-          case pawn: Pawn => {
-            if (pawn.colour == Colour.black && newRow == Figure.ROW_WHITE) {
-              return copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
-                Option.apply(figure.move))), Option.apply(ToChange(Coordinates(newRow, newCol), cell(newRow, newCol), cell(row, col).contains.get)))
-            }
-            if (pawn.colour == Colour.white && newRow == Figure.ROW_BLACK) {
-              return copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
-                Option.apply(figure.move))), Option.apply(ToChange(Coordinates(newRow, newCol), cell(newRow, newCol), cell(row, col).contains.get)))
-            }
+          case king: King => if (Math.abs(col - newCol) == 2) return Castling.doCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king)
+          case pawn: Pawn => PawnPromotion.doPawnPromotion(Coordinates(row, col), Coordinates(newRow, newCol), pawn, this) match {
+            case Some(ret) => return ret
+            case _ =>
           }
           case _ =>
         }
@@ -59,45 +41,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange]) {
     }
   }
 
-  def pawnChange(colour: Colour): String = {
-    colour match {
-      case Colour.black => Figure.CHANGABLE_BLACK_FIGURES
-      case _ => Figure.CHANGABLE_WHITE_FIGURES
-    }
-  }
-
-  def findFigure(colour: Colour, input: String): Option[Figure] = {
-    if (colour == Colour.black && Figure.CHANGABLE_BLACK_FIGURES.contains(input)) {
-      Option.apply(input match {
-        case "♛" => Queen(Colour.black)
-        case "♜" => Rook(Colour.black, false)
-        case "♝" => Bishop(Colour.black)
-        case "♞" => Knight(Colour.black)
-      })
-    }
-    else if (colour == Colour.white && Figure.CHANGABLE_WHITE_FIGURES.contains(input)) {
-      Option.apply(input match {
-        case "♕" => Queen(Colour.white)
-        case "♖" => Rook(Colour.white, false)
-        case "♗" => Bishop(Colour.white)
-        case "♘" => Knight(Colour.white)
-      })
-    } else None
-  }
-
-  def changePawn(input: String): Field = {
-    if (changeFigure.isDefined) {
-      val tmp = changeFigure.get
-      val coordinates = tmp.coordinates
-      val cell = tmp.cell
-      val figure = tmp.figure
-      val colour = figure.colour
-      val z = findFigure(colour, input)
-      if (z.isDefined) {
-        copy(cells.replaceCell(coordinates.row, coordinates.col, Cell(cell.colour, z)), None)
-      } else this
-    } else this
-  }
+  def changePawn(input: String): Field = PawnPromotion.changePawn(this, changeFigure, input)
 
   override def toString: String = {
     val SIZE = 8
@@ -111,7 +55,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange]) {
     if (changeFigure.isEmpty) {
       box
     } else {
-      box + "\n\n Choose a figure " + pawnChange(changeFigure.get.figure.colour)
+      box + "\n\n Choose a figure " + PawnPromotion.pawnChange(changeFigure.get.figure.colour)
     }
   }
 }
@@ -131,7 +75,3 @@ private object Field {
     }
   }
 }
-
-case class ToChange(coordinates: Coordinates, cell: Cell, figure: Figure)
-
-//TODO refactor
