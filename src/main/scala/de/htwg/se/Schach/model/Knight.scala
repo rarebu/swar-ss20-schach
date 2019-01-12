@@ -1,15 +1,14 @@
 package de.htwg.se.Schach.model
 
 import _root_.de.htwg.se.Schach.model.Colour.Colour
-import _root_.de.htwg.se.Schach.util.Utils._
-import de.htwg.se.Schach.model.Side.Side
+import de.htwg.se.Schach.model.rules.Moves.knightMove
 
 
 case class Knight(colour: Colour) extends Figure {
 
   override def getName: String = "Knight"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = goKnightJump(field, this, coordinates)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = knightMove(field, this.colour, coordinates)
 
   override def toString: String = if (colour == Colour.black) "♞" else "♘"
 

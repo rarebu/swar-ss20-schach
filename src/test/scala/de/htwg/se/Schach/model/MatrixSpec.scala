@@ -79,4 +79,3 @@ class MatrixSpec extends WordSpec with Matchers {
     }
 
 }
-

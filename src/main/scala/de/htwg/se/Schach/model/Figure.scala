@@ -20,11 +20,3 @@ private[Schach] object Figure {
   val CHANGABLE_WHITE_FIGURES = "♕♖♗♘"
   val CHANGABLE_BLACK_FIGURES = "♛♜♝♞"
 }
-
-
-private[model] object Side extends Enumeration {
-  type Side = Value
-  val left, right = Value
-}
-
-
