@@ -1,50 +1,37 @@
 package de.htwg.se.Schach.aview.gui
 
-import scala.swing._
+import java.awt.GridLayout
+import java.awt.event.WindowEvent
+
+import com.sun.corba.se.spi.orbutil.threadpool.Work
+import de.htwg.se.Schach.controller.Controller
+import de.htwg.se.Schach.model.Colour
+import de.htwg.se.Schach.util.Observer
+import javax.swing.{JFrame, WindowConstants}
+
 import scala.swing.Swing.LineBorder
+import scala.swing._
 import scala.swing.event._
-import de.htwg.se.Schach.controller._
-import scala.io.Source._
+import javax.swing.JTextArea
+import javax.swing.JScrollPane
+import java.awt.BorderLayout
 
-class CellClicked(val row: Int, val column: Int) extends Event
+class SwingGui(controller: Controller) extends Frame with Observer {
+  peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
+  title = "HTWG Schach"
 
-class SwingGui(controller: Controller) extends Frame {
-
-
-  title = "HTWG Sudoku"
-  var cells = Array.ofDim[CellPanel](controller.field.cells.size, controller.field.cells.size)
-
-  /*def highlightpanel = new FlowPanel {
-    contents += new Label("Highlight:")
-      val button = Button(button.preferredSize_=(new Dimension(30, 30))
-      contents += button
-      listenTo(button)
-  }*/
-
-  def gridPanel = new GridPanel(controller.field.cells.size, controller.field.cells.size) {
+  def gridPanel: GridPanel = new GridPanel(8, 8) {
     border = LineBorder(java.awt.Color.BLACK, 2)
     background = java.awt.Color.BLACK
     for {
-      outerRow <- 0 until controller.field.cells.size
-      outerColumn <- 0 until controller.field.cells.size
+      outerRow <- 0 until 8
+      outerColumn <- 0 until 8
     } {
-      contents += new GridPanel(controller.field.cells.size, controller.field.cells.size) {
-        border = LineBorder(java.awt.Color.BLACK, 2)
-        for {
-          innerRow <- 0 until controller.field.cells.size
-          innerColumn <- 0 until controller.field.cells.size
-        } {
-          val x = outerRow * controller.field.cells.size + innerRow
-          val y = outerColumn * controller.field.cells.size + innerColumn
-          val cellPanel = new CellPanel(x, y, controller)
-          cells(x)(y) = cellPanel
-          contents += cellPanel
-          listenTo(cellPanel)
-        }
-      }
+      contents += new TextField("X")
     }
   }
-  val statusline = new TextField(controller.field.toString +  20)
+
+  val statusline = new TextField("status textfield")
 
   contents = new BorderPanel {
     add(gridPanel, BorderPanel.Position.Center)
@@ -54,22 +41,23 @@ class SwingGui(controller: Controller) extends Frame {
   menuBar = new MenuBar {
     contents += new Menu("File") {
       mnemonic = Key.F
-      contents += new MenuItem(Action("Quit") { System.exit(0) })
+      contents += new MenuItem(Action("New") {
+        println("new")
+      })
+      contents += new MenuItem(Action("Quit") {
+        println("quit")
+      })
     }
-    contents += new Menu("Options") {
-      mnemonic = Key.O
-      contents += new MenuItem(Action("Show all candidates") {  })
+    contents += new Menu("Edit") {
+      mnemonic = Key.E
+      contents += new MenuItem(Action("Undo") {
+        println("undo")
+      })
     }
   }
 
   visible = true
 
-
-  /* reactions += {
-    case event: GridSizeChanged => resize(event.newSize)
-    case event:      => redraw
-    case event: CandidatesChanged => redraw
-  }*/
-
+  override def update(): Boolean = true
 
 }
