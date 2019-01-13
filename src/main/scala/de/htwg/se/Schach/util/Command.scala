@@ -2,37 +2,44 @@ package de.htwg.se.Schach.util
 
 trait Command {
 
-  def doStep:Unit
-  def undoStep:Unit
-  def redoStep:Unit
+  def doStep: Boolean
+
+  def undoStep: Unit
+
+  def redoStep: Unit
 
 }
 
 class UndoManager {
-  private var undoStack: List[Command]= Nil
-  private var redoStack: List[Command]= Nil
+  private var undoStack: List[Command] = Nil
+  private var redoStack: List[Command] = Nil
+
   def doStep(command: Command) = {
-    redoStack = Nil
-    undoStack = command::undoStack
-    command.doStep
+    val v = command
+    if (command.doStep) {
+      redoStack = Nil
+      undoStack = command :: undoStack
+    }
   }
-  def undoStep  = {
+
+  def undoStep = {
     undoStack match {
-      case  Nil =>
-      case head::stack => {
+      case Nil =>
+      case head :: stack => {
         head.undoStep
-        undoStack=stack
-        redoStack= head::redoStack
+        undoStack = stack
+        redoStack = head :: redoStack
       }
     }
   }
+
   def redoStep = {
     redoStack match {
       case Nil =>
-      case head::stack => {
+      case head :: stack => {
         head.redoStep
-        redoStack=stack
-        undoStack=head::undoStack
+        redoStack = stack
+        undoStack = head :: undoStack
       }
     }
   }

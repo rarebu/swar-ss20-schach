@@ -24,26 +24,26 @@ object Castling {
     }
   }
 
-    def undoCastling(coordinates: Coordinates, newCoordinates: Coordinates, field: Field, king: King): Field = {
-      val newRow = coordinates.row
-      val newCol = coordinates.col
-      val row = newCoordinates.row
-      val col = newCoordinates.col
-      val tmp = col - newCol
-      if (tmp > 0) {
-        return field.copy(field.cells
-          .replaceCell(row, 0, Cell(field.cell(row, 0).colour, Option.apply(field.cell(row, 3).contains.get.unMove))) //delete rook
-          .replaceCell(row, 3, Cell(field.cell(row, 3).colour, Option.empty)) //place rook
-          .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.apply(king.unMove))) //delete king
-          .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.empty)), None, field.roundCounter - 1) //place king
-      } else {
-        return field.copy(field.cells
-          .replaceCell(row, 7, Cell(field.cell(row, 7).colour, Option.apply(field.cell(row, 5).contains.get.unMove))) //delete rook
-          .replaceCell(row, 5, Cell(field.cell(row, 5).colour, Option.empty)) //place rook
-          .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.apply(king.unMove))) //delete king
-          .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.empty)), None, field.roundCounter - 1) //place king
-      }
+  def undoCastling(coordinates: Coordinates, newCoordinates: Coordinates, field: Field, king: King): Field = {
+    val newRow = coordinates.row
+    val newCol = coordinates.col
+    val row = newCoordinates.row
+    val col = newCoordinates.col
+    val tmp = col - newCol
+    if (tmp > 0) {
+      return field.copy(field.cells
+        .replaceCell(row, 0, Cell(field.cell(row, 0).colour, Option.apply(field.cell(row, 3).contains.get.unMove))) //delete rook
+        .replaceCell(row, 3, Cell(field.cell(row, 3).colour, Option.empty)) //place rook
+        .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.apply(king.unMove))) //delete king
+        .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.empty)), None, field.roundCounter - 1) //place king
+    } else {
+      return field.copy(field.cells
+        .replaceCell(row, 7, Cell(field.cell(row, 7).colour, Option.apply(field.cell(row, 5).contains.get.unMove))) //delete rook
+        .replaceCell(row, 5, Cell(field.cell(row, 5).colour, Option.empty)) //place rook
+        .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.apply(king.unMove))) //delete king
+        .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.empty)), None, field.roundCounter - 1) //place king
     }
+  }
 
   def castlingPossible(field: Field, coordinates: Coordinates, towerCol: Int, range: Range): Boolean = {
     val tmp = field.cell(coordinates.row, towerCol).contains

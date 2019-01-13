@@ -35,15 +35,15 @@ class KingSpec extends WordSpec with Matchers {
       })
       var field = Field(matrix, None, 3, new RemovedFigures())
       "be able to do castling (rochade)" in {
-        field.cells.cell(7,4).toString should be("#♔#")
-        field.cells.cell(7,5).toString should be("♦⁕⁕♦")
-        field.cells.cell(7,6).toString should be("♦##♦")
-        field.cells.cell(7,7).toString should be("⁕♖⁕")
-        field = field.move(7,4,7,6, false).get
-        field.cells.cell(7,4).toString should be("♦##♦")
-        field.cells.cell(7,5).toString should be("⁕♖⁕")
-        field.cells.cell(7,6).toString should be("#♔#")
-        field.cells.cell(7,7).toString should be("♦⁕⁕♦")
+        field.cells.cell(7, 4).toString should be("#♔#")
+        field.cells.cell(7, 5).toString should be("♦⁕⁕♦")
+        field.cells.cell(7, 6).toString should be("♦##♦")
+        field.cells.cell(7, 7).toString should be("⁕♖⁕")
+        field = field.move(7, 4, 7, 6, false).get
+        field.cells.cell(7, 4).toString should be("♦##♦")
+        field.cells.cell(7, 5).toString should be("⁕♖⁕")
+        field.cells.cell(7, 6).toString should be("#♔#")
+        field.cells.cell(7, 7).toString should be("♦⁕⁕♦")
       }
     }
   }

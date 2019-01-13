@@ -28,8 +28,8 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       case Some(entry) => Option.apply(entry.figure)
       case None => None
     }
-//    return Option.apply(copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, o)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
-//      Option.apply(figure.unMove))), None, roundCounter - 1))
+    //    return Option.apply(copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, o)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
+    //      Option.apply(figure.unMove))), None, roundCounter - 1))
 
     this
   }
@@ -38,8 +38,8 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     this
   }
 
-  def processInput(input: String, undo: Boolean): Field = {
-//    println("process " + roundCounter)
+  def processInput(input: String, undo: Boolean): Option[Field] = {
+    //    println("process " + roundCounter)
     val pattern = {
       "[" + Figure.CHANGABLE_BLACK_FIGURES + Figure.CHANGABLE_WHITE_FIGURES + "]"
     }.r
@@ -63,12 +63,12 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       }
     }
     a match {
-      case Some(a) => a
+      case Some(_) =>
       case None => {
         wrongInput = true
-        this
       }
     }
+    a
   }
 
   def move(row: Int, col: Int, newRow: Int, newCol: Int, undo: Boolean): Option[Field] = {
@@ -93,7 +93,8 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
           case pawn: Pawn => PawnPromotion.doPawnPromotion(Coordinates(row, col), Coordinates(newRow, newCol), pawn, this) match {
             case Some(ret) => {
               removedFigures.append(Entry(pawn.move, Coordinates(newRow, newCol), roundCounter + 2))
-              return Option.apply(ret) }
+              return Option.apply(ret)
+            }
             case _ =>
           }
           case _ =>
@@ -118,7 +119,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     } box = box.replaceFirst("X", cell(row, col).toString)
     box = "Step: " + roundCounter + "\n" + box
     if (wrongInput) {
-//      wrongInput = false
+      //      wrongInput = false
       "Wrong Input!"
     } else if (changeFigure.isEmpty) {
       box

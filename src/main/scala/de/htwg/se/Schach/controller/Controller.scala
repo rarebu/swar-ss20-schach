@@ -34,11 +34,17 @@ class Controller(var field: Field) extends Observable {
   }
 
   class SetCommand(input: String) extends Command {
-    override def doStep: Unit = field = field.processInput(input, false)
+    override def doStep: Boolean = {
+      val tmp = field.processInput(input, false)
+      if (tmp.isDefined) {
+        field = tmp.get
+        true
+      } else false
+    }
 
-    override def undoStep: Unit = field = field.processInput(input, true)
+    override def undoStep: Unit = field = field.processInput(input, true).get
 
-    override def redoStep: Unit = field = field.processInput(input, false)
+    override def redoStep: Unit = field = field.processInput(input, false).get
   }
 
 }

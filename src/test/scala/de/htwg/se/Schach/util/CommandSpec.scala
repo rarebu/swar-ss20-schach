@@ -5,12 +5,15 @@ import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.junit.JUnitRunner
 
 class incrCommand extends Command {
-  var state:Int =0
-  override def doStep: Unit = state+=1
+  var state: Int = 0
 
-  override def undoStep: Unit = state-=1
+  override def doStep: Boolean = {
+    state += 1; true
+  }
 
-  override def redoStep: Unit = state+=1
+  override def undoStep: Unit = state -= 1
+
+  override def redoStep: Unit = state += 1
 }
 
 
@@ -61,7 +64,7 @@ class UndoManagerSpec extends WordSpec with Matchers {
       undoManager.undoStep
       command.state should be(0)
       undoManager.redoStep
-      command.state should be (1)
+      command.state should be(1)
     }
   }
 }

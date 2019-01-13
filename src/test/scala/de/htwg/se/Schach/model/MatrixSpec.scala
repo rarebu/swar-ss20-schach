@@ -75,7 +75,7 @@ class MatrixSpec extends WordSpec with Matchers {
       "should be able to replace a Cell" in {
         matrix.replaceCell(3, 3, Cell(Colour.white, Option.empty))
       }
-      }
     }
+  }
 
 }
