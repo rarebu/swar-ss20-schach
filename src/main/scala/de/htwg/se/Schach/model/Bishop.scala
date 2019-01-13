@@ -3,7 +3,7 @@ package de.htwg.se.Schach.model
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import _root_.de.htwg.se.Schach.model.rules.Moves.bishopMove
 
-case class Bishop(colour: Colour) extends Figure {
+case class Bishop(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "Bishop"
 
@@ -11,7 +11,13 @@ case class Bishop(colour: Colour) extends Figure {
 
   override def toString: String = if (colour == Colour.black) "♝" else "♗"
 
-  override def move: Figure = Bishop(this.colour)
+  override def move: Figure = {
+    Bishop(this.colour, this.stepCounter + 1)
+  }
+
+  override def unMove: Figure = {
+    Bishop(this.colour, this.stepCounter - 1)
+  }
 }
 
 object Bishop {

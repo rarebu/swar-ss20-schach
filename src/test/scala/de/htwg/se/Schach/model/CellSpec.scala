@@ -20,7 +20,7 @@ class CellSpec extends WordSpec with Matchers {
   }}
   def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined
   "A Cell" when { "used" should {
-    val cell = Cell(Colour.white, Option.apply(new Rook(Colour.white, false)))
+    val cell = Cell(Colour.white, Option.apply(new Rook(Colour.white, 1)))
     "have a colour"  in {
       cell.colour should be(Colour.white)
     }

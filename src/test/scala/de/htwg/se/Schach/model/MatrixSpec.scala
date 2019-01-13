@@ -33,8 +33,8 @@ class MatrixSpec extends WordSpec with Matchers {
         val a = (row, col) match {
           case (ROW_BLACK, column) => getFigure(Colour.black, column)
           case (ROW_WHITE, column) => getFigure(Colour.white, column)
-          case (ROW_BLACK_PAWN, column) => Option.apply(Pawn(Colour.black, ability = true))
-          case (ROW_WHITE_PAWN, column) => Option.apply(Pawn(Colour.white, ability = true))
+          case (ROW_BLACK_PAWN, column) => Option.apply(Pawn(Colour.black, 0))
+          case (ROW_WHITE_PAWN, column) => Option.apply(Pawn(Colour.white, 0))
           case _ => Option.empty
         }
         if (row % 2 == 0)

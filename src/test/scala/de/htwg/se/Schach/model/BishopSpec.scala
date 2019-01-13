@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class BishopSpec extends WordSpec with Matchers {
   "A black Bishop" when {
     "new" should {
-      val bishop = new Bishop(Colour.black)
+      val bishop = new Bishop(Colour.black, 0)
       val field = new Field()
       val coordinates = Coordinates(4, 4)
       "have a name" in {
@@ -31,7 +31,7 @@ class BishopSpec extends WordSpec with Matchers {
   }
   "A white Bishop" when {
     "new on 4,7" should {
-      val bishop = new Bishop(Colour.white)
+      val bishop = new Bishop(Colour.white, 1)
       val field = new Field()
       val coordinates = Coordinates(4, 7)
       "have 2 possible new directions and 4 new positions" in {
@@ -41,7 +41,7 @@ class BishopSpec extends WordSpec with Matchers {
       }
     }
     "new on 5,7" should {
-      val bishop = new Bishop(Colour.white)
+      val bishop = new Bishop(Colour.white, 1)
       val field = new Field()
       val coordinates = Coordinates(5, 7)
       "have 1 possible new direction and 4 new positions" in {

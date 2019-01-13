@@ -10,7 +10,7 @@ import org.scalatest.{Matchers, WordSpec}
 class KingSpec extends WordSpec with Matchers {
   "A black King" when {
     "new" should {
-      val king = new King(Colour.black, false)
+      val king = new King(Colour.black, 0)
       val field = new Field()
       val coordinates = Coordinates(0, 4)
       "have a name" in {
@@ -25,21 +25,21 @@ class KingSpec extends WordSpec with Matchers {
     "alone with a Rook" should {
       val matrix = new Matrix[Cell]((row, col) => {
         val a = (row, col) match {
-          case (7, 4) => Option.apply(new King(Colour.white, true))
-          case (7, 7) => Option.apply(new Rook(Colour.white, true))
+          case (7, 4) => Option.apply(new King(Colour.white, 0))
+          case (7, 7) => Option.apply(new Rook(Colour.white, 0))
           case _ => Option.empty
         }
         if (row % 2 == 0)
           if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
-      var field = Field(matrix, None)
+      var field = Field(matrix, None, 3, new RemovedFigures())
       "be able to do castling (rochade)" in {
         field.cells.cell(7,4).toString should be("#♔#")
         field.cells.cell(7,5).toString should be("♦⁕⁕♦")
         field.cells.cell(7,6).toString should be("♦##♦")
         field.cells.cell(7,7).toString should be("⁕♖⁕")
-        field = field.move(7,4,7,6)
+        field = field.move(7,4,7,6, false).get
         field.cells.cell(7,4).toString should be("♦##♦")
         field.cells.cell(7,5).toString should be("⁕♖⁕")
         field.cells.cell(7,6).toString should be("#♔#")

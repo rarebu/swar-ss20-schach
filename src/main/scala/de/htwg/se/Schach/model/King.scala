@@ -3,17 +3,23 @@ package de.htwg.se.Schach.model
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import de.htwg.se.Schach.model.rules.Moves.kingMove
 
-case class King(colour: Colour, ability: Boolean) extends Figure {
+case class King(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "King"
 
-  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = kingMove(field, this.colour, coordinates, ability)
+  override def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]] = kingMove(field, this.colour, coordinates, hasAbility)
 
   override def toString: String = if (colour == Colour.black) "♚" else "♔"
 
   override def move: Figure = {
-    King(this.colour, ability = false)
+    King(this.colour, this.stepCounter + 1)
   }
+
+  override def unMove: Figure = {
+    King(this.colour, this.stepCounter - 1)
+  }
+
+  def hasAbility: Boolean = stepCounter == 0
 }
 
 private object King {

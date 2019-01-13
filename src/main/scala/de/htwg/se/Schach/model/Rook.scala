@@ -4,7 +4,7 @@ import _root_.de.htwg.se.Schach.model.Colour.Colour
 import de.htwg.se.Schach.model.rules.Moves
 
 
-case class Rook(colour: Colour, ability: Boolean) extends Figure {
+case class Rook(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "Rook"
 
@@ -12,7 +12,15 @@ case class Rook(colour: Colour, ability: Boolean) extends Figure {
 
   override def toString: String = if (colour == Colour.black) "♜" else "♖"
 
-  override def move: Figure = Rook(this.colour, ability = false)
+  override def move: Figure = {
+    Rook(this.colour, this.stepCounter + 1)
+  }
+
+  override def unMove: Figure = {
+    Rook(this.colour, this.stepCounter - 1)
+  }
+
+  def hasAbility: Boolean = stepCounter == 0
 }
 
 private object Rook {

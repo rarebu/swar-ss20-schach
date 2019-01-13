@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class RookSpec extends WordSpec with Matchers {
   "A black Rook" when {
     "new" should {
-      val rook = new Rook(Colour.black, true)
+      val rook = new Rook(Colour.black, 0)
       val field = new Field()
       val coordinates = Coordinates(0, 0)
       "have a name" in {
@@ -21,7 +21,7 @@ class RookSpec extends WordSpec with Matchers {
   }
   "A white Rook" when {
     "new on 4,7" should {
-      val rook = new Rook(Colour.white, ability = false)
+      val rook = new Rook(Colour.white, 1)
       val field = new Field()
       val coordinates = Coordinates(4, 7)
       "have 11 possible new possible positions in 3 directions" in {
@@ -32,7 +32,7 @@ class RookSpec extends WordSpec with Matchers {
       }
     }
     "new on 4,4" should {
-      val rook = new Rook(Colour.white, ability = false)
+      val rook = new Rook(Colour.white, 1)
       val field = new Field()
       val coordinates = Coordinates(4, 4)
       "have 13 possible new possible positions in 4 directions" in {

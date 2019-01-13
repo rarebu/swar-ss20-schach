@@ -12,9 +12,14 @@ object Schach {
   controller.notifyObservers()
 
   def main(args: Array[String]): Unit = {
-    var input: String = args(0)
-    if (!input.isEmpty) tui.processInputLine(input)
-    else do {
+//    if (args.size > 0) {
+//      var input: String = args(0)
+//      if (!input.isEmpty) tui.processInputLine(input)
+//    }
+    var input: String = ""//args(0)
+//    if (!input.isEmpty) tui.processInputLine(input)
+//    else
+      do {
       input = readLine()
       tui.processInputLine(input)
     } while (input != "q")
