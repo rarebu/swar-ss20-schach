@@ -2,6 +2,7 @@ package de.htwg.se.Schach.aview.gui
 
 import de.htwg.se.Schach.controller.{CellChanged, Controller}
 
+import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
 
@@ -21,6 +22,7 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
     contents += label
     preferredSize = new Dimension(75, 75)
     background = if (controller.cellIsBlack(row, column)) java.awt.Color.GRAY else java.awt.Color.WHITE
+    border = LineBorder(java.awt.Color.BLACK, 2)
     border = Swing.BeveledBorder(Swing.Raised)
     listenTo(mouse.clicks)
     listenTo(controller)
