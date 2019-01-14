@@ -27,15 +27,15 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     } {
       val row = outerRow
       val col = outerColumn
-      //      val cellPanel = new CellPanel(row, col, controller) //NEW
-      //      cells(row)(col) = cellPanel //NEW
-      //      contents += cellPanel
+            val cellPanel = new CellPanel(row, col, controller) //NEW
+            cells(row)(col) = cellPanel //NEW
+            contents += cellPanel
       //      contents += new GridPanel(8, 8) {
       //        border = LineBorder(java.awt.Color.BLACK, 2)
       //        val cellPanel = new CellPanel(row, col, controller) //NEW
       //        cells(row)(col) = cellPanel //NEW
       //      }
-      val textbutton = new Button(controller.cellContains(row, col))
+//      val textbutton = new Button(controller.cellContains(row, col))
       //      {
 //        reactions += {
 //          case e: CellChanged => {
@@ -48,9 +48,9 @@ class SwingGui(controller: Controller) extends Frame with Observer {
 //          }
 //        }
 //      }
-      textbutton.preferredSize = new Dimension(75, 75)
-      if (controller.cellIsBlack(row, col)) textbutton.background = java.awt.Color.GRAY
-      contents += textbutton
+//      textbutton.preferredSize = new Dimension(75, 75)
+//      if (controller.cellIsBlack(row, col)) textbutton.background = java.awt.Color.GRAY
+//      contents += textbutton
       //      contents += cellPanel
       //      listenTo(cellPanel)
 

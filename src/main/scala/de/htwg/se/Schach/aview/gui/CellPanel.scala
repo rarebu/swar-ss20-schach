@@ -18,7 +18,7 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
       font = new Font("Verdana", 1, 36)
     }
 
-  val cell = new BoxPanel(Orientation.Vertical) {
+  val cell = new BoxPanel(Orientation.Horizontal) {
     contents += label
     preferredSize = new Dimension(75, 75)
     background = if (controller.cellIsBlack(row, column)) java.awt.Color.GRAY else java.awt.Color.WHITE
@@ -37,6 +37,7 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
       }
     }
   }
+  contents += cell
 
   /*val cell = new Button(controller.cellContains(row, column)) {
     background = if (controller.cellIsBlack(row, column)) java.awt.Color.GRAY else java.awt.Color.GRAY
