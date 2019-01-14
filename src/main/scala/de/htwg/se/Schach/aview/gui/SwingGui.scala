@@ -1,10 +1,8 @@
 package de.htwg.se.Schach.aview.gui
 
-import java.awt.event.MouseListener
-
 import de.htwg.se.Schach.controller.{CellChanged, Controller}
 import de.htwg.se.Schach.util.Observer
-import javax.swing.{SwingConstants, WindowConstants}
+import javax.swing.WindowConstants
 
 import scala.swing.Swing.LineBorder
 import scala.swing._
@@ -20,40 +18,15 @@ class SwingGui(controller: Controller) extends Frame with Observer {
 
   def gridPanel: GridPanel = new GridPanel(8, 8) {
     border = LineBorder(java.awt.Color.BLACK, 2)
-    //    background = java.awt.Color.BLACK
     for {
       outerRow <- 0 until 8
       outerColumn <- 0 until 8
     } {
       val row = outerRow
       val col = outerColumn
-            val cellPanel = new CellPanel(row, col, controller) //NEW
-            cells(row)(col) = cellPanel //NEW
-            contents += cellPanel
-      //      contents += new GridPanel(8, 8) {
-      //        border = LineBorder(java.awt.Color.BLACK, 2)
-      //        val cellPanel = new CellPanel(row, col, controller) //NEW
-      //        cells(row)(col) = cellPanel //NEW
-      //      }
-//      val textbutton = new Button(controller.cellContains(row, col))
-      //      {
-//        reactions += {
-//          case e: CellChanged => {
-//            textbutton,text = cellText(row, column)
-//            repaint
-//          }
-//          case MouseClicked(src, pt, mod, clicks, pops) => {
-//            println("dfdfdf")
-//            repaint
-//          }
-//        }
-//      }
-//      textbutton.preferredSize = new Dimension(75, 75)
-//      if (controller.cellIsBlack(row, col)) textbutton.background = java.awt.Color.GRAY
-//      contents += textbutton
-      //      contents += cellPanel
-      //      listenTo(cellPanel)
-
+      val cellPanel = new CellPanel(row, col, controller) //NEW
+      cells(row)(col) = cellPanel //NEW
+      contents += cellPanel
     }
   }
 
@@ -68,7 +41,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     contents += new Menu("File") {
       mnemonic = Key.F
       contents += new MenuItem(Action("New") {
-        println("new")
+        controller.newField
       })
       contents += new MenuItem(Action("Quit") {
         sys.exit(0)
@@ -89,17 +62,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     case event: CellChanged => gridPanel
   }
 
-  def redraw(): Unit = {
-    for {
-      row <- 0 until 8
-      column <- 0 until 8
-    } {
-      //do
-    }
-  }
-
   visible = true
 
   override def update(): Boolean = true
-
 }

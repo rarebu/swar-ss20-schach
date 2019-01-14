@@ -39,19 +39,10 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
   }
   contents += cell
 
-  /*val cell = new Button(controller.cellContains(row, column)) {
-    background = if (controller.cellIsBlack(row, column)) java.awt.Color.GRAY else java.awt.Color.GRAY
-    border = Swing.BeveledBorder(Swing.Raised)
-    contents += label
-  }*/
-
   def redraw = {
     contents.clear()
     label.text = cellText(row, column)
     contents += cell
     repaint
   }
-
-  def setBackground(p: Panel) = p.background = if (controller.cellIsBlack(row, column)) java.awt.Color.GRAY else java.awt.Color.WHITE
-
 }
