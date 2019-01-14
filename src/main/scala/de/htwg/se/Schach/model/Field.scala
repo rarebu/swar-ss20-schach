@@ -89,7 +89,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[Field] = {
-    if (changeFigure.isDefined || cell(row, col).contains.isEmpty) None else {
+    val a = if (changeFigure.isDefined || cell(row, col).contains.isEmpty) None else {
       val figure = cell(row, col).contains.get
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
       if (t.contains(Coordinates(newRow, newCol))) {
@@ -108,6 +108,13 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
         Option.apply(moveOneFigure(Coordinates(row, col), Coordinates(newRow, newCol), None, figure.move))
       } else None
     }
+    a match {
+      case Some(_) =>
+      case None => {
+        wrongInput = true
+      }
+    }
+    a
   }
 
   def unMove(row: Int, col: Int, newRow: Int, newCol: Int): Field = {
@@ -124,9 +131,27 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       Option.apply(figure.unMove)), None, true)
   }
 
-  def changePawn(input: String): Option[Field] = PawnPromotion.changePawn(this, changeFigure, input)
+  def changePawn(input: String): Option[Field] = {
+    val a = PawnPromotion.changePawn(this, changeFigure, input)
+    a match {
+      case Some(_) =>
+      case None => {
+        wrongInput = true
+      }
+    }
+    a
+  }
 
-  def undoChangePawn(input: String): Option[Field] = PawnPromotion.undoChangePawn(this, input)
+  def undoChangePawn(input: String): Option[Field] = {
+    val a = PawnPromotion.undoChangePawn(this, input)
+    a match {
+      case Some(_) =>
+      case None => {
+        wrongInput = true
+      }
+    }
+    a
+  }
 
   override def toString: String = {
     val SIZE = 8
