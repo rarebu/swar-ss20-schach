@@ -10,10 +10,13 @@ import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
 
+class CellClicked(val row: Int, val column: Int) extends Event
 
 class SwingGui(controller: Controller) extends Frame with Observer {
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"
+
+  var cells = Array.ofDim[CellPanel](8, 8)                                              //NEW
 
   def gridPanel: GridPanel = new GridPanel(8, 8) {
     border = LineBorder(java.awt.Color.BLACK, 2)
@@ -24,10 +27,23 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     } {
       val row = outerRow
       val col = outerColumn
-      val textbutton = new Button(controller.cellContains(row, col))
+      val cellPanel = new CellPanel(row, col, controller) //NEW
+      cells(row)(col) = cellPanel //NEW
+      contents += cellPanel
+/*      contents += new GridPanel(8, 8) {
+        border = LineBorder(java.awt.Color.BLACK, 2)
+        val row = outerRow
+        val col = outerColumn
+        /*      val textbutton = new Button(controller.cellContains(row, col))
       textbutton.preferredSize = new Dimension(75, 75)
-      if (controller.cellIsBlack(row, col)) textbutton.background = java.awt.Color.GRAY
-      contents += textbutton
+      if (controller.cellIsBlack(row, col)) textbutton.background = java.awt.Color.GRAY*/
+        val cellPanel = new CellPanel(row, col, controller) //NEW
+        cells(row)(col) = cellPanel //NEW
+
+        //contents += textbutton
+        contents += cellPanel
+        listenTo(cellPanel)
+      }*/
     }
   }
 
@@ -50,9 +66,8 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     }
     contents += new Menu("Edit") {
       mnemonic = Key.E
-      contents += new MenuItem(Action("Undo") {
-        println("undo")
-      })
+      contents += new MenuItem(Action("Undo") { controller.undo })
+      contents += new MenuItem(Action("Redo") { controller.redo })
     }
   }
 
