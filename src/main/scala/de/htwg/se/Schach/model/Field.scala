@@ -61,33 +61,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       , None, op(roundCounter, 1))
   }
 
-  def processInput(input: String, undo: Boolean): Option[Field] = {
-    //    println("process " + roundCounter)
-    val pattern = {
-      "[" + Figure.CHANGABLE_BLACK_FIGURES + Figure.CHANGABLE_WHITE_FIGURES + "]"
-    }.r
-
-    val a = input.toList.filter(c => c != ' ').filter(_.isDigit).map(c => c.toString.toInt) match {
-      case row :: column :: newRow :: newColumn :: Nil => if (undo)
-        Option.apply(unMove(newRow, newColumn, row, column)) else move(row, column, newRow, newColumn)
-      case _ => {
-        pattern.findFirstIn(input) match {
-          case Some(c) => {
-            if (undo) undoChangePawn(c) else changePawn(c)
-          }
-          case _ => None
-        }
-      }
-    }
-    a match {
-      case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
-    }
-    a
-  }
-
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[Field] = {
     val a = if (changeFigure.isDefined || cell(row, col).contains.isEmpty) None else {
       val figure = cell(row, col).contains.get

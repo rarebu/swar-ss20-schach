@@ -29,7 +29,7 @@ class TUI(controller: Controller) extends Observer {
 
   override def update(): Boolean = {
     println(GameStatus.message(controller.gameStatus))
-    controller.gameStatus=IDLE
+    controller.gameStatus = GameStatus.IDLE
     println(controller.fieldToString);
     true
   }
