@@ -32,7 +32,9 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
         repaint
       }
       case MouseClicked(src, pt, mod, clicks, pops) => {
-        println("dfdfdf")
+        val newRow = 3
+        val newCol = 0
+        controller.move(row, column, newRow, newCol)
         repaint
       }
     }
