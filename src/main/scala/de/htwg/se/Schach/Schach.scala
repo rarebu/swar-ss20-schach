@@ -1,6 +1,6 @@
 package de.htwg.se.Schach
 
-import _root_.de.htwg.se.Schach.controller.Controller
+import _root_.de.htwg.se.Schach.controller.{CellChanged, Controller}
 import _root_.de.htwg.se.Schach.model.Field
 import _root_.de.htwg.se.Schach.aview.TUI
 import _root_.de.htwg.se.Schach.aview.gui.SwingGui
@@ -11,7 +11,7 @@ object Schach {
   val controller = new Controller(new Field())
   val tui = new TUI(controller)
   val gui = new SwingGui(controller)
-  controller.notifyObservers()
+  controller.publish(new CellChanged)
 
   def main(args: Array[String]): Unit = {
     //    if (args.size > 0) {

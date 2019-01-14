@@ -1,8 +1,11 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.Controller
+import java.awt.event.MouseListener
+
+import de.htwg.se.Schach.controller.{CellChanged, Controller}
 import de.htwg.se.Schach.util.Observer
-import javax.swing. WindowConstants
+import javax.swing.{SwingConstants, WindowConstants}
+
 import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
@@ -19,7 +22,12 @@ class SwingGui(controller: Controller) extends Frame with Observer {
       outerRow <- 0 until 8
       outerColumn <- 0 until 8
     } {
-      contents += Button("X") { println("Thank you") }
+      val row = outerRow
+      val col = outerColumn
+      val textbutton = new Button(controller.cellContains(row, col))
+      textbutton.preferredSize = new Dimension(75, 75)
+      if (controller.cellIsBlack(row, col)) textbutton.background = java.awt.Color.GRAY
+      contents += textbutton
     }
   }
 
@@ -45,6 +53,19 @@ class SwingGui(controller: Controller) extends Frame with Observer {
       contents += new MenuItem(Action("Undo") {
         println("undo")
       })
+    }
+  }
+
+  reactions += {
+    case event: CellChanged => gridPanel
+  }
+
+  def redraw(): Unit = {
+    for {
+      row <- 0 until 8
+      column <- 0 until 8
+    } {
+      //do
     }
   }
 

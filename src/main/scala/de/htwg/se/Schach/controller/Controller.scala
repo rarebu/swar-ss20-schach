@@ -1,8 +1,7 @@
 package de.htwg.se.Schach.controller
 
 import de.htwg.se.Schach.controller.GameStatus.GameStatus
-import de.htwg.se.Schach.model.Field
-import de.htwg.se.Schach.model.Figure
+import de.htwg.se.Schach.model.{Cell, Colour, Field, Figure}
 import de.htwg.se.Schach.util.{Command, Observable, UndoManager}
 
 import scala.swing.Publisher
@@ -30,16 +29,24 @@ class Controller(var field: Field) extends Publisher {
 
   def fieldToString: String = field.toString
 
-  def undo: Unit = {
+  def undo(): Unit = {
     undoManager.undoStep
     publish(new CellChanged)
   }
 
-  def redo: Unit = {
+  def redo(): Unit = {
     undoManager.redoStep
     publish(new CellChanged)
   }
 
   def cell(row: Int, col: Int) = field.cell(row, col)
+
+  def cellIsBlack(row: Int, col: Int): Boolean = {
+    if (cell(row, col).colour == Colour.black) true else false
+  }
+
+  def cellContains(row: Int, col: Int): String = {
+    if (cell(row, col).contains.isDefined) cell(row, col).contains.get.toString else ""
+  }
 
 }
