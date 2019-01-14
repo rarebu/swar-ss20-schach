@@ -13,13 +13,29 @@ class TUISpec extends WordSpec with Matchers {
       val field = new Field
       val controller = new Controller(field)
       val tui = new TUI(controller)
-      "process a 'q" in {
+      "do nothing on input 'q" in {
         tui.processInputLine("q")
-        //todo
       }
-      "process a 'n'" in {
+      "create a new board on input 'n'" in {
         tui.processInputLine("n")
-        //todo
+        controller.field should be(new Field())
+      }
+      "move on input '1030'" in {
+        tui.processInputLine("1030")
+        controller.field.cell(3, 0).toString should be("#♟#")
+      }
+      "undo on input 'z" in {
+        tui.processInputLine("z")
+        controller.field.cell(1, 0).toString should be("#♟#")
+      }
+      "redo on input 'y" in {
+        tui.processInputLine("y")
+        controller.field.cell(3, 0).toString should be("#♟#")
+      }
+      "do nothing on bad input like '9999999'" in {
+        val old = controller.fieldToString
+        tui.processInputLine("9999999")
+        controller.fieldToString should be(old)
       }
     }
   }
