@@ -4,7 +4,7 @@ import _root_.de.htwg.se.Schach.model.Colour.Colour
 import de.htwg.se.Schach.model.rules.Moves.knightMove
 
 
-case class Knight(colour: Colour) extends Figure {
+case class Knight(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "Knight"
 
@@ -12,7 +12,13 @@ case class Knight(colour: Colour) extends Figure {
 
   override def toString: String = if (colour == Colour.black) "♞" else "♘"
 
-  override def move: Figure = Knight(this.colour)
+  override def move: Figure = {
+    Knight(this.colour, this.stepCounter + 1)
+  }
+
+  override def unMove: Figure = {
+    Knight(this.colour, this.stepCounter - 1)
+  }
 }
 
 private object Knight {

@@ -9,15 +9,12 @@ object PawnPromotion {
     val col = coordinates.col
     val newRow = newCoordinates.row
     val newCol = newCoordinates.col
-    if (pawn.colour == Colour.black && newRow == Figure.ROW_WHITE) {
-      return Option.apply(field.copy(field.cells.replaceCell(row, col, Cell(field.cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour,
-        Option.apply(pawn.move))), Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol), field.cell(row, col).contains.get))))
-    }
-    if (pawn.colour == Colour.white && newRow == Figure.ROW_BLACK) {
-      return Option.apply(field.copy(field.cells.replaceCell(row, col, Cell(field.cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour,
-        Option.apply(pawn.move))), Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol), field.cell(row, col).contains.get))))
-    }
-    None
+    if (pawn.colour == Colour.black && newRow == Figure.ROW_WHITE || pawn.colour == Colour.white && newRow == Figure.ROW_BLACK) {
+      if (field.cell(newRow, newCol).contains.isDefined) field.removedFigures.append(Entry(field.cell(newRow, newCol).contains.get,
+        Coordinates(newRow, newCol), field.roundCounter + 1))
+      Option.apply(field.moveOneFigure(coordinates, newCoordinates, Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol),
+        field.cell(row, col).contains.get)), pawn.move))
+    } else None
   }
 
   def pawnChange(colour: Colour): String = {
@@ -30,23 +27,23 @@ object PawnPromotion {
   def findFigure(colour: Colour, input: String): Option[Figure] = {
     if (colour == Colour.black && Figure.CHANGABLE_BLACK_FIGURES.contains(input)) {
       Option.apply(input match {
-        case "♛" => Queen(Colour.black)
-        case "♜" => Rook(Colour.black, false)
-        case "♝" => Bishop(Colour.black)
-        case "♞" => Knight(Colour.black)
+        case "♛" => Queen(Colour.black, 1)
+        case "♜" => Rook(Colour.black, 1)
+        case "♝" => Bishop(Colour.black, 1)
+        case "♞" => Knight(Colour.black, 1)
       })
     }
     else if (colour == Colour.white && Figure.CHANGABLE_WHITE_FIGURES.contains(input)) {
       Option.apply(input match {
-        case "♕" => Queen(Colour.white)
-        case "♖" => Rook(Colour.white, false)
-        case "♗" => Bishop(Colour.white)
-        case "♘" => Knight(Colour.white)
+        case "♕" => Queen(Colour.white, 1)
+        case "♖" => Rook(Colour.white, 1)
+        case "♗" => Bishop(Colour.white, 1)
+        case "♘" => Knight(Colour.white, 1)
       })
     } else None
   }
 
-  def changePawn(field: Field, changeFigure: Option[ToChange], input: String): Field = {
+  def changePawn(field: Field, changeFigure: Option[ToChange], input: String): Option[Field] = {
     if (changeFigure.isDefined) {
       val tmp = changeFigure.get
       val coordinates = tmp.coordinates
@@ -55,9 +52,18 @@ object PawnPromotion {
       val colour = figure.colour
       val z = findFigure(colour, input)
       if (z.isDefined) {
-        field.copy(field.cells.replaceCell(coordinates.row, coordinates.col, Cell(cell.colour, z)), None)
-      } else field
-    } else field
+        Option.apply(field.replace(coordinates, Cell(cell.colour, z), None, false))
+      } else None
+    } else None
+  }
+
+  def undoChangePawn(field: Field, input: String): Option[Field] = {
+    field.removedFigures.containsFigureThatGotRemovedThisRound(field.roundCounter) match {
+      case Some(fig) => Option.apply(
+        field.replace(fig.coordinates, Cell(field.cell(fig.coordinates.row, fig.coordinates.col).colour, Option.apply(fig.figure)),
+          Option.apply(ToChange(fig.coordinates, field.cell(fig.coordinates.row, fig.coordinates.col), fig.figure)), true))
+      case None => None
+    }
   }
 }
 

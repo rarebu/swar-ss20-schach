@@ -1,8 +1,9 @@
 package de.htwg.se.Schach.util
 
 class TestObject extends Observer {
-  def update:Boolean = true
+  def update: Boolean = true
 }
+
 object ObserverPattern {
   val observable = new Observable
   val observer1 = new TestObject

@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class CoordinatesSpec extends WordSpec with Matchers {
   "A Coordinate" when {
     "new" should {
-      val coord = Coordinates(4,3)
+      val coord = Coordinates(4, 3)
       "have a Column" in {
         coord.col should be(3)
       }

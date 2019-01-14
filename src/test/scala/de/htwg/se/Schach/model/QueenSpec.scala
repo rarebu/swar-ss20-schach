@@ -6,9 +6,23 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class QueenSpec extends WordSpec with Matchers {
+  "A Queen" when {
+    "new" should {
+      val queen = new Queen(Colour.white, 0)
+      "move" in {
+        queen.move.asInstanceOf[Queen].stepCounter should be(1)
+      }
+    }
+    "moved" should {
+      val queen = new Queen(Colour.white, 2)
+      "unMove" in {
+        queen.unMove.asInstanceOf[Queen].stepCounter should be(1)
+      }
+    }
+  }
   "A black Queen" when {
     "new on 0,3" should {
-      val queen = new Queen(Colour.black)
+      val queen = new Queen(Colour.black, 0)
       val field = new Field()
       val coordinates = Coordinates(0, 3)
       "have a name" in {
@@ -21,7 +35,7 @@ class QueenSpec extends WordSpec with Matchers {
   }
   "A white Queen" when {
     "new on 4,4" should {
-      val queen = new Queen(Colour.white)
+      val queen = new Queen(Colour.white, 0)
       val field = new Field()
       val coordinates = Coordinates(4, 4)
       "have 19 possible new positions in 8 directions" in {

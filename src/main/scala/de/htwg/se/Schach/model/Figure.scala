@@ -10,6 +10,8 @@ trait Figure {
   def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]]
 
   def move: Figure
+
+  def unMove: Figure
 }
 
 private[Schach] object Figure {

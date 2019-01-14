@@ -3,7 +3,7 @@ package de.htwg.se.Schach.model
 import _root_.de.htwg.se.Schach.model.Colour.Colour
 import de.htwg.se.Schach.model.rules.Moves.queenMove
 
-case class Queen(colour: Colour) extends Figure {
+case class Queen(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "Queen"
 
@@ -11,7 +11,13 @@ case class Queen(colour: Colour) extends Figure {
 
   override def toString: String = if (colour == Colour.black) "♛" else "♕"
 
-  override def move: Figure = Queen(this.colour)
+  override def move: Figure = {
+    Queen(this.colour, this.stepCounter + 1)
+  }
+
+  override def unMove: Figure = {
+    Queen(this.colour, this.stepCounter - 1)
+  }
 }
 
 private object Queen {
