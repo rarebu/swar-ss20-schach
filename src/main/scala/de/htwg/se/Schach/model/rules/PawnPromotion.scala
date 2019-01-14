@@ -56,6 +56,15 @@ object PawnPromotion {
       } else None
     } else None
   }
+
+  def undoChangePawn(field: Field, input: String): Option[Field] = {
+    field.removedFigures.containsFigureThatGotRemovedThisRound(field.roundCounter) match {
+      case Some(fig) => Option.apply(
+        field.replace(fig.coordinates, Cell(field.cell(fig.coordinates.row, fig.coordinates.col).colour, Option.apply(fig.figure)),
+          Option.apply(ToChange(fig.coordinates, field.cell(fig.coordinates.row, fig.coordinates.col), fig.figure)), true))
+      case None => None
+    }
+  }
 }
 
 case class ToChange(coordinates: Coordinates, cell: Cell, figure: Figure)

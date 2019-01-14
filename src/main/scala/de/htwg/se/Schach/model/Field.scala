@@ -61,19 +61,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       , None, op(roundCounter, 1))
   }
 
-
-  def undoStep(input: String): Field = {
-    val o = removedFigures.containsFigureThatGotRemovedThisRound(roundCounter - 1) match {
-      case Some(entry) => Option.apply(entry.figure)
-      case None => None
-    }
-    this
-  }
-
-  def doStep: Field = {
-    this
-  }
-
   def processInput(input: String, undo: Boolean): Option[Field] = {
     //    println("process " + roundCounter)
     val pattern = {
@@ -81,20 +68,12 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     }.r
 
     val a = input.toList.filter(c => c != ' ').filter(_.isDigit).map(c => c.toString.toInt) match {
-      case row :: column :: newRow :: newColumn :: Nil => if (undo) {
-        Option.apply(unMove(newRow, newColumn, row, column))
-      } else move(row, column, newRow, newColumn)
+      case row :: column :: newRow :: newColumn :: Nil => if (undo)
+        Option.apply(unMove(newRow, newColumn, row, column)) else move(row, column, newRow, newColumn)
       case _ => {
         pattern.findFirstIn(input) match {
           case Some(c) => {
-            if (undo) {
-              removedFigures.containsFigureThatGotRemovedThisRound(roundCounter) match {
-                case Some(fig) => Option.apply(
-                  replace(fig.coordinates, Cell(cell(fig.coordinates.row, fig.coordinates.col).colour, Option.apply(fig.figure)),
-                    Option.apply(ToChange(fig.coordinates, cell(fig.coordinates.row, fig.coordinates.col), fig.figure)), true))
-                case None => None
-              }
-            } else changePawn(c)
+            if (undo) undoChangePawn(c) else changePawn(c)
           }
           case _ => None
         }
@@ -146,6 +125,8 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   def changePawn(input: String): Option[Field] = PawnPromotion.changePawn(this, changeFigure, input)
+
+  def undoChangePawn(input: String): Option[Field] = PawnPromotion.undoChangePawn(this, input)
 
   override def toString: String = {
     val SIZE = 8
