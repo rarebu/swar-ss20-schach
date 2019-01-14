@@ -1,10 +1,12 @@
 package de.htwg.se.Schach.aview
 
-import de.htwg.se.Schach.controller.{Controller, GameStatus}
+import de.htwg.se.Schach.controller.{CellChanged, Controller, GameStatus}
 import de.htwg.se.Schach.util.Observer
 
-class TUI(controller: Controller) extends Observer {
-  controller.add(this)
+import scala.swing.Reactor
+
+class TUI(controller: Controller) extends Reactor {
+  listenTo(controller)
 
   def processInputLine(input: String): Unit = {
     val pattern = {
@@ -27,10 +29,13 @@ class TUI(controller: Controller) extends Observer {
     }
   }
 
-  override def update(): Boolean = {
+  reactions += {
+    case event: CellChanged => printTui
+  }
+
+  def printTui: Unit = {
     println(GameStatus.message(controller.gameStatus))
     controller.gameStatus = GameStatus.IDLE
     println(controller.fieldToString);
-    true
   }
 }
