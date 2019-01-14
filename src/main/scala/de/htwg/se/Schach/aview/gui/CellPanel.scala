@@ -32,9 +32,13 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
         repaint
       }
       case MouseClicked(src, pt, mod, clicks, pops) => {
-        val newRow = 3
-        val newCol = 0
-        controller.move(row, column, newRow, newCol)
+        if (Storage.store.isDefined) {
+          val tmp = Storage.store.get
+          controller.move(tmp._1, tmp._2, row, column)
+          Storage.store = None
+        } else {
+          Storage.store = Option.apply((row, column))
+        }
         repaint
       }
     }

@@ -1,8 +1,8 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.{CellChanged, Controller}
+import de.htwg.se.Schach.controller.{CellChanged, ChooseFigure, Controller}
 import de.htwg.se.Schach.util.Observer
-import javax.swing.WindowConstants
+import javax.swing.{JOptionPane, WindowConstants}
 
 import scala.swing.Swing.LineBorder
 import scala.swing._
@@ -14,7 +14,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"
 
-  var cells = Array.ofDim[CellPanel](8, 8) //NEW
+  var cells = Array.ofDim[CellPanel](8, 8)
 
   def gridPanel: GridPanel = new GridPanel(8, 8) {
     border = LineBorder(java.awt.Color.BLACK, 2)
@@ -24,8 +24,8 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     } {
       val row = outerRow
       val col = outerColumn
-      val cellPanel = new CellPanel(row, col, controller) //NEW
-      cells(row)(col) = cellPanel //NEW
+      val cellPanel = new CellPanel(row, col, controller)
+      cells(row)(col) = cellPanel
       contents += cellPanel
     }
   }
@@ -60,6 +60,9 @@ class SwingGui(controller: Controller) extends Frame with Observer {
 
   reactions += {
     case event: CellChanged => gridPanel
+    case choose: ChooseFigure => {
+      println("hello")
+    }
   }
 
   visible = true

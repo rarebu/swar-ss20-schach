@@ -18,6 +18,8 @@ class Controller(var field: Field) extends Publisher {
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = {
     undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this))
     publish(new CellChanged)
+    if (pawnPromoting.isDefined) publish(new ChooseFigure)
+
   }
 
   def choose(representation: String): Unit = {
@@ -49,4 +51,5 @@ class Controller(var field: Field) extends Publisher {
     if (cell(row, col).contains.isDefined) cell(row, col).contains.get.toString else ""
   }
 
+  def pawnPromoting: Option[String] = field.getFigures
 }
