@@ -6,6 +6,20 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class KnightSpec extends WordSpec with Matchers {
+  "A Knight" when {
+    "new" should {
+      val knight = new Knight(Colour.white, 0)
+      "move" in {
+        knight.move.asInstanceOf[Knight].stepCounter should be(1)
+      }
+    }
+    "moved" should {
+      val knight = new Knight(Colour.white, 2)
+      "unMove" in {
+        knight.unMove.asInstanceOf[Knight].stepCounter should be(1)
+      }
+    }
+  }
   "A black Knight" when {
     "new" should {
       val knight = new Knight(Colour.black, 0)

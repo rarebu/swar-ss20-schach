@@ -6,6 +6,26 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class RookSpec extends WordSpec with Matchers {
+  "A Rook" when {
+    "new" should {
+      val rook = new Rook(Colour.white, 0)
+      "have an ability" in {
+        rook.hasAbility should be(true)
+      }
+      "move" in {
+        rook.move.asInstanceOf[Rook].stepCounter should be(1)
+      }
+    }
+    "moved" should {
+      val rook = new Rook(Colour.white, 2)
+      "have no ability" in {
+        rook.hasAbility should be(false)
+      }
+      "unMove" in {
+        rook.unMove.asInstanceOf[Rook].stepCounter should be(1)
+      }
+    }
+  }
   "A black Rook" when {
     "new" should {
       val rook = new Rook(Colour.black, 0)

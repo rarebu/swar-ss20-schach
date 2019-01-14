@@ -6,6 +6,26 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class PawnSpec extends WordSpec with Matchers {
+  "A Pawn" when {
+    "new" should {
+      val pawn = new Pawn(Colour.white, 0)
+      "have an ability" in {
+        pawn.hasAbility should be(true)
+      }
+      "move" in {
+        pawn.move.asInstanceOf[Pawn].stepCounter should be(1)
+      }
+    }
+    "moved" should {
+      val pawn = new Pawn(Colour.white, 2)
+      "have no ability" in {
+        pawn.hasAbility should be(false)
+      }
+      "unMove" in {
+        pawn.unMove.asInstanceOf[Pawn].stepCounter should be(1)
+      }
+    }
+  }
   "A black Pawn" when {
     "new" should {
       val pawn = Pawn(Colour.black, 0)

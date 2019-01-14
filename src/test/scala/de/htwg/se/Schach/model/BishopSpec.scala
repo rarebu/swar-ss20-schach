@@ -6,6 +6,20 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class BishopSpec extends WordSpec with Matchers {
+  "A Bishop" when {
+    "new" should {
+      val bishop = new Bishop(Colour.white, 0)
+      "move" in {
+        bishop.move.asInstanceOf[Bishop].stepCounter should be(1)
+      }
+    }
+    "moved" should {
+      val bishop = new Bishop(Colour.white, 2)
+      "unMove" in {
+        bishop.unMove.asInstanceOf[Bishop].stepCounter should be(1)
+      }
+    }
+  }
   "A black Bishop" when {
     "new" should {
       val bishop = new Bishop(Colour.black, 0)

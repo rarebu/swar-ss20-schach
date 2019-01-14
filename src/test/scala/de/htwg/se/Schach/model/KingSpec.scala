@@ -8,6 +8,26 @@ import org.scalatest.{Matchers, WordSpec}
 
 @RunWith(classOf[JUnitRunner])
 class KingSpec extends WordSpec with Matchers {
+  "A King" when {
+    "new" should {
+      val king = new King(Colour.white, 0)
+      "have an ability" in {
+        king.hasAbility should be(true)
+      }
+      "move" in {
+        king.move.asInstanceOf[King].stepCounter should be(1)
+      }
+    }
+    "moved" should {
+      val king = new King(Colour.white, 2)
+      "have no ability" in {
+        king.hasAbility should be(false)
+      }
+      "unMove" in {
+        king.unMove.asInstanceOf[King].stepCounter should be(1)
+      }
+    }
+  }
   "A black King" when {
     "new" should {
       val king = new King(Colour.black, 0)
