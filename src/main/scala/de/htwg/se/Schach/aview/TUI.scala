@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.aview
 
-import de.htwg.se.Schach.controller.Controller
+import de.htwg.se.Schach.controller.{Controller, GameStatus}
 import de.htwg.se.Schach.util.Observer
 
 class TUI(controller: Controller) extends Observer {
@@ -28,6 +28,8 @@ class TUI(controller: Controller) extends Observer {
   }
 
   override def update(): Boolean = {
+    println(GameStatus.message(controller.gameStatus))
+    controller.gameStatus=IDLE
     println(controller.fieldToString);
     true
   }

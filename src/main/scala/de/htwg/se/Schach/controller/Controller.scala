@@ -1,11 +1,12 @@
 package de.htwg.se.Schach.controller
 
+import de.htwg.se.Schach.controller.GameStatus.GameStatus
 import de.htwg.se.Schach.model.Field
 import de.htwg.se.Schach.model.Figure
 import de.htwg.se.Schach.util.{Command, Observable, UndoManager}
 
 class Controller(var field: Field) extends Observable {
-
+  var gameStatus: GameStatus = GameStatus.IDLE
   private val undoManager = new UndoManager
 
   def newField(): Unit = {
