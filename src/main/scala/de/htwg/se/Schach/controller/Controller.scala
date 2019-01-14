@@ -13,11 +13,15 @@ class Controller(var field: Field) extends Observable {
     notifyObservers()
   }
 
-  def processInput(input: String): Unit = {
-    undoManager.doStep(new SetCommand(input))
+  def processInput(row: Int, col: Int, newRow: Int, newCol: Int): Unit = {
+    undoManager.doStep(new MoveCommand(row, col, newRow, newCol))
     notifyObservers()
   }
 
+  def choose(representation: String): Unit = {
+    undoManager.doStep(new ChooseCommand(representation))
+    notifyObservers()
+  }
 
   def getChangableFigures: String = Figure.CHANGABLE_BLACK_FIGURES + Figure.CHANGABLE_WHITE_FIGURES
 
@@ -33,7 +37,21 @@ class Controller(var field: Field) extends Observable {
     notifyObservers
   }
 
-  class SetCommand(input: String) extends Command {
+  class MoveCommand(row: Int, col: Int, newRow: Int, newCol: Int) extends Command {
+    override def doStep: Boolean = {
+      val tmp = field.processInput("" + row + col + newRow + newCol, false)
+      if (tmp.isDefined) {
+        field = tmp.get
+        true
+      } else false
+    }
+
+    override def undoStep: Unit = field = field.processInput("" + row + col + newRow + newCol, true).get
+
+    override def redoStep: Unit = field = field.processInput("" + row + col + newRow + newCol, false).get
+  }
+
+  class ChooseCommand(input: String) extends Command {
     override def doStep: Boolean = {
       val tmp = field.processInput(input, false)
       if (tmp.isDefined) {
