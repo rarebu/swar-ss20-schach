@@ -32,7 +32,7 @@ class PawnSpec extends WordSpec with Matchers {
       })
       val field = Field(matrix, None, 3, new RemovedFigures())
       field.cells.cell(6, 1).toString should be("#♟#")
-      var newfield = field.move(6, 1, 7, 1, false).get
+      var newfield = field.move(6, 1, 7, 1).get
       "be able to switch itself to a queen" in {
         newfield = newfield.changePawn("♜").get
         newfield.cells.cell(7, 1).toString should be("⁕♜⁕")

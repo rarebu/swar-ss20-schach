@@ -10,17 +10,9 @@ object Castling {
     val newCol = newCoordinates.col
     val tmp = col - newCol
     if (tmp > 0) {
-      return field.copy(field.cells
-        .replaceCell(row, 0, Cell(field.cell(row, 0).colour, Option.empty)) //delete rook
-        .replaceCell(row, 3, Cell(field.cell(row, 3).colour, Option.apply(field.cell(row, 0).contains.get.move))) //place rook
-        .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.empty)) //delete king
-        .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.apply(king.move))), None, field.roundCounter + 1) //place king
+      field.moveTwoFigures(coordinates, newCoordinates, king.move, Coordinates(row, 0), Coordinates(row, 3), field.cell(row, 0).contains.get.move, false)
     } else {
-      return field.copy(field.cells
-        .replaceCell(row, 7, Cell(field.cell(row, 7).colour, Option.empty)) //delete rook
-        .replaceCell(row, 5, Cell(field.cell(row, 5).colour, Option.apply(field.cell(row, 7).contains.get.move))) //place rook
-        .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.empty)) //delete king
-        .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.apply(king.move))), None, field.roundCounter + 1) //place king
+      field.moveTwoFigures(coordinates, newCoordinates, king.move, Coordinates(row, 7), Coordinates(row, 5), field.cell(row, 7).contains.get.move, false)
     }
   }
 
@@ -31,17 +23,9 @@ object Castling {
     val col = newCoordinates.col
     val tmp = col - newCol
     if (tmp > 0) {
-      return field.copy(field.cells
-        .replaceCell(row, 0, Cell(field.cell(row, 0).colour, Option.apply(field.cell(row, 3).contains.get.unMove))) //delete rook
-        .replaceCell(row, 3, Cell(field.cell(row, 3).colour, Option.empty)) //place rook
-        .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.apply(king.unMove))) //delete king
-        .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.empty)), None, field.roundCounter - 1) //place king
+      field.moveTwoFigures(coordinates, newCoordinates, king.unMove, Coordinates(row, 3), Coordinates(row, 0), field.cell(row, 3).contains.get.unMove, true)
     } else {
-      return field.copy(field.cells
-        .replaceCell(row, 7, Cell(field.cell(row, 7).colour, Option.apply(field.cell(row, 5).contains.get.unMove))) //delete rook
-        .replaceCell(row, 5, Cell(field.cell(row, 5).colour, Option.empty)) //place rook
-        .replaceCell(row, col, Cell(field.cell(row, col).colour, Option.apply(king.unMove))) //delete king
-        .replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour, Option.empty)), None, field.roundCounter - 1) //place king
+      field.moveTwoFigures(coordinates, newCoordinates, king.unMove, Coordinates(row, 7), Coordinates(row, 5), field.cell(row, 7).contains.get.unMove, true)
     }
   }
 

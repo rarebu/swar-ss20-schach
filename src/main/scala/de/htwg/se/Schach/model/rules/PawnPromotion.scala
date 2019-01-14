@@ -9,17 +9,12 @@ object PawnPromotion {
     val col = coordinates.col
     val newRow = newCoordinates.row
     val newCol = newCoordinates.col
-    if (pawn.colour == Colour.black && newRow == Figure.ROW_WHITE) {
-      if (field.cell(newRow, newCol).contains.isDefined) field.removedFigures.append(Entry(field.cell(newRow, newCol).contains.get, Coordinates(newRow, newCol), field.roundCounter + 1))
-      return Option.apply(field.copy(field.cells.replaceCell(row, col, Cell(field.cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour,
-        Option.apply(pawn.move))), Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol), field.cell(row, col).contains.get)), field.roundCounter + 1))
-    }
-    if (pawn.colour == Colour.white && newRow == Figure.ROW_BLACK) {
-      if (field.cell(newRow, newCol).contains.isDefined) field.removedFigures.append(Entry(field.cell(newRow, newCol).contains.get, Coordinates(newRow, newCol), field.roundCounter + 1))
-      return Option.apply(field.copy(field.cells.replaceCell(row, col, Cell(field.cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(field.cell(newRow, newCol).colour,
-        Option.apply(pawn.move))), Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol), field.cell(row, col).contains.get)), field.roundCounter + 1))
-    }
-    None
+    if (pawn.colour == Colour.black && newRow == Figure.ROW_WHITE || pawn.colour == Colour.white && newRow == Figure.ROW_BLACK) {
+      if (field.cell(newRow, newCol).contains.isDefined) field.removedFigures.append(Entry(field.cell(newRow, newCol).contains.get,
+        Coordinates(newRow, newCol), field.roundCounter + 1))
+      Option.apply(field.moveOneFigure(coordinates, newCoordinates, Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol),
+        field.cell(row, col).contains.get)), pawn.move))
+    } else None
   }
 
   def pawnChange(colour: Colour): String = {
@@ -57,7 +52,7 @@ object PawnPromotion {
       val colour = figure.colour
       val z = findFigure(colour, input)
       if (z.isDefined) {
-        Option.apply(field.copy(field.cells.replaceCell(coordinates.row, coordinates.col, Cell(cell.colour, z)), None, field.roundCounter + 1))
+        Option.apply(field.replace(coordinates, Cell(cell.colour, z), None, false))
       } else None
     } else None
   }

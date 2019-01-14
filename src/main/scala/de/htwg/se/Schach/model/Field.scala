@@ -23,14 +23,50 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
   def cell(row: Int, col: Int): Cell = cells.cell(row, col)
 
+  def moveTwoFigures(coordinates: Coordinates, newCoordinates: Coordinates, figure: Figure, coordinates1: Coordinates, newCoordinates1: Coordinates,
+                     figure1: Figure, undo: Boolean): Field = {
+    replaceFour(coordinates, Cell(cell(coordinates.row, coordinates.col).colour, Option.empty), newCoordinates,
+      Cell(cell(newCoordinates.row, newCoordinates.col).colour, Option.apply(figure)), coordinates1, Cell(cell(coordinates1.row, coordinates1.col).colour,
+        Option.empty), newCoordinates1, Cell(cell(newCoordinates1.row, newCoordinates1.col).colour, Option.apply(figure1)), undo)
+  }
+
+  def moveOneFigure(coordinates: Coordinates, newCoordinates: Coordinates, change: Option[ToChange], figure: Figure): Field = {
+    replaceTwo(coordinates, Cell(cell(coordinates.row, coordinates.col).colour, Option.empty), newCoordinates,
+      Cell(cell(newCoordinates.row, newCoordinates.col).colour, Option.apply(figure)), change, false)
+  }
+
+  def replace(coordinates: Coordinates, cell: Cell, change: Option[ToChange], undo: Boolean): Field = {
+    val op: (Int, Int) => Int = if (undo) _ - _ else _ + _
+    copy(cells
+      .replaceCell(coordinates.row, coordinates.col, cell)
+      , change, op(roundCounter, 1))
+  }
+
+  def replaceTwo(coordinates: Coordinates, cell: Cell, coordinates1: Coordinates, cell1: Cell, change: Option[ToChange], undo: Boolean): Field = {
+    val op: (Int, Int) => Int = if (undo) _ - _ else _ + _
+    copy(cells
+      .replaceCell(coordinates.row, coordinates.col, cell)
+      .replaceCell(coordinates1.row, coordinates1.col, cell1)
+      , change, op(roundCounter, 1))
+  }
+
+  def replaceFour(coordinates: Coordinates, cell: Cell, coordinates1: Coordinates, cell1: Cell, coordinates2: Coordinates, cell2: Cell,
+                  coordinates3: Coordinates, cell3: Cell, undo: Boolean): Field = {
+    val op: (Int, Int) => Int = if (undo) _ - _ else _ + _
+    copy(cells
+      .replaceCell(coordinates.row, coordinates.col, cell)
+      .replaceCell(coordinates1.row, coordinates1.col, cell1)
+      .replaceCell(coordinates2.row, coordinates2.col, cell2)
+      .replaceCell(coordinates3.row, coordinates3.col, cell3)
+      , None, op(roundCounter, 1))
+  }
+
+
   def undoStep(input: String): Field = {
     val o = removedFigures.containsFigureThatGotRemovedThisRound(roundCounter - 1) match {
       case Some(entry) => Option.apply(entry.figure)
       case None => None
     }
-    //    return Option.apply(copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, o)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
-    //      Option.apply(figure.unMove))), None, roundCounter - 1))
-
     this
   }
 
@@ -46,14 +82,16 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
     val a = input.toList.filter(c => c != ' ').filter(_.isDigit).map(c => c.toString.toInt) match {
       case row :: column :: newRow :: newColumn :: Nil => if (undo) {
-        move(newRow, newColumn, row, column, undo)
-      } else move(row, column, newRow, newColumn, undo)
+        Option.apply(unMove(newRow, newColumn, row, column))
+      } else move(row, column, newRow, newColumn)
       case _ => {
         pattern.findFirstIn(input) match {
           case Some(c) => {
             if (undo) {
               removedFigures.containsFigureThatGotRemovedThisRound(roundCounter) match {
-                case Some(fig) => Option.apply(copy(cells.replaceCell(fig.coordinates.row, fig.coordinates.col, Cell(cell(fig.coordinates.row, fig.coordinates.col).colour, Option.apply(fig.figure))), Option.apply(ToChange(fig.coordinates, cell(fig.coordinates.row, fig.coordinates.col), fig.figure)), roundCounter - 1))
+                case Some(fig) => Option.apply(
+                  replace(fig.coordinates, Cell(cell(fig.coordinates.row, fig.coordinates.col).colour, Option.apply(fig.figure)),
+                    Option.apply(ToChange(fig.coordinates, cell(fig.coordinates.row, fig.coordinates.col), fig.figure)), true))
                 case None => None
               }
             } else changePawn(c)
@@ -71,22 +109,10 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     a
   }
 
-  def move(row: Int, col: Int, newRow: Int, newCol: Int, undo: Boolean): Option[Field] = {
-    if ((changeFigure.isDefined && !undo) || cell(row, col).contains.isEmpty) None else {
+  def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[Field] = {
+    if (changeFigure.isDefined || cell(row, col).contains.isEmpty) None else {
       val figure = cell(row, col).contains.get
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
-      if (undo) {
-        figure match {
-          case king: King => if (Math.abs(col - newCol) == 2) return Option.apply(Castling.undoCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king))
-          case _ =>
-        }
-        val o = removedFigures.containsFigureThatGotRemovedThisRound(roundCounter) match {
-          case Some(entry) => Option.apply(entry.figure)
-          case None => None
-        }
-        return Option.apply(copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, o)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
-          Option.apply(figure.unMove))), None, roundCounter - 1))
-      }
       if (t.contains(Coordinates(newRow, newCol))) {
         figure match {
           case king: King => if (Math.abs(col - newCol) == 2) return Option.apply(Castling.doCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king))
@@ -100,10 +126,23 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
           case _ =>
         }
         if (cell(newRow, newCol).contains.isDefined) removedFigures.append(Entry(cell(newRow, newCol).contains.get, Coordinates(newRow, newCol), roundCounter + 1))
-        Option.apply(copy(cells.replaceCell(row, col, Cell(cell(row, col).colour, Option.empty)).replaceCell(newRow, newCol, Cell(cell(newRow, newCol).colour,
-          Option.apply(figure.move))), None, roundCounter + 1))
+        Option.apply(moveOneFigure(Coordinates(row, col), Coordinates(newRow, newCol), None, figure.move))
       } else None
     }
+  }
+
+  def unMove(row: Int, col: Int, newRow: Int, newCol: Int): Field = {
+    val figure = cell(row, col).contains.get
+    figure match {
+      case king: King => if (Math.abs(col - newCol) == 2) return Castling.undoCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king)
+      case _ =>
+    }
+    val o = removedFigures.containsFigureThatGotRemovedThisRound(roundCounter) match {
+      case Some(entry) => Option.apply(entry.figure)
+      case None => None
+    }
+    replaceTwo(Coordinates(row, col), Cell(cell(row, col).colour, o), Coordinates(newRow, newCol), Cell(cell(newRow, newCol).colour,
+      Option.apply(figure.unMove)), None, true)
   }
 
   def changePawn(input: String): Option[Field] = PawnPromotion.changePawn(this, changeFigure, input)

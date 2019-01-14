@@ -39,7 +39,7 @@ class KingSpec extends WordSpec with Matchers {
         field.cells.cell(7, 5).toString should be("♦⁕⁕♦")
         field.cells.cell(7, 6).toString should be("♦##♦")
         field.cells.cell(7, 7).toString should be("⁕♖⁕")
-        field = field.move(7, 4, 7, 6, false).get
+        field = field.move(7, 4, 7, 6).get
         field.cells.cell(7, 4).toString should be("♦##♦")
         field.cells.cell(7, 5).toString should be("⁕♖⁕")
         field.cells.cell(7, 6).toString should be("#♔#")
