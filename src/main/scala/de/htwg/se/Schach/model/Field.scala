@@ -126,6 +126,8 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     a
   }
 
+  def getFigures: Option[String] = if (changeFigure.isDefined) Option.apply(PawnPromotion.pawnChange(changeFigure.get.figure.colour)) else None
+
   override def toString: String = {
     val SIZE = 8
     val barrier = "|" + "♦––♦|" * SIZE + "\n"
@@ -137,12 +139,11 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     } box = box.replaceFirst("X", cell(row, col).toString)
     box = "Step: " + roundCounter + "\n" + box
     if (wrongInput) {
-      //      wrongInput = false
       "Wrong Input!"
     } else if (changeFigure.isEmpty) {
       box
     } else {
-      box + "\n\n Choose a figure " + PawnPromotion.pawnChange(changeFigure.get.figure.colour)
+      box + "\n\n Choose a figure " + getFigures.get
     }
   }
 }
