@@ -2,9 +2,9 @@ package de.htwg.se.Schach.aview.gui
 
 import de.htwg.se.Schach.controller.{CellChanged, Controller}
 import de.htwg.se.Schach.util.Observer
-import javax.swing.{JOptionPane, WindowConstants}
+import javax.swing.{Icon, JOptionPane, UIManager, WindowConstants}
 
-import scala.swing.Swing.LineBorder
+import scala.swing.Swing.{EmptyIcon, LineBorder}
 import scala.swing._
 import scala.swing.event._
 
@@ -59,7 +59,7 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     }
   }
 
-  def dialog(input: String): Unit = Dialog.showMessage(contents.head, input, title = "Choose a figure")
+  //def dialog(input: String): Unit = Dialog.showMessage(contents.head, input, title = "Choose a figure")
 
   reactions += {
     case event: CellChanged => redraw
@@ -76,9 +76,42 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     } cells(row)(column).redraw
     val tmp = controller.pawnPromoting
     if (tmp.isDefined) {
-      dialog(tmp.get)
+      //dialog(tmp.get)
+      //println(chooseFigure)
+      controller.choose(chooseFigure)
     }
     statusline.text = controller.statusText
     repaint
+  }
+
+  def chooseFigure: String = {
+
+    object Choices extends Enumeration {
+      type Choice = Value
+      val Queen, Rook, Bishop, Knight = Value
+    }
+
+    def showOptions[A <: Enumeration](
+                                       parent: Component = null,
+                                       message: Any,
+                                       title: String = UIManager.getString("OptionPane.titleText"),
+                                       messageType: Dialog.Message.Value = Dialog.Message.Question,
+                                       icon: Icon = EmptyIcon,
+                                       entries: A,
+                                       initial: A#Value): Option[A#Value] = {
+      val r = JOptionPane.showOptionDialog(
+        if (parent == null) null else parent.peer, message, title, 0,
+        messageType.id, Swing.wrapIcon(icon),
+        entries.values.toArray[AnyRef], initial)
+      if (r < 0) None else Some(entries(r))
+    }
+
+    val res = showOptions(message = "Choose a figure", entries = Choices, initial = Choices.Queen)
+    res match {
+      case Some(Choices.Queen) => return "♕"
+      case Some(Choices.Rook) => return "♖"
+      case Some(Choices.Bishop) => return "♗"
+      case Some(Choices.Knight) => return "♘"
+    }
   }
 }
