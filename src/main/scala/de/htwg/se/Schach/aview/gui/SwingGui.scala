@@ -59,8 +59,6 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     }
   }
 
-  //def dialog(input: String): Unit = Dialog.showMessage(contents.head, input, title = "Choose a figure")
-
   reactions += {
     case event: CellChanged => redraw
   }
@@ -76,15 +74,13 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     } cells(row)(column).redraw
     val tmp = controller.pawnPromoting
     if (tmp.isDefined) {
-      //dialog(tmp.get)
-      //println(chooseFigure)
-      controller.choose(chooseFigure)
+      controller.choose(chooseFigure(tmp.get))
     }
     statusline.text = controller.statusText
     repaint
   }
 
-  def chooseFigure: String = {
+  def chooseFigure(blackorwhite: String): String = {
 
     object Choices extends Enumeration {
       type Choice = Value
@@ -107,11 +103,19 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     }
 
     val res = showOptions(message = "Choose a figure", entries = Choices, initial = Choices.Queen)
-    res match {
-      case Some(Choices.Queen) => return "♕"
-      case Some(Choices.Rook) => return "♖"
-      case Some(Choices.Bishop) => return "♗"
-      case Some(Choices.Knight) => return "♘"
+    blackorwhite match {
+      case "♕♖♗♘" => res match {
+        case Some(Choices.Queen) => "♕"
+        case Some(Choices.Rook) => "♖"
+        case Some(Choices.Bishop) => "♗"
+        case Some(Choices.Knight) => "♘"
+      }
+      case "♛♜♝♞" => res match {
+        case Some(Choices.Queen) => "♛"
+        case Some(Choices.Rook) => "♜"
+        case Some(Choices.Bishop) => "♝"
+        case Some(Choices.Knight) => "♞"
+      }
     }
   }
 }
