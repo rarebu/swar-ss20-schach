@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.controller
 
-import de.htwg.se.Schach.controller.GameStatus.GameStatus
+import de.htwg.se.Schach.controller.GameStatus._
 import de.htwg.se.Schach.model.{Cell, Colour, Field, Figure}
 import de.htwg.se.Schach.util.{Command, Observable, UndoManager}
 
@@ -17,13 +17,13 @@ class Controller(var field: Field) extends Publisher {
 
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = {
     undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this))
+    gameStatus = MOVE
     publish(new CellChanged)
-    //    if (pawnPromoting.isDefined) publish(new ChooseFigure)
-
   }
 
   def choose(representation: String): Unit = {
     undoManager.doStep(new ChooseCommand(representation, this))
+    gameStatus = CHOOSE
     publish(new CellChanged)
   }
 
@@ -33,11 +33,13 @@ class Controller(var field: Field) extends Publisher {
 
   def undo(): Unit = {
     undoManager.undoStep
+    gameStatus = UNDO
     publish(new CellChanged)
   }
 
   def redo(): Unit = {
     undoManager.redoStep
+    gameStatus = REDO
     publish(new CellChanged)
   }
 

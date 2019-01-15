@@ -139,7 +139,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     } box = box.replaceFirst("X", cell(row, col).toString)
     box = "Step: " + roundCounter + "\n" + box
     if (wrongInput) {
-      //      wrongInput = false
       "Wrong Input!"
     } else if (changeFigure.isEmpty) {
       box

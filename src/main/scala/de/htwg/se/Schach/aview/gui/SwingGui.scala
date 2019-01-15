@@ -32,12 +32,10 @@ class SwingGui(controller: Controller) extends Frame with Observer {
   }
 
   val statusline = new TextField("spawn", 20)
-  //  val betTextField = new TextField("move")
 
   contents = new BorderPanel {
     add(gridPanel, BorderPanel.Position.Center)
     add(statusline, BorderPanel.Position.South)
-    //    add(betTextField, BorderPanel.Position.South)
   }
 
   menuBar = new MenuBar {

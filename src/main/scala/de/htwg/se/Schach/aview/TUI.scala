@@ -38,7 +38,6 @@ class TUI(controller: Controller) extends Reactor {
 
   def printTui: Unit = {
     println(GameStatus.message(controller.gameStatus))
-    controller.gameStatus = GameStatus.IDLE
     println(controller.fieldToString);
   }
 }
