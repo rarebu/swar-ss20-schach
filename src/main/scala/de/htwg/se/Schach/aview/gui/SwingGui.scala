@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.{CellChanged, ChooseFigure, Controller}
+import de.htwg.se.Schach.controller.{CellChanged, Controller}
 import de.htwg.se.Schach.util.Observer
 import javax.swing.{JOptionPane, WindowConstants}
 
@@ -11,6 +11,7 @@ import scala.swing.event._
 class CellClicked(val row: Int, val column: Int) extends Event
 
 class SwingGui(controller: Controller) extends Frame with Observer {
+  listenTo(controller)
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"
 
@@ -30,11 +31,13 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     }
   }
 
-  val statusline = new TextField("status textfield")
+  val statusline = new TextField("spawn", 20)
+  //  val betTextField = new TextField("move")
 
   contents = new BorderPanel {
     add(gridPanel, BorderPanel.Position.Center)
     add(statusline, BorderPanel.Position.South)
+    //    add(betTextField, BorderPanel.Position.South)
   }
 
   menuBar = new MenuBar {
@@ -58,14 +61,26 @@ class SwingGui(controller: Controller) extends Frame with Observer {
     }
   }
 
+  def dialog(input: String): Unit = Dialog.showMessage(contents.head, input, title = "Choose a figure")
+
   reactions += {
-    case event: CellChanged => gridPanel
-    case choose: ChooseFigure => {
-      println("hello")
-    }
+    case event: CellChanged => redraw
   }
 
   visible = true
 
   override def update(): Boolean = true
+
+  def redraw = {
+    for {
+      row <- 0 until 8
+      column <- 0 until 8
+    } cells(row)(column).redraw
+    val tmp = controller.pawnPromoting
+    if (tmp.isDefined) {
+      dialog(tmp.get)
+    }
+    statusline.text = controller.statusText
+    repaint
+  }
 }

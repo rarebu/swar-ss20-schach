@@ -18,7 +18,7 @@ class Controller(var field: Field) extends Publisher {
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = {
     undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this))
     publish(new CellChanged)
-    if (pawnPromoting.isDefined) publish(new ChooseFigure)
+    //    if (pawnPromoting.isDefined) publish(new ChooseFigure)
 
   }
 
@@ -40,6 +40,8 @@ class Controller(var field: Field) extends Publisher {
     undoManager.redoStep
     publish(new CellChanged)
   }
+
+  def statusText: String = GameStatus.message(gameStatus)
 
   def cell(row: Int, col: Int) = field.cell(row, col)
 
