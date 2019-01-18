@@ -26,20 +26,20 @@ object PawnPromotion {
 
   def findFigure(colour: Colour, input: String): Option[Figure] = {
     if (colour == Colour.black && Figure.CHANGABLE_BLACK_FIGURES.contains(input)) {
-      Option.apply(input match {
-        case "♛" => Queen(Colour.black, 1)
-        case "♜" => Rook(Colour.black, 1)
-        case "♝" => Bishop(Colour.black, 1)
-        case "♞" => Knight(Colour.black, 1)
-      })
+      input match {
+        case "♛" => Figure.applyNotNew("Queen", Colour.black)
+        case "♜" => Figure.applyNotNew("Rook", Colour.black)
+        case "♝" => Figure.applyNotNew("Bishop", Colour.black)
+        case "♞" => Figure.applyNotNew("Knight", Colour.black)
+      }
     }
     else if (colour == Colour.white && Figure.CHANGABLE_WHITE_FIGURES.contains(input)) {
-      Option.apply(input match {
-        case "♕" => Queen(Colour.white, 1)
-        case "♖" => Rook(Colour.white, 1)
-        case "♗" => Bishop(Colour.white, 1)
-        case "♘" => Knight(Colour.white, 1)
-      })
+      input match {
+        case "♕" => Figure.applyNotNew("Queen", Colour.white)
+        case "♖" => Figure.applyNotNew("Rook", Colour.white)
+        case "♗" => Figure.applyNotNew("Bishop", Colour.white)
+        case "♘" => Figure.applyNotNew("Knight", Colour.white)
+      }
     } else None
   }
 

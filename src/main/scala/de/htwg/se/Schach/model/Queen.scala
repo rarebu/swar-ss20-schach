@@ -20,7 +20,7 @@ case class Queen(colour: Colour, stepCounter: Int) extends Figure {
   }
 }
 
-private object Queen {
+object Queen {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 
