@@ -2,10 +2,13 @@ package de.htwg.se.Schach.model
 
 import Figure._
 import Field._
+import com.google.inject.Inject
 import de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.rules.{Castling, PawnPromotion, ToChange}
+import de.htwg.se.Schach.model.rules.{Castling, Move, PawnPromotion, ToChange}
 
-case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) {
+case class Field @Inject()(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) {
+
+
   var wrongInput: Boolean = false
 
   def this() = this(new Matrix[Cell]((row, col) => {
@@ -163,3 +166,4 @@ private object Field {
     }
   }
 }
+

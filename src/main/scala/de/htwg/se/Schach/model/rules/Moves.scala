@@ -1,12 +1,42 @@
 package de.htwg.se.Schach.model.rules
 
+import com.google.inject.{AbstractModule, Inject}
 import de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.{Colour, Coordinates, Field}
-import de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.rules.Castling._
+import de.htwg.se.Schach.model.rules.Moves._
+import de.htwg.se.Schach.model.{Bishop, Colour, Coordinates, Field}
+import de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.util.Validation.{isOponent, removeInvalidsFromMultiVector}
+import net.codingwell.scalaguice.ScalaModule
 
 import scala.collection.mutable
+
+trait Move {
+  def move(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean)
+}
+
+class BishopMove extends Move {
+  def move(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean) = bishopMove(field, colour, coordinates)
+}
+
+class KnightMove extends Move {
+  def move(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean) = knightMove(field, colour, coordinates)
+}
+
+class PawnMove extends Move {
+  def move(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean) = pawnMove(field, colour, coordinates, ability)
+}
+
+
+class MovementModule extends AbstractModule with ScalaModule {
+  def configure(): Unit = {
+//    bind[Move].annotatedWith(Bishop.class).toInstance(BishopMove)
+    bind[Move].annotatedWithName("Bishop").toInstance(new BishopMove)
+  }
+
+}
+
+class MatchFigureMove
 
 object Moves {
   def bishopMove(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsDiagonal(field, colour, coordinates)
