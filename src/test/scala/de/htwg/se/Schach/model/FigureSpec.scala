@@ -9,6 +9,10 @@ class FigureSpec extends WordSpec with Matchers {
   "A Figure" when {
     "new" should {
       val fig = Figure
+      val figure = Figure.applyNew("King", Colour.black).get
+      "bla" in {
+        figure.isInstanceOf[King] should be(true)
+      }
       "have a black row" in {
         fig.ROW_BLACK.toString() should be("0")
       }

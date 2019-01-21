@@ -151,14 +151,14 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 private object Field {
   def getFigure(colour: Colour, col: Int): Option[Figure] = {
     col match {
-      case King.COL_FIGURE => Option.apply(new King(colour, 0))
-      case Queen.COL_FIGURE => Option.apply(new Queen(colour, 0))
-      case Rook.COL_FIGURE_LEFT => Option.apply(new Rook(colour, 0))
-      case Rook.COL_FIGURE_RIGHT => Option.apply(new Rook(colour, 0))
-      case Knight.COL_FIGURE_LEFT => Option.apply(new Knight(colour, 0))
-      case Knight.COL_FIGURE_RIGHT => Option.apply(new Knight(colour, 0))
-      case Bishop.COL_FIGURE_LEFT => Option.apply(new Bishop(colour, 0))
-      case Bishop.COL_FIGURE_RIGHT => Option.apply(new Bishop(colour, 0))
+      case King.COL_FIGURE => Figure.applyNew("King", colour)
+      case Queen.COL_FIGURE => Figure.applyNew("Queen", colour)
+      case Rook.COL_FIGURE_LEFT => Figure.applyNew("Rook", colour)
+      case Rook.COL_FIGURE_RIGHT => Figure.applyNew("Rook", colour)
+      case Knight.COL_FIGURE_LEFT => Figure.applyNew("Knight", colour)
+      case Knight.COL_FIGURE_RIGHT => Figure.applyNew("Knight", colour)
+      case Bishop.COL_FIGURE_LEFT => Figure.applyNew("Bishop", colour)
+      case Bishop.COL_FIGURE_RIGHT => Figure.applyNew("Bishop", colour)
 
     }
   }

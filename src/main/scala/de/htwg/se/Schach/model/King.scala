@@ -22,7 +22,7 @@ case class King(colour: Colour, stepCounter: Int) extends Figure {
   def hasAbility: Boolean = stepCounter == 0
 }
 
-private object King {
+object King {
 
   import Figure.{ROW_BLACK, ROW_WHITE}
 

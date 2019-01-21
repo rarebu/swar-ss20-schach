@@ -14,7 +14,20 @@ trait Figure {
   def unMove: Figure
 }
 
-private[Schach] object Figure {
+object Figure {
+  def apply(figure: String, colour: Colour, stepcount: Int) = figure match {
+    case "Queen" => Option.apply(Queen(colour, stepcount))
+    case "King" => Option.apply(King(colour, stepcount))
+    case "Rook" => Option.apply(Rook(colour, stepcount))
+    case "Knight" => Option.apply(Knight(colour, stepcount))
+    case "Bishop" => Option.apply(Bishop(colour, stepcount))
+    case "Pawn" => Option.apply(Pawn(colour, stepcount))
+    case _ => Option.empty
+  }
+
+  def applyNew(figure: String, colour: Colour) = apply(figure, colour, 0)
+  def applyNotNew(figure: String, colour: Colour) = apply(figure, colour, 1)
+
   val ROW_WHITE = 7
   val ROW_BLACK = 0
   val ROW_BLACK_PAWN = 1
