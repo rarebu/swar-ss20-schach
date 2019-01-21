@@ -1,7 +1,7 @@
 name          := "Schach"
 organization  := "de.htwg.se"
 version       := "0.0.2"
-scalaVersion  := "2.12.7"
+scalaVersion  := "2.12.8"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
