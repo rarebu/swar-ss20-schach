@@ -1,7 +1,9 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.Field.getFigure
-import de.htwg.se.Schach.model.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
+import de.htwg.se.Schach.model.Field.Field.getFigure
+import Field.{Field, Matrix}
+import de.htwg.se.Schach.model.Figures.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
+import de.htwg.se.Schach.model.Figures.{King, Rook}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
@@ -53,7 +55,7 @@ class KingSpec extends WordSpec with Matchers {
           if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
-      var field = Field(matrix, None, 3, new RemovedFigures())
+      var field = Field.Field(matrix, None, 3, new RemovedFigures())
       "be able to do castling (rochade)" in {
         field.cells.cell(7, 4).toString should be("#♔#")
         field.cells.cell(7, 5).toString should be("♦⁕⁕♦")

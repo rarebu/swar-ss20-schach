@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.{Bishop, Colour, Coordinates, Field}
+import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model.{Colour, Coordinates}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.model.rules
 
-import de.htwg.se.Schach.model.{Colour, Coordinates, Field}
+import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model.{Colour, Coordinates}
 import de.htwg.se.Schach.util.Utils
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

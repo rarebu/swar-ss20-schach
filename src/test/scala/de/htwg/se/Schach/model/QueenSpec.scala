@@ -1,5 +1,7 @@
 package de.htwg.se.Schach.model
 
+import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model.Figures.Queen
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

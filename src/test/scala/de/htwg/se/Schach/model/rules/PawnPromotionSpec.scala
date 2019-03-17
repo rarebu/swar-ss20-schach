@@ -1,5 +1,7 @@
 package de.htwg.se.Schach.model.rules
 
+import de.htwg.se.Schach.model.Field.{Field, Matrix}
+import de.htwg.se.Schach.model.Figures.{Bishop, Pawn}
 import de.htwg.se.Schach.model._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

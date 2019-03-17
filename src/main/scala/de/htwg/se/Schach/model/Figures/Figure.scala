@@ -1,6 +1,8 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.Figures
 
 import _root_.de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.model.Coordinates
+import de.htwg.se.Schach.model.Field.Field
 
 trait Figure {
   val colour: Colour

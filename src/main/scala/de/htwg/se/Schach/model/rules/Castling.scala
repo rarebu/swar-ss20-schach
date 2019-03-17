@@ -1,5 +1,7 @@
 package de.htwg.se.Schach.model.rules
 
+import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model.Figures.{King, Rook}
 import de.htwg.se.Schach.model._
 
 object Castling {

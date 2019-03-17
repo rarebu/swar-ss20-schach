@@ -1,6 +1,8 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.Figures
 
 import _root_.de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.rules.Moves.kingMove
 
 case class King(colour: Colour, stepCounter: Int) extends Figure {

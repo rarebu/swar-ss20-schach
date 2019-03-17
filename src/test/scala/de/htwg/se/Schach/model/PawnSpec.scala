@@ -1,5 +1,7 @@
 package de.htwg.se.Schach.model
 
+import de.htwg.se.Schach.model.Field.{Field, Matrix}
+import de.htwg.se.Schach.model.Figures.Pawn
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
@@ -50,7 +52,7 @@ class PawnSpec extends WordSpec with Matchers {
           if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
-      val field = Field(matrix, None, 3, new RemovedFigures())
+      val field = Field.Field(matrix, None, 3, new RemovedFigures())
       field.cells.cell(6, 1).toString should be("#♟#")
       var newfield = field.move(6, 1, 7, 1).get
       "be able to switch itself to a queen" in {

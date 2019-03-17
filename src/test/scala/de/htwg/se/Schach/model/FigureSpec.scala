@@ -1,8 +1,10 @@
 package de.htwg.se.Schach.model
 
+import de.htwg.se.Schach.model.Figures.King
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
+import Figures.Figure
 
 @RunWith(classOf[JUnitRunner])
 class FigureSpec extends WordSpec with Matchers {

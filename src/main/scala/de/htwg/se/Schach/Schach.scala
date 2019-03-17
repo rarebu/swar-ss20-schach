@@ -1,9 +1,9 @@
 package de.htwg.se.Schach
 
 import _root_.de.htwg.se.Schach.controller.{CellChanged, Controller}
-import _root_.de.htwg.se.Schach.model.Field
 import _root_.de.htwg.se.Schach.aview.TUI
 import _root_.de.htwg.se.Schach.aview.gui.SwingGui
+import de.htwg.se.Schach.model.Field.Field
 
 import scala.io.StdIn.readLine
 

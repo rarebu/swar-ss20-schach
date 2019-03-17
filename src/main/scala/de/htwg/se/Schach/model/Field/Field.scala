@@ -1,8 +1,10 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.Field
 
-import Figure._
-import Field._
 import de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.model.Field.Field._
+import de.htwg.se.Schach.model.Figures.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
+import de.htwg.se.Schach.model.Figures._
+import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.rules.{Castling, PawnPromotion, ToChange}
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) {
@@ -148,7 +150,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 }
 
-private object Field {
+object Field {
   def getFigure(colour: Colour, col: Int): Option[Figure] = {
     col match {
       case King.COL_FIGURE => Figure.applyNew("King", colour)

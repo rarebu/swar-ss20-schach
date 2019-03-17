@@ -1,6 +1,6 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.Field
 
-import Matrix._
+import de.htwg.se.Schach.model.Field.Matrix._
 
 case class Matrix[T](rows: Vector[Vector[T]]) {
   def this(func: (Int, Int) => T) = this({
@@ -15,6 +15,6 @@ case class Matrix[T](rows: Vector[Vector[T]]) {
   def replaceCell(row: Int, col: Int, cell: T): Matrix[T] = copy(rows.updated(row, rows(row).updated(col, cell)))
 }
 
-private object Matrix {
+object Matrix {
   val SIZE_CHESSFIELD = 8
 }
