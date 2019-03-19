@@ -1,7 +1,6 @@
 package de.htwg.se.Schach.util
 
-import de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.Coordinates
+import Colour.Colour
 import de.htwg.se.Schach.model.Field.Field
 
 object Validation {

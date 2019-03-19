@@ -1,11 +1,12 @@
 package de.htwg.se.Schach.model.Field
 
-import de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.util.Colour.Colour
 import de.htwg.se.Schach.model.Field.Field._
 import de.htwg.se.Schach.model.Figures.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
 import de.htwg.se.Schach.model.Figures._
 import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.rules.{Castling, PawnPromotion, ToChange}
+import de.htwg.se.Schach.util.{Colour, Coordinates}
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) {
   var wrongInput: Boolean = false

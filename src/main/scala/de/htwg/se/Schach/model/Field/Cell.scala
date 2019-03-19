@@ -1,8 +1,8 @@
 package de.htwg.se.Schach.model.Field
 
-import de.htwg.se.Schach.model.Colour
-import de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.util.Colour.Colour
 import de.htwg.se.Schach.model.Figures.Figure
+import de.htwg.se.Schach.util.Colour
 
 private[model] case class Cell(colour: Colour, contains: Option[Figure]) {
   override def toString: String = {

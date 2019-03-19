@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.model
 
 import de.htwg.se.Schach.model.Figures.Figure
+import de.htwg.se.Schach.util.Coordinates
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer

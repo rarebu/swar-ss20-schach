@@ -1,10 +1,11 @@
 package de.htwg.se.Schach.model.rules
 
-import de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.util.Colour.Colour
 import de.htwg.se.Schach.model.Field.Field
-import de.htwg.se.Schach.model.{Colour, Coordinates}
+import de.htwg.se.Schach.util.Coordinates
 import de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.rules.Castling._
+import de.htwg.se.Schach.util.{Colour, Coordinates}
 import de.htwg.se.Schach.util.Validation.{isOponent, removeInvalidsFromMultiVector}
 
 import scala.collection.mutable

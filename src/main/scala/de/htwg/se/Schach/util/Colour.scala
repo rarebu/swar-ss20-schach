@@ -1,4 +1,4 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.util
 
 object Colour extends Enumeration {
   type Colour = Value

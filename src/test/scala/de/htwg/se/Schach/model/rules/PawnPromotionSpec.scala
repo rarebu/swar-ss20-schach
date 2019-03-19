@@ -3,6 +3,7 @@ package de.htwg.se.Schach.model.rules
 import de.htwg.se.Schach.model.Field.{Cell, Field, Matrix}
 import de.htwg.se.Schach.model.Figures.{Bishop, Pawn}
 import de.htwg.se.Schach.model._
+import de.htwg.se.Schach.util.{Colour, Coordinates}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

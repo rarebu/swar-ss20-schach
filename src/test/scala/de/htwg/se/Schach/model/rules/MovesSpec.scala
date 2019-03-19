@@ -1,8 +1,8 @@
 package de.htwg.se.Schach.model.rules
 
 import de.htwg.se.Schach.model.Field.Field
-import de.htwg.se.Schach.model.{Colour, Coordinates}
-import de.htwg.se.Schach.util.Utils
+import de.htwg.se.Schach.util.Coordinates
+import de.htwg.se.Schach.util.{Colour, Coordinates, Utils}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

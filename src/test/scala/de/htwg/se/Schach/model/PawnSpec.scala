@@ -2,6 +2,7 @@ package de.htwg.se.Schach.model
 
 import de.htwg.se.Schach.model.Field.{Cell, Field, Matrix}
 import de.htwg.se.Schach.model.Figures.Pawn
+import de.htwg.se.Schach.util.{Colour, Coordinates}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

@@ -1,9 +1,10 @@
 package de.htwg.se.Schach.model.rules
 
-import de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.util.Colour.Colour
 import de.htwg.se.Schach.model.Field.{Cell, Field}
 import de.htwg.se.Schach.model.Figures.{Figure, Pawn}
 import de.htwg.se.Schach.model._
+import de.htwg.se.Schach.util.{Colour, Coordinates}
 
 object PawnPromotion {
   def doPawnPromotion(coordinates: Coordinates, newCoordinates: Coordinates, pawn: Pawn, field: Field): Option[Field] = {

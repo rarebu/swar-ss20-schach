@@ -3,6 +3,7 @@ package de.htwg.se.Schach.model.rules
 import de.htwg.se.Schach.model.Field.Field
 import de.htwg.se.Schach.model.Figures.{King, Rook}
 import de.htwg.se.Schach.model._
+import de.htwg.se.Schach.util.Coordinates
 
 object Castling {
   def doCastling(coordinates: Coordinates, newCoordinates: Coordinates, field: Field, king: King): Field = {

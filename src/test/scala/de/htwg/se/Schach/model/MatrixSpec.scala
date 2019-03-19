@@ -5,6 +5,7 @@ import de.htwg.se.Schach.model.Field.{Cell, Field, Matrix}
 import Field.Field.getFigure
 import de.htwg.se.Schach.model.Figures.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
 import de.htwg.se.Schach.model.Figures.Pawn
+import de.htwg.se.Schach.util.Colour
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

@@ -5,6 +5,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
 import Figures.Figure
+import de.htwg.se.Schach.util.Colour
 
 @RunWith(classOf[JUnitRunner])
 class FigureSpec extends WordSpec with Matchers {
