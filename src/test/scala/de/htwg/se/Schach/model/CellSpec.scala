@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model.Field.{Cell, Field}
 import de.htwg.se.Schach.model.Figures.Rook
 import org.junit.runner.RunWith
 import org.scalatest.{Matchers, WordSpec}

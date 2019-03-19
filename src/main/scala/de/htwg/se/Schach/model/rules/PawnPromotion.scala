@@ -1,7 +1,7 @@
 package de.htwg.se.Schach.model.rules
 
 import de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.Field.Field
+import de.htwg.se.Schach.model.Field.{Cell, Field}
 import de.htwg.se.Schach.model.Figures.{Figure, Pawn}
 import de.htwg.se.Schach.model._
 

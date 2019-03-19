@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.Field.{Field, Matrix}
+import de.htwg.se.Schach.model.Field.{Cell, Field, Matrix}
 import de.htwg.se.Schach.model.Figures.Pawn
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

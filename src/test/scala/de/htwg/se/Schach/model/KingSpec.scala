@@ -1,7 +1,7 @@
 package de.htwg.se.Schach.model
 
 import de.htwg.se.Schach.model.Field.Field.getFigure
-import Field.{Field, Matrix}
+import Field.{Cell, Field, Matrix}
 import de.htwg.se.Schach.model.Figures.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
 import de.htwg.se.Schach.model.Figures.{King, Rook}
 import org.junit.runner.RunWith
