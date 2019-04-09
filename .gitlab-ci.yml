@@ -1,9 +1,13 @@
-language: scala
-scala:
-  - 2.12.4
+stages:
+  - build
+  - coverage
 
-script:
-  - sbt clean coverage test coverageReport
+build:
+  stage: build
+  script:
+    - sbt clean coverage test coverageReport
 
-after_success:
-  - sbt coverageReport coveralls
+coverage:
+  stage: coverage
+  script:
+    - sbt coverageReport coveralls
