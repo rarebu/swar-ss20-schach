@@ -1,13 +1,13 @@
 stages:
   - build
-  - coverage
+#  - coverage
 
 build:
   stage: build
   script:
-    - sbt clean coverage test coverageReport
+    - sbt clean coverage test #coverageReport
 
-coverage:
-  stage: coverage
-  script:
-    - sbt coverageReport coveralls
+#coverage:
+#  stage: coverage
+#  script:
+#    - sbt coverageReport coveralls
