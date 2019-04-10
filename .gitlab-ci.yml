@@ -1,13 +1,19 @@
 stages:
   - build
+  - test
 #  - coverage
 
 build:
   stage: build
   script:
-    - sbt clean coverage test #coverageReport
+    - sbt clean coverage test coverageReport
 
 #coverage:
 #  stage: coverage
 #  script:
 #    - sbt coverageReport coveralls
+
+sonarqube_master_job:
+  stage: test
+  script:
+    sbt -Dsonar.projectName=Schach -DsonarScanner.home=/usr/src/sonar-scanner-3.3.0.1492-linux sonarScan
