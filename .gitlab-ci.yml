@@ -9,7 +9,7 @@ build:
     - export LC_ALL=en_US.UTF-8
     - export LANG=en_US.UTF-8
     - export LANGUAGE=en_US.UTF-8
-    - sbt -Dsonar.host.url=http://192.168.0.38:9000 -Dsonar.projectName=Schach -DsonarScanner.home=/usr/src/sonar-scanner-3.3.0.1492-linux -Dsonar.scala.scoverage.reportPath=target/scala-2.12/scoverage-report/scoverage.xml -Dsonar.scala.scapegoat.reportPath=target/scala-2.12/scoverage-report/scoverage.xml -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.project_id=$CI_PROJECT_ID clean coverage scalastyle test coverageReport sonarScan
+    - sbt -Dsonar.host.url=http://192.168.0.50:9000 -Dsonar.projectName=Schach -DsonarScanner.home=/usr/src/sonar-scanner-3.3.0.1492-linux -Dsonar.scala.scoverage.reportPath=target/scala-2.12/scoverage-report/scoverage.xml -Dsonar.scala.scapegoat.reportPath=target/scala-2.12/scoverage-report/scoverage.xml -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.project_id=$CI_PROJECT_ID clean coverage scalastyle test coverageReport sonarScan
 
 #coverage:
 #  stage: coverage
