@@ -8,12 +8,12 @@ import _root_.de.htwg.se.schach.aview.gui.SwingGui
 import scala.io.StdIn.readLine
 
 object Schach {
-  val controller = new Controller(new Field())
-  val tui = new TUI(controller)
-  val gui = new SwingGui(controller)
-  controller.publish(new CellChanged)
 
   def main(args: Array[String]): Unit = {
+    val controller = new Controller(new Field())
+    val tui = new TUI(controller)
+    val gui = new SwingGui(controller)
+    controller.publish(new CellChanged)
     //    if (args.size > 0) {
     //      var input: String = args(0)
     //      if (!input.isEmpty) tui.processInputLine(input)
