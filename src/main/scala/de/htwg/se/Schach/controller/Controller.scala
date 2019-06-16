@@ -1,7 +1,8 @@
 package de.htwg.se.Schach.controller
 
 import de.htwg.se.Schach.controller.GameStatus._
-import de.htwg.se.Schach.model.{Cell, Colour, Field, Figure}
+import de.htwg.se.Schach.model.fieldBaseImpl.{Colour, Field}
+import de.htwg.se.Schach.model.{Cell, Figure}
 import de.htwg.se.Schach.util.{Command, Observable, UndoManager}
 
 import scala.swing.Publisher

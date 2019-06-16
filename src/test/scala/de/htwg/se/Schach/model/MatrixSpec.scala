@@ -3,6 +3,7 @@ package de.htwg.se.Schach.model
 
 import de.htwg.se.Schach.model.Field.getFigure
 import de.htwg.se.Schach.model.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
+import de.htwg.se.Schach.model.fieldBaseImpl.{Cell, Colour, Field, Matrix, Pawn}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

@@ -1,9 +1,7 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import _root_.de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.rules.Moves.pawnMove
-
-import scala.collection.mutable
+import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
+import de.htwg.se.Schach.model.fieldBaseImpl.rules.Moves.pawnMove
 
 private[model] case class Pawn(colour: Colour, stepCounter: Int) extends Figure {
 

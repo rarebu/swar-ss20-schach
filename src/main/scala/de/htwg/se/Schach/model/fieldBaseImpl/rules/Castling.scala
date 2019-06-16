@@ -1,6 +1,7 @@
-package de.htwg.se.Schach.model.rules
+package de.htwg.se.Schach.model.fieldBaseImpl.rules
 
 import de.htwg.se.Schach.model._
+import de.htwg.se.Schach.model.fieldBaseImpl.{Coordinates, Field, King, Rook}
 
 object Castling {
   def doCastling(coordinates: Coordinates, newCoordinates: Coordinates, field: Field, king: King): Field = {

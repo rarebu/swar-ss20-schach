@@ -1,7 +1,7 @@
 package de.htwg.se.Schach.aview
 
 import de.htwg.se.Schach.controller.Controller
-import de.htwg.se.Schach.model.Field
+import de.htwg.se.Schach.model.fieldBaseImpl.Field
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}

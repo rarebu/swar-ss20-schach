@@ -1,9 +1,10 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import Figure._
-import Field._
-import de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.rules.{Castling, PawnPromotion, ToChange}
+import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
+import de.htwg.se.Schach.model.fieldBaseImpl.Field._
+import de.htwg.se.Schach.model.fieldBaseImpl.Figure._
+import de.htwg.se.Schach.model.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
+import de.htwg.se.Schach.model._
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) {
   var wrongInput: Boolean = false

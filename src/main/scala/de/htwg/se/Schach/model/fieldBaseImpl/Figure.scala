@@ -1,6 +1,7 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import _root_.de.htwg.se.Schach.model.Colour.Colour
+import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
+import de.htwg.se.Schach.model.Rook
 
 trait Figure {
   val colour: Colour

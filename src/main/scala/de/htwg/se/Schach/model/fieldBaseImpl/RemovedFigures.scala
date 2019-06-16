@@ -1,4 +1,4 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer

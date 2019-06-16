@@ -1,6 +1,6 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import Matrix._
+import de.htwg.se.Schach.model.fieldBaseImpl.Matrix._
 
 case class Matrix[T](rows: Vector[Vector[T]]) {
   def this(func: (Int, Int) => T) = this({

@@ -1,7 +1,7 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import _root_.de.htwg.se.Schach.model.Colour.Colour
-import de.htwg.se.Schach.model.rules.Moves.kingMove
+import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
+import de.htwg.se.Schach.model.fieldBaseImpl.rules.Moves.kingMove
 
 case class King(colour: Colour, stepCounter: Int) extends Figure {
 

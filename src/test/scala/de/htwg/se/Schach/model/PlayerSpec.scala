@@ -1,5 +1,6 @@
 package de.htwg.se.Schach.model
 
+import de.htwg.se.Schach.model.fieldBaseImpl.Player
 import org.scalatest._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
