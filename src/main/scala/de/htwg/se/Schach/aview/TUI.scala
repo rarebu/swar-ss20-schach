@@ -1,14 +1,10 @@
 package de.htwg.se.Schach.aview
 
-import java.awt.Frame
-
-import de.htwg.se.Schach.controller.{CellChanged, Controller, GameStatus}
-import de.htwg.se.Schach.util.Observer
-import javax.swing.JOptionPane
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
 
 import scala.swing.Reactor
 
-class TUI(controller: Controller) extends Reactor {
+class TUI(controller: ControllerInterface) extends Reactor {
   listenTo(controller)
 
   def processInputLine(input: String): Unit = {
@@ -17,7 +13,7 @@ class TUI(controller: Controller) extends Reactor {
     }.r
     input match {
       case "q" =>
-      case "n" => controller.newField()
+      case "n" => controller.newField
       case "z" => controller.undo
       case "y" => controller.redo
       case _ => input.toList.filter(c => c != ' ').filter(_.isDigit).map(c => c.toString.toInt) match {
@@ -37,7 +33,7 @@ class TUI(controller: Controller) extends Reactor {
   }
 
   def printTui: Unit = {
-    println(GameStatus.message(controller.gameStatus))
+    println(controller.statusText)
     println(controller.fieldToString);
   }
 }
