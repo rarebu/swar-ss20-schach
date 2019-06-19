@@ -17,7 +17,7 @@ class Field extends FieldInterface {
 
   override def undoChangePawn(input: String): Option[FieldInterface] = ???
 
-  override def CHANGABLE_BLACK_FIGURES: String = ???
+  override def CHANGEABLE_BLACK_FIGURES: String = ???
 
-  override def CHANGABLE_WHITE_FIGURES: String = ???
+  override def CHANGEABLE_WHITE_FIGURES: String = ???
 }

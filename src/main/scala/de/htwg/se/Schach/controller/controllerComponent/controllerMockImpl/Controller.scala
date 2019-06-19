@@ -22,11 +22,15 @@ class Controller(var field: FieldInterface) extends ControllerInterface {
 
   override def statusText: String = ???
 
-  override def getChangableFigures: String = ???
+  override def getChangeableFigures: String = ???
 
   override def fieldToString: String = ???
 
   override def cellContains(row: Int, col: Int): String = ???
 
   override def cellIsBlack(row: Int, col: Int): Boolean = ???
+
+  override def save: Unit = ???
+
+  override def load: Unit = ???
 }

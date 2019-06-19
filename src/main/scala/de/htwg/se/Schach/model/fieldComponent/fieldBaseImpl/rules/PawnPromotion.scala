@@ -19,13 +19,13 @@ object PawnPromotion {
 
   def pawnChange(colour: Colour): String = {
     colour match {
-      case Colour.black => Figure.CHANGABLE_BLACK_FIGURES
-      case _ => Figure.CHANGABLE_WHITE_FIGURES
+      case Colour.black => Figure.CHANGEABLE_BLACK_FIGURES
+      case _ => Figure.CHANGEABLE_WHITE_FIGURES
     }
   }
 
   def findFigure(colour: Colour, input: String): Option[Figure] = {
-    if (colour == Colour.black && Figure.CHANGABLE_BLACK_FIGURES.contains(input)) {
+    if (colour == Colour.black && Figure.CHANGEABLE_BLACK_FIGURES.contains(input)) {
       input match {
         case "♛" => Figure.applyNotNew("Queen", Colour.black)
         case "♜" => Figure.applyNotNew("Rook", Colour.black)
@@ -33,7 +33,7 @@ object PawnPromotion {
         case "♞" => Figure.applyNotNew("Knight", Colour.black)
       }
     }
-    else if (colour == Colour.white && Figure.CHANGABLE_WHITE_FIGURES.contains(input)) {
+    else if (colour == Colour.white && Figure.CHANGEABLE_WHITE_FIGURES.contains(input)) {
       input match {
         case "♕" => Figure.applyNotNew("Queen", Colour.white)
         case "♖" => Figure.applyNotNew("Rook", Colour.white)

@@ -9,7 +9,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
 
   def processInputLine(input: String): Unit = {
     val pattern = {
-      "[" + controller.getChangableFigures + "]"
+      "[" + controller.getChangeableFigures + "]"
     }.r
     input match {
       case "q" =>

@@ -28,7 +28,7 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
     publish(new CellChanged)
   }
 
-  def getChangableFigures: String = field.CHANGABLE_BLACK_FIGURES + field.CHANGABLE_WHITE_FIGURES
+  def getChangeableFigures: String = field.CHANGEABLE_BLACK_FIGURES + field.CHANGEABLE_WHITE_FIGURES
 
   def fieldToString: String = field.toString
 
@@ -56,4 +56,8 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
   }
 
   def pawnPromoting: Option[String] = field.getFigures
+
+  override def save: Unit = ???
+
+  override def load: Unit = ???
 }

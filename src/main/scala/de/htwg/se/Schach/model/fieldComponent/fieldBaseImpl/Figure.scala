@@ -32,6 +32,6 @@ object Figure {
   val ROW_BLACK = 0
   val ROW_BLACK_PAWN = 1
   val ROW_WHITE_PAWN = 6
-  val CHANGABLE_WHITE_FIGURES = "♕♖♗♘"
-  val CHANGABLE_BLACK_FIGURES = "♛♜♝♞"
+  val CHANGEABLE_WHITE_FIGURES = "♕♖♗♘"
+  val CHANGEABLE_BLACK_FIGURES = "♛♜♝♞"
 }

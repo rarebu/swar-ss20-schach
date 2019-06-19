@@ -129,9 +129,9 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
   def getFigures: Option[String] = if (changeFigure.isDefined) Option.apply(PawnPromotion.pawnChange(changeFigure.get.figure.colour)) else None
 
-  def CHANGABLE_BLACK_FIGURES: String = Figure.CHANGABLE_BLACK_FIGURES
+  def CHANGEABLE_BLACK_FIGURES: String = Figure.CHANGEABLE_BLACK_FIGURES
 
-  def CHANGABLE_WHITE_FIGURES: String = Figure.CHANGABLE_WHITE_FIGURES
+  def CHANGEABLE_WHITE_FIGURES: String = Figure.CHANGEABLE_WHITE_FIGURES
 
   def cellIsBlack(row: Int, col: Int): Boolean = cell(row, col).isBlack
 
