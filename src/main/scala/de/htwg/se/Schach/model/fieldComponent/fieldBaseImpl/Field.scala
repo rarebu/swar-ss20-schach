@@ -62,7 +62,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       , None, op(roundCounter, 1))
   }
 
-  def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[Field] = {
+  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[Field] = {
     val a = if (changeFigure.isDefined || cell(row, col).contains.isEmpty) None else {
       val figure = cell(row, col).contains.get
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
@@ -91,7 +91,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     a
   }
 
-  def unMove(row: Int, col: Int, newRow: Int, newCol: Int): Field = {
+  override def unMove(row: Int, col: Int, newRow: Int, newCol: Int): Field = {
     val figure = cell(row, col).contains.get
     figure match {
       case king: King => if (Math.abs(col - newCol) == 2) return Castling.undoCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king)
@@ -105,7 +105,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       Option.apply(figure.unMove)), None, true)
   }
 
-  def changePawn(input: String): Option[Field] = {
+  override def changePawn(input: String): Option[Field] = {
     val a = PawnPromotion.changePawn(this, changeFigure, input)
     a match {
       case Some(_) =>
@@ -116,7 +116,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     a
   }
 
-  def undoChangePawn(input: String): Option[Field] = {
+  override def undoChangePawn(input: String): Option[Field] = {
     val a = PawnPromotion.undoChangePawn(this, input)
     a match {
       case Some(_) =>
@@ -127,16 +127,15 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     a
   }
 
-  def getFigures: Option[String] = if (changeFigure.isDefined) Option.apply(PawnPromotion.pawnChange(changeFigure.get.figure.colour)) else None
+  override def getFigures: Option[String] = if (changeFigure.isDefined) Option.apply(PawnPromotion.pawnChange(changeFigure.get.figure.colour)) else None
 
-  def CHANGEABLE_BLACK_FIGURES: String = Figure.CHANGEABLE_BLACK_FIGURES
+  override def CHANGEABLE_BLACK_FIGURES: String = Figure.CHANGEABLE_BLACK_FIGURES
 
-  def CHANGEABLE_WHITE_FIGURES: String = Figure.CHANGEABLE_WHITE_FIGURES
+  override def CHANGEABLE_WHITE_FIGURES: String = Figure.CHANGEABLE_WHITE_FIGURES
 
-  def cellIsBlack(row: Int, col: Int): Boolean = cell(row, col).isBlack
+  override def cellIsBlack(row: Int, col: Int): Boolean = cell(row, col).isBlack
 
-  def cellContains(row: Int, col: Int): Option[String] = //cell(row, col).contains.
-  {
+  override def cellContains(row: Int, col: Int): Option[String] = {
     val tmp = cell(row, col).contains
     if (tmp.isDefined) Some(tmp.get.toString) else None
   }
