@@ -1,7 +1,7 @@
 package de.htwg.se.Schach.aview
 
-import de.htwg.se.Schach.controller.controllerBaseImpl.Controller
-import de.htwg.se.Schach.model.fieldBaseImpl.Field
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
@@ -18,7 +18,7 @@ class TUISpec extends WordSpec with Matchers {
       }
       "create a new board on input 'n'" in {
         tui.processInputLine("n")
-        controller.field should be(new Field())
+        controller.field should be(new Field)
       }
       "move on input '1030'" in {
         tui.processInputLine("1030")

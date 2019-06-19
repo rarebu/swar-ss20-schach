@@ -1,11 +1,6 @@
 package de.htwg.se.Schach.aview
 
-import java.awt.Frame
-
-import de.htwg.se.Schach.controller.controllerBaseImpl.Controller
-import de.htwg.se.Schach.controller.{CellChanged, ControllerInterface, GameStatus}
-import de.htwg.se.Schach.util.Observer
-import javax.swing.JOptionPane
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
 
 import scala.swing.Reactor
 

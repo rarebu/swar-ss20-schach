@@ -1,7 +1,6 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.{CellChanged, ControllerInterface}
-import de.htwg.se.Schach.controller.controllerBaseImpl.Controller
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, ControllerInterface}
 
 import scala.swing.Swing.LineBorder
 import scala.swing._
