@@ -1,12 +1,13 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.{CellChanged, Controller}
+import de.htwg.se.Schach.controller.{CellChanged, ControllerInterface}
+import de.htwg.se.Schach.controller.controllerBaseImpl.Controller
 
 import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
 
-class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel {
+class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends FlowPanel {
 
 //  def myCell = controller.cell(row, column)
 

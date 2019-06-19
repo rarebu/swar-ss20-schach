@@ -1,4 +1,4 @@
-package de.htwg.se.Schach.controller
+package de.htwg.se.Schach.controller.controllerBaseImpl
 
 import de.htwg.se.Schach.util.Command
 

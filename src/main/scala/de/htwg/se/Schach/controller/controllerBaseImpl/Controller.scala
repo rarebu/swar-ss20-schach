@@ -1,20 +1,20 @@
-package de.htwg.se.Schach.controller
+package de.htwg.se.Schach.controller.controllerBaseImpl
 
+import de.htwg.se.Schach.controller.{CellChanged, ControllerInterface, GameStatus}
 import de.htwg.se.Schach.controller.GameStatus._
 import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldBaseImpl.Field
-import de.htwg.se.Schach.model.FigureInterface
 //import de.htwg.se.Schach.model.fieldBaseImpl.{Colour, Field}
 //import de.htwg.se.Schach.model.{Cell, Figure}
-import de.htwg.se.Schach.util.{Command, Observable, UndoManager}
+import de.htwg.se.Schach.util.UndoManager
 
 import scala.swing.Publisher
 
-class Controller(var field: FieldInterface) extends Publisher {
+class Controller(var field: FieldInterface) extends ControllerInterface with Publisher {
   var gameStatus: GameStatus = GameStatus.IDLE
   private val undoManager = new UndoManager
 
-  def newField(): Unit = {
+  def newField: Unit = {
     field = new Field()
     publish(new CellChanged)
   }
@@ -35,13 +35,13 @@ class Controller(var field: FieldInterface) extends Publisher {
 
   def fieldToString: String = field.toString
 
-  def undo(): Unit = {
+  def undo: Unit = {
     undoManager.undoStep
     gameStatus = UNDO
     publish(new CellChanged)
   }
 
-  def redo(): Unit = {
+  def redo: Unit = {
     undoManager.redoStep
     gameStatus = REDO
     publish(new CellChanged)
