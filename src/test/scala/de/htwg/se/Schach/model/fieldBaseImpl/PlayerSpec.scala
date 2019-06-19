@@ -1,6 +1,5 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import de.htwg.se.Schach.model.fieldBaseImpl.Player
 import org.scalatest._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -18,6 +17,4 @@ class PlayerSpec extends WordSpec with Matchers {
       }
     }
   }
-
-
 }

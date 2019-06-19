@@ -1,6 +1,5 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
-import de.htwg.se.Schach.model.fieldBaseImpl.{Cell, Colour, Coordinates, Field, Rook}
 import org.junit.runner.RunWith
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.junit.JUnitRunner

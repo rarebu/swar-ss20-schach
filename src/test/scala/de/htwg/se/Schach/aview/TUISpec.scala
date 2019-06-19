@@ -22,15 +22,15 @@ class TUISpec extends WordSpec with Matchers {
       }
       "move on input '1030'" in {
         tui.processInputLine("1030")
-        controller.field.cell(3, 0).toString should be("#♟#")
+        controller.field.cellContains(3, 0).get should be("♟")
       }
       "undo on input 'z" in {
         tui.processInputLine("z")
-        controller.field.cell(1, 0).toString should be("#♟#")
+        controller.field.cellContains(1, 0).get should be("♟")
       }
       "redo on input 'y" in {
         tui.processInputLine("y")
-        controller.field.cell(3, 0).toString should be("#♟#")
+        controller.field.cellContains(3, 0).get should be("♟")
       }
       "do nothing on bad input like '9999999'" in {
         val old = controller.fieldToString

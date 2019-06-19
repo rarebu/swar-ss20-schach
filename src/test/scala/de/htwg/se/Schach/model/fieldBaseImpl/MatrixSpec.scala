@@ -1,9 +1,8 @@
-package de.htwg.se.Schach.model
+package de.htwg.se.Schach.model.fieldBaseImpl
 
 
-import de.htwg.se.Schach.model.Field.getFigure
-import de.htwg.se.Schach.model.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
-import de.htwg.se.Schach.model.fieldBaseImpl.{Cell, Colour, Field, Matrix, Pawn}
+import de.htwg.se.Schach.model.fieldBaseImpl.Field.getFigure
+import de.htwg.se.Schach.model.fieldBaseImpl.Figure.{ROW_BLACK, ROW_BLACK_PAWN, ROW_WHITE, ROW_WHITE_PAWN}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
@@ -78,5 +77,4 @@ class MatrixSpec extends WordSpec with Matchers {
       }
     }
   }
-
 }

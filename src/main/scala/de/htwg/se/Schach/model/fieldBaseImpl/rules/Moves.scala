@@ -1,8 +1,8 @@
 package de.htwg.se.Schach.model.fieldBaseImpl.rules
 
-import de.htwg.se.Schach.model.fieldBaseImpl.{Colour, Coordinates, Field}
+import de.htwg.se.Schach.model.fieldBaseImpl.{Colour, Field}
 import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
-import de.htwg.se.Schach.model.Coordinates
+import de.htwg.se.Schach.model.fieldBaseImpl.Coordinates
 import de.htwg.se.Schach.util.Utils._
 import de.htwg.se.Schach.model.fieldBaseImpl.rules.Castling._
 import de.htwg.se.Schach.util.Validation.{isOponent, removeInvalidsFromMultiVector}
@@ -69,3 +69,4 @@ object Moves {
     tmp.toVector
   }
 }
+

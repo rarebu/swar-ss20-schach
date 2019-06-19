@@ -1,13 +1,16 @@
 package de.htwg.se.Schach.controller
 
 import de.htwg.se.Schach.controller.GameStatus._
-import de.htwg.se.Schach.model.fieldBaseImpl.{Colour, Field}
-import de.htwg.se.Schach.model.{Cell, Figure}
+import de.htwg.se.Schach.model.FieldInterface
+import de.htwg.se.Schach.model.fieldBaseImpl.Field
+import de.htwg.se.Schach.model.FigureInterface
+//import de.htwg.se.Schach.model.fieldBaseImpl.{Colour, Field}
+//import de.htwg.se.Schach.model.{Cell, Figure}
 import de.htwg.se.Schach.util.{Command, Observable, UndoManager}
 
 import scala.swing.Publisher
 
-class Controller(var field: Field) extends Publisher {
+class Controller(var field: FieldInterface) extends Publisher {
   var gameStatus: GameStatus = GameStatus.IDLE
   private val undoManager = new UndoManager
 
@@ -28,7 +31,7 @@ class Controller(var field: Field) extends Publisher {
     publish(new CellChanged)
   }
 
-  def getChangableFigures: String = Figure.CHANGABLE_BLACK_FIGURES + Figure.CHANGABLE_WHITE_FIGURES
+  def getChangableFigures: String = field.CHANGABLE_BLACK_FIGURES + field.CHANGABLE_WHITE_FIGURES
 
   def fieldToString: String = field.toString
 
@@ -46,14 +49,13 @@ class Controller(var field: Field) extends Publisher {
 
   def statusText: String = GameStatus.message(gameStatus)
 
-  def cell(row: Int, col: Int) = field.cell(row, col)
+//  def cell(row: Int, col: Int) = field.cell(row, col)
 
-  def cellIsBlack(row: Int, col: Int): Boolean = {
-    if (cell(row, col).colour == Colour.black) true else false
-  }
+  def cellIsBlack(row: Int, col: Int): Boolean = field.cellIsBlack(row, col)
 
   def cellContains(row: Int, col: Int): String = {
-    if (cell(row, col).contains.isDefined) cell(row, col).contains.get.toString else ""
+    var tmp = field.cellContains(row, col)
+    if ( tmp.isDefined) tmp.get.toString else ""
   }
 
   def pawnPromoting: Option[String] = field.getFigures

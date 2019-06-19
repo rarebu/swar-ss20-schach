@@ -3,7 +3,7 @@ package de.htwg.se.Schach.util
 
 import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldBaseImpl.{Coordinates, Field}
-import de.htwg.se.Schach.model.Figure
+import de.htwg.se.Schach.model.fieldBaseImpl.Figure
 
 import scala.collection.mutable.ListBuffer
 import de.htwg.se.Schach.util.Validation.removeInvalidsFromMultiVector

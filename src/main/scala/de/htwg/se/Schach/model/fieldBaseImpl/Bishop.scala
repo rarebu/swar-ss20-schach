@@ -2,7 +2,6 @@ package de.htwg.se.Schach.model.fieldBaseImpl
 
 import Colour.Colour
 import de.htwg.se.Schach.model.fieldBaseImpl.rules.Moves.bishopMove
-import de.htwg.se.Schach.model.Figure
 
 case class Bishop(colour: Colour, stepCounter: Int) extends Figure {
 

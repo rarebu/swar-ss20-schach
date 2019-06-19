@@ -6,7 +6,7 @@ import de.htwg.se.Schach.model.fieldBaseImpl.Figure._
 import de.htwg.se.Schach.model.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
 import de.htwg.se.Schach.model._
 
-case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) {
+case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) extends FieldInterface {
   var wrongInput: Boolean = false
 
   def this() = this(new Matrix[Cell]((row, col) => {
@@ -128,6 +128,18 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   def getFigures: Option[String] = if (changeFigure.isDefined) Option.apply(PawnPromotion.pawnChange(changeFigure.get.figure.colour)) else None
+
+  def CHANGABLE_BLACK_FIGURES: String = Figure.CHANGABLE_BLACK_FIGURES
+
+  def CHANGABLE_WHITE_FIGURES: String = Figure.CHANGABLE_WHITE_FIGURES
+
+  def cellIsBlack(row: Int, col: Int): Boolean = cell(row, col).isBlack
+
+  def cellContains(row: Int, col: Int): Option[String] = //cell(row, col).contains.
+  {
+    val tmp = cell(row, col).contains
+    if (tmp.isDefined) Some(tmp.get.toString) else None
+  }
 
   override def toString: String = {
     val SIZE = 8

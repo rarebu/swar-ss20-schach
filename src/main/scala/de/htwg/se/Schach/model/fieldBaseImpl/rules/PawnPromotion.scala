@@ -1,7 +1,6 @@
 package de.htwg.se.Schach.model.fieldBaseImpl.rules
 
 import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
-import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.fieldBaseImpl.{Cell, Colour, Coordinates, Entry, Field, Figure, Pawn}
 
 object PawnPromotion {

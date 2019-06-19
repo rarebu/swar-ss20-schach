@@ -2,7 +2,6 @@ package de.htwg.se.Schach.util
 
 import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldBaseImpl.{Coordinates, Field}
-import de.htwg.se.Schach.model.Figure
 
 object Validation {
   def validCoordinate(coordinates: Coordinates): Boolean =

@@ -1,5 +1,7 @@
 package de.htwg.se.Schach.model.fieldBaseImpl
 
+import de.htwg.se.Schach.model.fieldBaseImpl.Colour.Colour
+
 private[model] case class Cell(colour: Colour, contains: Option[Figure]) {
   override def toString: String = {
     colour match {
