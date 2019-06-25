@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldMockImpl
 
 import de.htwg.se.Schach.model.FieldInterface
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 
 class Field extends FieldInterface {
   override def cellIsBlack(row: Int, col: Int): Boolean = ???
@@ -20,4 +21,10 @@ class Field extends FieldInterface {
   override def CHANGEABLE_BLACK_FIGURES: String = ???
 
   override def CHANGEABLE_WHITE_FIGURES: String = ???
+
+  override def getSize: Int = Field.SIZE
+
+  override def getRoundCount: Int = ???
+
+  override def getToChange: String = ???
 }

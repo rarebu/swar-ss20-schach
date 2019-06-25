@@ -22,6 +22,20 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
   }), None, 0, new RemovedFigures())
 
+  def this(figurePositions:List[(CoordinatesInterface, FigureInterface)], toChange: String, roundCount:Int, removedFigures: RemovedFiguresInterface) = this(new Matrix[Cell]((row, col) => {
+    val ab: Option[(CoordinatesInterface, FigureInterface)] = figurePositions.find(figure => { figure._1.getCoordinates == (row, col) })
+    var d:Option[Figure] = Option.empty
+    if(ab.isDefined) {
+      val tm = ab.get._2
+      val c:String = tm.getRepresentation
+      val col = if (tm.isBlack) Colour.black else Colour.white
+      d = Figure.apply(c, col, 0)
+    }
+    if (row % 2 == 0)
+      if (col % 2 == 0) Cell(Colour.white, d) else Cell(Colour.black, d)
+    else if (col % 2 == 0) Cell(Colour.black, d) else Cell(Colour.white, d)
+  }), None, roundCount, null)
+
   def cell(row: Int, col: Int): Cell = cells.cell(row, col)
 
   def moveTwoFigures(coordinates: Coordinates, newCoordinates: Coordinates, figure: Figure, coordinates1: Coordinates, newCoordinates1: Coordinates,
@@ -141,10 +155,9 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   override def toString: String = {
-    val SIZE = 8
     val barrier = "|" + "♦––♦|" * SIZE + "\n"
     val line = "|" + "X|" * SIZE + "\n"
-    var box = barrier + (line + barrier) * 8
+    var box = barrier + (line + barrier) * SIZE
     for {
       row <- 0 until SIZE
       col <- 0 until SIZE
@@ -158,9 +171,18 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       box + "\n\n Choose a figure " + getFigures.get
     }
   }
+
+  override def getSize: Int = SIZE
+
+  override def getRoundCount: Int = roundCounter
+
+  override def getToChange: String = if (changeFigure.isDefined) changeFigure.get.figure.colour.toString else ""
 }
 
-private object Field {
+//private[fieldComponent]
+object Field {
+  val SIZE = 8
+
   def getFigure(colour: Colour, col: Int): Option[Figure] = {
     col match {
       case King.COL_FIGURE => Figure.applyNew("King", colour)

@@ -16,6 +16,8 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case "n" => controller.newField
       case "z" => controller.undo
       case "y" => controller.redo
+      case "f" => controller.save
+      case "l" => controller.load
       case _ => input.toList.filter(c => c != ' ').filter(_.isDigit).map(c => c.toString.toInt) match {
         case row :: column :: newRow :: newColumn :: Nil => controller.move(row, column, newRow, newColumn)
         case _ => {

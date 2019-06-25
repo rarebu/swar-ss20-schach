@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.aview.gui
 
 import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Schach.util.Observer
 import javax.swing.{Icon, JOptionPane, UIManager, WindowConstants}
 
@@ -15,13 +16,13 @@ class SwingGui(controller: ControllerInterface) extends Frame with Observer {
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"
 
-  var cells = Array.ofDim[CellPanel](8, 8)
+  var cells = Array.ofDim[CellPanel](Field.SIZE, Field.SIZE)
 
-  def gridPanel: GridPanel = new GridPanel(8, 8) {
+  def gridPanel: GridPanel = new GridPanel(Field.SIZE, Field.SIZE) {
     border = LineBorder(java.awt.Color.BLACK, 2)
     for {
-      outerRow <- 0 until 8
-      outerColumn <- 0 until 8
+      outerRow <- 0 until Field.SIZE
+      outerColumn <- 0 until Field.SIZE
     } {
       val row = outerRow
       val col = outerColumn
@@ -69,8 +70,8 @@ class SwingGui(controller: ControllerInterface) extends Frame with Observer {
 
   def redraw = {
     for {
-      row <- 0 until 8
-      column <- 0 until 8
+      row <- 0 until Field.SIZE
+      column <- 0 until Field.SIZE
     } cells(row)(column).redraw
     val tmp = controller.pawnPromoting
     if (tmp.isDefined) {

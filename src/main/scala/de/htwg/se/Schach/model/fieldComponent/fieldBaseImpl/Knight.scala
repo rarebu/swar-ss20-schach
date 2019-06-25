@@ -19,6 +19,8 @@ case class Knight(colour: Colour, stepCounter: Int) extends Figure {
   override def unMove: Figure = {
     Knight(this.colour, this.stepCounter - 1)
   }
+
+  override def getRepresentation: String = ???
 }
 
 private object Knight {

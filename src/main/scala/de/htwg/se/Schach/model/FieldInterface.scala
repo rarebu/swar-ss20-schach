@@ -1,5 +1,7 @@
 package de.htwg.se.Schach.model
 
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Coordinates, Field, Figure}
+
 trait FieldInterface {
   def cellIsBlack(row: Int, col: Int): Boolean
 
@@ -18,4 +20,39 @@ trait FieldInterface {
   def CHANGEABLE_BLACK_FIGURES: String
 
   def CHANGEABLE_WHITE_FIGURES: String
+
+  def getSize: Int
+
+  def getRoundCount: Int
+
+  def getToChange: String
+}
+
+trait RemovedFiguresInterface {
+  def getEntryList:List[EntryInterface]
+
+  def append(entry: EntryInterface)
+
+  def containsFigureThatGotRemovedThisRound(round: Int): Option[EntryInterface]
+}
+
+trait EntryInterface {
+  def getFigure:FigureInterface
+
+  def getCoordinate:CoordinatesInterface
+
+  def getRound:Int
+}
+
+trait FigureInterface {
+  def getRepresentation: String
+
+  def isBlack: Boolean
+
+  def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[CoordinatesInterface]]
+
+}
+
+trait CoordinatesInterface {
+  def getCoordinates:(Int, Int)
 }

@@ -1,8 +1,9 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
+import de.htwg.se.Schach.model.{FigureInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 
-trait Figure {
+trait Figure extends FigureInterface {
   val colour: Colour
 
   def getName: String
@@ -12,6 +13,8 @@ trait Figure {
   def move: Figure
 
   def unMove: Figure
+
+  override def isBlack: Boolean = this.colour == Colour.black
 }
 
 object Figure {

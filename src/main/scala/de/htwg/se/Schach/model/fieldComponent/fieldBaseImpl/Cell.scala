@@ -1,5 +1,6 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
+import de.htwg.se.Schach.model.FigureInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 
 private[model] case class Cell(colour: Colour, contains: Option[Figure]) {

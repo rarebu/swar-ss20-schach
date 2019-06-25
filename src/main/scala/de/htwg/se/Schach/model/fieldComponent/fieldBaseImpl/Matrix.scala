@@ -16,5 +16,5 @@ case class Matrix[T](rows: Vector[Vector[T]]) {
 }
 
 private object Matrix {
-  val SIZE_CHESSFIELD = 8
+  val SIZE_CHESSFIELD = Field.SIZE
 }

@@ -1,9 +1,10 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
+import de.htwg.se.Schach.model.FigureInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Moves._
 
-case class King(colour: Colour, stepCounter: Int) extends Figure {
+case class King(colour: Colour, stepCounter: Int) extends Figure with FigureInterface {
 
   override def getName: String = "King"
 
@@ -20,6 +21,8 @@ case class King(colour: Colour, stepCounter: Int) extends Figure {
   }
 
   def hasAbility: Boolean = stepCounter == 0
+
+  override def getRepresentation: String = this.getClass.toString
 }
 
 object King {
