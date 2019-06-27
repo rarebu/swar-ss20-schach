@@ -3,18 +3,18 @@ package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 import de.htwg.se.Schach.model.{FigureInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 
-trait Figure extends FigureInterface {
+trait Figure {
   val colour: Colour
 
   def getName: String
 
   def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[Coordinates]]
 
-  def move: Figure
+  def move:Figure
 
-  def unMove: Figure
+  def unMove:Figure
 
-  override def isBlack: Boolean = this.colour == Colour.black
+  def getStepCount:Int
 }
 
 object Figure {

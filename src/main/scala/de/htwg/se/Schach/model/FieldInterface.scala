@@ -28,31 +28,29 @@ trait FieldInterface {
   def getToChange: String
 }
 
-trait RemovedFiguresInterface {
-  def getEntryList:List[EntryInterface]
-
-  def append(entry: EntryInterface)
-
-  def containsFigureThatGotRemovedThisRound(round: Int): Option[EntryInterface]
+trait FieldDataInterface {
+ def getField:FieldInterface
 }
 
-trait EntryInterface {
-  def getFigure:FigureInterface
+trait FigureInterface {
+  def isBlack:Boolean
 
-  def getCoordinate:CoordinatesInterface
+  def getKind:String
+
+  def getStepCount:Int
+
+  def getPosition:(Int, Int)
+
+}
+
+trait RemovedFigureInterface {
+  def getFigure:FigureInterface
 
   def getRound:Int
 }
 
-trait FigureInterface {
-  def getRepresentation: String
+trait ToChangeInterface {
+  def getFigure:FigureInterface
 
-  def isBlack: Boolean
-
-  def getPossibleNewPositions(field: Field, coordinates: Coordinates): Vector[Vector[CoordinatesInterface]]
-
-}
-
-trait CoordinatesInterface {
-  def getCoordinates:(Int, Int)
+  def isBlack:Boolean
 }

@@ -5,7 +5,7 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Moves._
 
 
-case class Rook(colour: Colour, stepCounter: Int) extends Figure with FigureInterface {
+case class Rook(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "Rook"
 
@@ -23,7 +23,7 @@ case class Rook(colour: Colour, stepCounter: Int) extends Figure with FigureInte
 
   def hasAbility: Boolean = stepCounter == 0
 
-  override def getRepresentation: String = this.getClass.toString
+  override def getStepCount: Int = stepCounter
 }
 
 private object Rook {

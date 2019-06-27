@@ -2,7 +2,7 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl
 
 
 import de.htwg.se.Schach.model.fileIoComponent.FileIO
-import de.htwg.se.Schach.model.{CoordinatesInterface, FieldInterface, FigureInterface, RemovedFiguresInterface}
+import de.htwg.se.Schach.model.{FieldInterface, FigureInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, RemovedFigures}
 
 import scala.xml.{NodeSeq, PrettyPrinter}
@@ -10,17 +10,18 @@ import scala.xml.XML
 
 class FileIOXml(field:FieldInterface) extends FileIO {
   override def load: FieldInterface = {
-    val file = scala.xml.XML.loadFile("field.xml")
-
-    val figurePositions: List[(CoordinatesInterface, FigureInterface)] = null
-
-    val toChange: String = ""
-
-    val roundCount:Int = 0
-
-    val removedFigures: RemovedFiguresInterface = null
-
-    new Field(figurePositions, toChange, roundCount, removedFigures)
+//    val file = scala.xml.XML.loadFile("field.xml")
+//
+//    val figurePositions: List[(CoordinatesInterface, FigureInterface)] = null
+//
+//    val toChange: String = ""
+//
+//    val roundCount:Int = 0
+//
+//    val removedFigures: RemovedFiguresInterface = null
+//
+//    new Field(figurePositions, toChange, roundCount, removedFigures)
+    null
   }
 
   override def save: Unit = saveString

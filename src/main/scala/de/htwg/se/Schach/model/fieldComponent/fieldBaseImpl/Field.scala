@@ -1,10 +1,15 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
+import java.util
+
 import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Figure._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field._
+
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) extends FieldInterface {
   var wrongInput: Boolean = false
@@ -22,19 +27,57 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
   }), None, 0, new RemovedFigures())
 
-  def this(figurePositions:List[(CoordinatesInterface, FigureInterface)], toChange: String, roundCount:Int, removedFigures: RemovedFiguresInterface) = this(new Matrix[Cell]((row, col) => {
-    val ab: Option[(CoordinatesInterface, FigureInterface)] = figurePositions.find(figure => { figure._1.getCoordinates == (row, col) })
-    var d:Option[Figure] = Option.empty
-    if(ab.isDefined) {
-      val tm = ab.get._2
-      val c:String = tm.getRepresentation
-      val col = if (tm.isBlack) Colour.black else Colour.white
-      d = Figure.apply(c, col, 0)
+//  def this(fieldPersistenceStrucutre:FieldDataInterface) =
+//  def this(fieldPersistenceStrucutre.figurePositions)
+  def this(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) =
+    this(new Matrix[Cell]((row, col) => {
+      val ab: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
+      var d:Option[Figure] = Option.empty
+      if(ab.isDefined) {
+        val tmpFig = ab.get
+        val tmpColour = if (tmpFig.isBlack) Colour.black else Colour.white
+        d = Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
+      }
+      if (row % 2 == 0)
+        if (col % 2 == 0) Cell(Colour.white, d) else Cell(Colour.black, d)
+      else if (col % 2 == 0) Cell(Colour.black, d) else Cell(Colour.white, d)
+    }),
+      { val tmpChangeFigure: Option[ToChange] = if (toChange.isDefined) {
+        val tmpToChange = toChange.get
+        val tmpFigurePers = tmpToChange.getFigure
+        val tmpFigureCol = if (tmpFigurePers.isBlack) Colour.black else Colour.white
+        val tmpFigure: Figure = Figure.apply(tmpFigurePers.getKind, tmpFigureCol, tmpFigurePers.getStepCount).get
+        val tmpFigurePosition = tmpToChange.getFigure.getPosition
+        Option.apply(ToChange(Coordinates(tmpFigurePosition._1, tmpFigurePosition._2), if(tmpToChange.isBlack) Colour.black else Colour.white, tmpFigure))
+      } else Option.empty
+        tmpChangeFigure
+      }, roundCount, {
+        val tmpRemovedFigures:RemovedFigures = new RemovedFigures(removedFigures) // removedFig erstellen
+        tmpRemovedFigures
+      })
+
+  def getField:FieldDataInterface = {
+    val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
+    val toChange = if(changeFigure.isDefined) {
+      val change = changeFigure.get
+      val figure = change.figure
+      val colourIsBlack = change.colour == Colour.black
+      val coords = change.coordinates
+      Option.apply(PersistToChange(PersistFigure(figure.colour == Colour.black, figure.getName, figure.getStepCount, (coords.row,coords.col)), colourIsBlack))
+    } else Option.empty
+    for {
+      row <- 0 until SIZE
+      col <- 0 until SIZE
+    } if(cell(row, col).contains.isDefined) {
+      val tmpFigure = cell(row, col).contains.get
+      val tmpFigureColourIsBlack = tmpFigure.colour == Colour.black
+      val tmpFigureKind = tmpFigure.getName
+      val tmpFigureStepCount = tmpFigure.getStepCount
+      figureList. += (PersistFigure(tmpFigureColourIsBlack, tmpFigureKind, tmpFigureStepCount, (row,col)))
     }
-    if (row % 2 == 0)
-      if (col % 2 == 0) Cell(Colour.white, d) else Cell(Colour.black, d)
-    else if (col % 2 == 0) Cell(Colour.black, d) else Cell(Colour.white, d)
-  }), None, roundCount, null)
+    removedFigures.persistRemoveFigures
+    PersistField(figureList.toList, toChange, removedFigures.persistRemoveFigures, roundCounter)
+  }
 
   def cell(row: Int, col: Int): Cell = cells.cell(row, col)
 

@@ -4,7 +4,7 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Moves._
 import Colour.Colour
 import de.htwg.se.Schach.model.FigureInterface
 
-case class Bishop(colour: Colour, stepCounter: Int) extends Figure with FigureInterface {
+case class Bishop(colour: Colour, stepCounter: Int) extends Figure {
 
   override def getName: String = "Bishop"
 
@@ -20,7 +20,7 @@ case class Bishop(colour: Colour, stepCounter: Int) extends Figure with FigureIn
     Bishop(this.colour, this.stepCounter - 1)
   }
 
-  override def getRepresentation: String = this.getClass.toString
+  override def getStepCount: Int = stepCounter
 }
 
 object Bishop {
