@@ -5,11 +5,9 @@ import de.htwg.se.Schach.model.fileIoComponent.FileIO
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, PersistFigure, PersistRemovedFigure, PersistToChange, RemovedFigures}
 
-import scala.collection.mutable.ListBuffer
 import scala.xml.{NodeSeq, PrettyPrinter}
-import scala.xml.XML
 
-class FileIOXml(field:FieldInterface) extends FileIO {
+class FileIOXml extends FileIO {
   override def load: FieldInterface = {
     val file = scala.xml.XML.loadFile("field.xml")
     val roundAttr = (file \\ "field" \ "@round")
@@ -106,7 +104,7 @@ class FileIOXml(field:FieldInterface) extends FileIO {
       </option>
 
     } else {
-      <option isDefinded="false">
+      <option isDefined="false">
       </option>
     }
   }

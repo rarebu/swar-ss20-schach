@@ -59,14 +59,14 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
   override def pawnPromoting: Option[String] = field.getFigures
 
   override def save: Unit = {
-    val fileIo = new FileIOXml(field)
+    val fileIo = new FileIOXml
     fileIo.save(field)
     gameStatus = SAVED
     publish(new CellChanged)
   }
 
   override def load: Unit = {
-    val fileIo = new FileIOXml(field)
+    val fileIo = new FileIOXml
     field = fileIo.load
     gameStatus = LOADED
     publish(new CellChanged)
