@@ -3,7 +3,7 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl
 
 import de.htwg.se.Schach.model.fileIoComponent.FileIO
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, PersistFigure, PersistRemovedFigure, PersistToChange, RemovedFigures}
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange, RemovedFigures}
 
 import scala.xml.{NodeSeq, PrettyPrinter}
 
@@ -17,10 +17,9 @@ class FileIOXml extends FileIO {
     val optionToChangeNode = (file \\ "field" \ "option")
     val toChange = loadToChange(optionToChangeNode)
     val removedFiguresNodes = (file \\ "removedFigure")
-    val removedFIgures = loadRemovedFigures(removedFiguresNodes)
-
-    new Field(figurePositions, toChange, removedFIgures, round)
-
+    val removedFigures = loadRemovedFigures(removedFiguresNodes)
+    val field = PersistField(figurePositions, toChange, removedFigures, round)
+    new Field(field)
   }
 
   def loadFigurePositions(figurePositions:NodeSeq):List[FigureInterface] = {
