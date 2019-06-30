@@ -26,10 +26,20 @@ trait FieldInterface {
   def getRoundCount: Int
 
   def getToChange: String
+
+  def getField:FieldDataInterface
 }
 
 trait FieldDataInterface {
  def getField:FieldInterface
+
+  def getFigurePositions:List[FigureInterface]
+
+  def getToChange:Option[ToChangeInterface]
+
+  def getRemovedFigures:List[RemovedFigureInterface]
+
+  def getRoundCount:Int
 }
 
 trait FigureInterface {

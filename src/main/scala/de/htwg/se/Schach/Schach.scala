@@ -10,7 +10,7 @@ import scala.io.StdIn.readLine
 object Schach {
   val controller = new Controller(new Field())
   val tui = new TUI(controller)
-  val gui = new SwingGui(controller)
+//  val gui = new SwingGui(controller)
   controller.publish(new CellChanged)
 
   def main(args: Array[String]): Unit = {

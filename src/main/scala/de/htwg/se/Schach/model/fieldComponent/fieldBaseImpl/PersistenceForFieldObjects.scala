@@ -26,4 +26,12 @@ case class PersistToChange(figure:FigureInterface, isBlackColour:Boolean) extend
 
 case class PersistField(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) extends FieldDataInterface {
   override def getField: FieldInterface = new Field(figurePositions, toChange, removedFigures, roundCount)
+
+  override def getFigurePositions: List[FigureInterface] = figurePositions
+
+  override def getToChange: Option[ToChangeInterface] = toChange
+
+  override def getRemovedFigures: List[RemovedFigureInterface] = removedFigures
+
+  override def getRoundCount: Int = roundCount
 }

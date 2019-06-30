@@ -56,7 +56,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
         tmpRemovedFigures
       })
 
-  def getField:FieldDataInterface = {
+  override def getField:FieldDataInterface = {
     val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
     val toChange = if(changeFigure.isDefined) {
       val change = changeFigure.get

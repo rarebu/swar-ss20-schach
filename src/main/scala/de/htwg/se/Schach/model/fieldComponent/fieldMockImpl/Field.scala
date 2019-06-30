@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldMockImpl
 
-import de.htwg.se.Schach.model.FieldInterface
+import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 
 class Field extends FieldInterface {
@@ -27,4 +27,6 @@ class Field extends FieldInterface {
   override def getRoundCount: Int = ???
 
   override def getToChange: String = ???
+
+  override def getField: FieldDataInterface = ???
 }

@@ -5,5 +5,5 @@ import de.htwg.se.Schach.model.FieldInterface
 trait FileIO {
   def load:FieldInterface
 
-  def save:Unit
+  def save(field:FieldInterface):Unit
 }
