@@ -27,8 +27,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
   }), None, 0, new RemovedFigures())
 
-  def this (field:FieldDataInterface) = this(field.getFigurePositions, field.getToChange, field.getRemovedFigures, field.getRoundCount)
-
   def this(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) =
     this(new Matrix[Cell]((row, col) => {
       val ab: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
@@ -52,9 +50,11 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       } else Option.empty
         tmpChangeFigure
       }, roundCount, {
-        val tmpRemovedFigures:RemovedFigures = new RemovedFigures(removedFigures) // removedFig erstellen
+        val tmpRemovedFigures:RemovedFigures = new RemovedFigures(removedFigures)
         tmpRemovedFigures
       })
+
+  def this (field:FieldDataInterface) = this(field.getFigurePositions, field.getToChange, field.getRemovedFigures, field.getRoundCount)
 
   override def getField:FieldDataInterface = {
     val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
