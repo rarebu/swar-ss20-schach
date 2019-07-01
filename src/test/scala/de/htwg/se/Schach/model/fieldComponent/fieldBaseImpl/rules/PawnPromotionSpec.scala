@@ -24,7 +24,7 @@ class PawnPromotionSpec extends WordSpec with Matchers {
         else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
       })
       val field = Field(matrix, None, 3, new RemovedFigures())
-      val changeFigure = Option.apply(ToChange(Coordinates(7, 0), field.cell(7, 0), pawn))
+      val changeFigure = Option.apply(ToChange(Coordinates(7, 0), field.cell(7, 0).colour, pawn))
       "be asked what figure to switch into" in {
         PawnPromotion.pawnChange(Colour.black) should be("♛♜♝♞")
       }

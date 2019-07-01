@@ -1,5 +1,6 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
+import de.htwg.se.Schach.model.FigureInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Moves._
 
@@ -21,6 +22,8 @@ case class Rook(colour: Colour, stepCounter: Int) extends Figure {
   }
 
   def hasAbility: Boolean = stepCounter == 0
+
+  override def getStepCount: Int = stepCounter
 }
 
 private object Rook {

@@ -12,20 +12,20 @@ object PawnPromotion {
     if (pawn.colour == Colour.black && newRow == Figure.ROW_WHITE || pawn.colour == Colour.white && newRow == Figure.ROW_BLACK) {
       if (field.cell(newRow, newCol).contains.isDefined) field.removedFigures.append(Entry(field.cell(newRow, newCol).contains.get,
         Coordinates(newRow, newCol), field.roundCounter + 1))
-      Option.apply(field.moveOneFigure(coordinates, newCoordinates, Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol),
+      Option.apply(field.moveOneFigure(coordinates, newCoordinates, Option.apply(ToChange(Coordinates(newRow, newCol), field.cell(newRow, newCol).colour,
         field.cell(row, col).contains.get)), pawn.move))
     } else None
   }
 
   def pawnChange(colour: Colour): String = {
     colour match {
-      case Colour.black => Figure.CHANGABLE_BLACK_FIGURES
-      case _ => Figure.CHANGABLE_WHITE_FIGURES
+      case Colour.black => Figure.CHANGEABLE_BLACK_FIGURES
+      case _ => Figure.CHANGEABLE_WHITE_FIGURES
     }
   }
 
   def findFigure(colour: Colour, input: String): Option[Figure] = {
-    if (colour == Colour.black && Figure.CHANGABLE_BLACK_FIGURES.contains(input)) {
+    if (colour == Colour.black && Figure.CHANGEABLE_BLACK_FIGURES.contains(input)) {
       input match {
         case "♛" => Figure.applyNotNew("Queen", Colour.black)
         case "♜" => Figure.applyNotNew("Rook", Colour.black)
@@ -33,7 +33,7 @@ object PawnPromotion {
         case "♞" => Figure.applyNotNew("Knight", Colour.black)
       }
     }
-    else if (colour == Colour.white && Figure.CHANGABLE_WHITE_FIGURES.contains(input)) {
+    else if (colour == Colour.white && Figure.CHANGEABLE_WHITE_FIGURES.contains(input)) {
       input match {
         case "♕" => Figure.applyNotNew("Queen", Colour.white)
         case "♖" => Figure.applyNotNew("Rook", Colour.white)
@@ -47,12 +47,12 @@ object PawnPromotion {
     if (changeFigure.isDefined) {
       val tmp = changeFigure.get
       val coordinates = tmp.coordinates
-      val cell = tmp.cell
+      val colour = tmp.colour
       val figure = tmp.figure
-      val colour = figure.colour
-      val z = findFigure(colour, input)
+      val colour2 = figure.colour
+      val z = findFigure(colour2, input)
       if (z.isDefined) {
-        Option.apply(field.replace(coordinates, Cell(cell.colour, z), None, false))
+        Option.apply(field.replace(coordinates, Cell(colour, z), None, false))
       } else None
     } else None
   }
@@ -61,10 +61,10 @@ object PawnPromotion {
     field.removedFigures.containsFigureThatGotRemovedThisRound(field.roundCounter) match {
       case Some(fig) => Option.apply(
         field.replace(fig.coordinates, Cell(field.cell(fig.coordinates.row, fig.coordinates.col).colour, Option.apply(fig.figure)),
-          Option.apply(ToChange(fig.coordinates, field.cell(fig.coordinates.row, fig.coordinates.col), fig.figure)), true))
+          Option.apply(ToChange(fig.coordinates, field.cell(fig.coordinates.row, fig.coordinates.col).colour, fig.figure)), true))
       case None => None
     }
   }
 }
 
-case class ToChange(coordinates: Coordinates, cell: Cell, figure: Figure)
+case class ToChange(coordinates: Coordinates, colour: Colour, figure: Figure)

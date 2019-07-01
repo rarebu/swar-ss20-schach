@@ -1,8 +1,8 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Moves._
-
 import Colour.Colour
+import de.htwg.se.Schach.model.FigureInterface
 
 case class Bishop(colour: Colour, stepCounter: Int) extends Figure {
 
@@ -19,6 +19,8 @@ case class Bishop(colour: Colour, stepCounter: Int) extends Figure {
   override def unMove: Figure = {
     Bishop(this.colour, this.stepCounter - 1)
   }
+
+  override def getStepCount: Int = stepCounter
 }
 
 object Bishop {

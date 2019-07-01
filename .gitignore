@@ -44,4 +44,5 @@ project/.sbtserver
 
 # Application
 Schach.log
+field.xml
 .attach_pid*

@@ -13,7 +13,7 @@ class ControllerSpec extends WordSpec with Matchers {
         controller.cellIsBlack(0, 0) should be(false)
         controller.choose("a") should be()
         controller.fieldToString should be("Wrong Input!")
-        controller.getChangableFigures should be("♛♜♝♞♕♖♗♘")
+        controller.getChangeableFigures should be("♛♜♝♞♕♖♗♘")
         controller.move(1, 0, 3, 0) should be()
         controller.statusText should be("A figure moved")
         controller.undo should be()

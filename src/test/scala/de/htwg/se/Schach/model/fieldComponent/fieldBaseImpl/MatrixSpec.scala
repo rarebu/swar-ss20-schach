@@ -20,7 +20,7 @@ class MatrixSpec extends WordSpec with Matchers {
             if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
           else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
         })
-        matrix.size should be(8)
+        matrix.size should be(Field.SIZE)
       }
       "for test purposes only be created with a Vector of Vectors" in {
         val testMatrix = Matrix(Vector(Vector(Cell(Colour.white, Option.empty))))
@@ -70,7 +70,7 @@ class MatrixSpec extends WordSpec with Matchers {
         matrix.rows(7)(6).colour should be(Colour.black)
       }
       "should have a size of 8" in {
-        matrix.size should be(8)
+        matrix.size should be(Field.SIZE)
       }
       "should be able to replace a Cell" in {
         matrix.replaceCell(3, 3, Cell(Colour.white, Option.empty))
