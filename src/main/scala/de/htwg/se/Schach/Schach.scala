@@ -23,7 +23,7 @@ object Schach {
     //    else
     do {
       input = readLine()
-      tui.processInputLine(input)
+      if(input!= null) tui.processInputLine(input)
     } while (input != "q")
   }
 }
