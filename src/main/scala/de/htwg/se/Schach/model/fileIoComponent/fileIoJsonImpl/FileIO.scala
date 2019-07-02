@@ -2,12 +2,12 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl
 
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Field, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange}
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
-import de.htwg.se.Schach.model.fileIoComponent.FileIO
+import de.htwg.se.Schach.model.fileIoComponent.FileIOInterface
 import play.api.libs.json.{JsLookupResult, JsResult, JsValue, Json, Reads, Writes}
 
 import scala.io.Source
 
-class FileIOJson extends FileIO {
+class FileIO extends FileIOInterface {
   override def load: FieldInterface = {
     val source:String = Source.fromFile("field.json").getLines.mkString
     val json: JsValue = Json.parse(source)

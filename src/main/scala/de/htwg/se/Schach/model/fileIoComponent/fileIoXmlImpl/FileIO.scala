@@ -1,13 +1,13 @@
 package de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl
 
 
-import de.htwg.se.Schach.model.fileIoComponent.FileIO
+import de.htwg.se.Schach.model.fileIoComponent.FileIOInterface
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange, RemovedFigures}
 
 import scala.xml.{NodeSeq, PrettyPrinter}
 
-class FileIOXml extends FileIO {
+class FileIO extends FileIOInterface {
   override def load: FieldInterface = {
     val file = scala.xml.XML.loadFile("field.xml")
     val roundAttr = (file \\ "field" \ "@round")
