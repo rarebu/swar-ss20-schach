@@ -7,6 +7,7 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Figure._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field._
+import play.api.libs.json._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -220,6 +221,20 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   override def getRoundCount: Int = roundCounter
 
   override def getToChange: String = if (changeFigure.isDefined) changeFigure.get.figure.colour.toString else ""
+
+  implicit val figureWrites = new Writes[FigureInterface] {
+    override def writes(figure: FigureInterface): JsValue = Json.obj(
+      "isBlack" -> figure.isBlack,
+      "kind" -> figure.getKind,
+      "row" -> figure.getPosition._1,
+      "col" -> figure.getPosition._2
+    )
+  }
+  override def toJson: JsValue = Json.obj(
+    "figurePostions" -> Json.toJson(
+      for (figure <- this.getField.getFigurePositions)
+      yield Json.toJson(figure))
+  )
 }
 
 //private[fieldComponent]

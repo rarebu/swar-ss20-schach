@@ -1,0 +1,225 @@
+{
+  "field" : {
+    "round" : 5,
+    "figurePositions" : [ {
+      "isBlack" : true,
+      "kind" : "Rook",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 0
+    }, {
+      "isBlack" : true,
+      "kind" : "Knight",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 1
+    }, {
+      "isBlack" : true,
+      "kind" : "Bishop",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 2
+    }, {
+      "isBlack" : true,
+      "kind" : "Queen",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 3
+    }, {
+      "isBlack" : true,
+      "kind" : "King",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 4
+    }, {
+      "isBlack" : true,
+      "kind" : "Bishop",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 5
+    }, {
+      "isBlack" : true,
+      "kind" : "Knight",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 6
+    }, {
+      "isBlack" : true,
+      "kind" : "Rook",
+      "stepCount" : 0,
+      "row" : 0,
+      "col" : 7
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 1
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 2
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 3
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 4
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 5
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 6
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 1,
+      "col" : 7
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 0
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 2
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 3
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 4
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 5
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 6
+    }, {
+      "isBlack" : false,
+      "kind" : "Pawn",
+      "stepCount" : 0,
+      "row" : 6,
+      "col" : 7
+    }, {
+      "isBlack" : true,
+      "kind" : "Pawn",
+      "stepCount" : 5,
+      "row" : 7,
+      "col" : 0
+    }, {
+      "isBlack" : false,
+      "kind" : "Knight",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 1
+    }, {
+      "isBlack" : false,
+      "kind" : "Bishop",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 2
+    }, {
+      "isBlack" : false,
+      "kind" : "Queen",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 3
+    }, {
+      "isBlack" : false,
+      "kind" : "King",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 4
+    }, {
+      "isBlack" : false,
+      "kind" : "Bishop",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 5
+    }, {
+      "isBlack" : false,
+      "kind" : "Knight",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 6
+    }, {
+      "isBlack" : false,
+      "kind" : "Rook",
+      "stepCount" : 0,
+      "row" : 7,
+      "col" : 7
+    } ],
+    "option" : {
+      "isDefined" : true,
+      "isBlack" : true,
+      "figure" : {
+        "isBlack" : true,
+        "kind" : "Pawn",
+        "stepCount" : 4,
+        "row" : 7,
+        "col" : 0
+      }
+    },
+    "removedFigures" : [ {
+      "round" : 4,
+      "figure" : {
+        "isBlack" : false,
+        "kind" : "Pawn",
+        "stepCount" : 0,
+        "row" : 6,
+        "col" : 1
+      }
+    }, {
+      "round" : 5,
+      "figure" : {
+        "isBlack" : false,
+        "kind" : "Rook",
+        "stepCount" : 0,
+        "row" : 7,
+        "col" : 0
+      }
+    }, {
+      "round" : 6,
+      "figure" : {
+        "isBlack" : true,
+        "kind" : "Pawn",
+        "stepCount" : 5,
+        "row" : 7,
+        "col" : 0
+      }
+    } ]
+  }
+}

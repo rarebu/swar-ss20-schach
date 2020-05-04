@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.model
 
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Coordinates, Field, Figure}
+import play.api.libs.json.JsValue
 
 trait FieldInterface {
   def cellIsBlack(row: Int, col: Int): Boolean
@@ -28,6 +29,8 @@ trait FieldInterface {
   def getToChange: String
 
   def getField:FieldDataInterface
+
+  def toJson: JsValue
 }
 
 trait FieldDataInterface {
