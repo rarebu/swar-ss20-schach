@@ -2,6 +2,7 @@ package de.htwg.se.Schach.model.fieldComponent.fieldMockImpl
 
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
+import play.api.libs.json.JsValue
 
 class Field extends FieldInterface {
   override def cellIsBlack(row: Int, col: Int): Boolean = ???
@@ -29,4 +30,6 @@ class Field extends FieldInterface {
   override def getToChange: String = ???
 
   override def getField: FieldDataInterface = ???
+
+  override def toJson: JsValue = ???
 }

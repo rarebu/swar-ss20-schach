@@ -6,6 +6,7 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl.FileIOJson
 import de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl.FileIOXml
 import de.htwg.se.Schach.util.UndoManager
+import play.api.libs.json.JsValue
 
 import scala.swing.Publisher
 
@@ -72,4 +73,6 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
     gameStatus = LOADED
     publish(new CellChanged)
   }
+
+  override def toJson: JsValue = field.toJson
 }
