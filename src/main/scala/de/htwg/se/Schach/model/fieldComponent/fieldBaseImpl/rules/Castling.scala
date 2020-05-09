@@ -35,16 +35,20 @@ object Castling {
       tmp.get match {
         case fig: Rook => fig.hasAbility
         case _ => false
-      }) && { // check if fields between rook and king are empty
-      var u = true
-      for (x <- range) {
-        field.cell(coordinates.row, x).contains match {
-          case Some(_) => u = false
-          case _ =>
-        }
-      }
-      u
-    })
+      }) && !range.forall(x => field.cell(coordinates.row, x).contains.isDefined)
+//      { // check if fields between rook and king are empty
+//      var u = true
+//      val u = !range.forall(x => {field.cell(coordinates.row, x).contains.isDefined})
+//      for (x <- range) {
+//        field.cell(coordinates.row, x).contains match {
+//          case Some(_) => u = false
+//          case _ =>
+//        }
+//      }
+//      u
+
+//    }
+  )
   }
 
   def castleKingside(field: Field, coordinates: Coordinates): Option[Coordinates] = {

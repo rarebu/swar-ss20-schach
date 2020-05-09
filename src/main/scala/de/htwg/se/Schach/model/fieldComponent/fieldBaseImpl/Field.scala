@@ -31,12 +31,11 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   def this(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) =
     this(new Matrix[Cell]((row, col) => {
       val ab: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
-      var d:Option[Figure] = Option.empty
-      if(ab.isDefined) {
+      val d:Option[Figure] = if(ab.isDefined) {
         val tmpFig = ab.get
         val tmpColour = if (tmpFig.isBlack) Colour.black else Colour.white
-        d = Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
-      }
+        Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
+      } else Option.empty
       if (row % 2 == 0)
         if (col % 2 == 0) Cell(Colour.white, d) else Cell(Colour.black, d)
       else if (col % 2 == 0) Cell(Colour.black, d) else Cell(Colour.white, d)
