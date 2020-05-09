@@ -35,10 +35,9 @@ object Moves {
           else goTwoStepsDownOrOneStepDown(field, colour, coordinates)
         else removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepDown(coordinates))))
       } else Nil.toVector
-      var g: mutable.Buffer[Vector[Coordinates]] = tmp.toBuffer
-      if (isOponent(field, Coordinates(coordinates.row - 1, coordinates.col - 1), Colour.white)) g += Vector(Coordinates(coordinates.row - 1, coordinates.col - 1))
-      if (isOponent(field, Coordinates(coordinates.row - 1, coordinates.col + 1), Colour.white)) g += Vector(Coordinates(coordinates.row - 1, coordinates.col + 1))
-      g.toVector
+
+      check_pawn_fight(_-_, field, tmp, coordinates, Colour.white)
+
     } else {
       val tmp: Vector[Vector[Coordinates]] = if (!isOponent(field, Coordinates(coordinates.row + 1, coordinates.col), Colour.black)) {
         if (ability)
@@ -46,11 +45,17 @@ object Moves {
           else goTwoStepsUpOrOneStepUp(field, colour, coordinates)
         else removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepUp(coordinates))))
       } else Nil.toVector
-      var g: mutable.Buffer[Vector[Coordinates]] = tmp.toBuffer
-      if (isOponent(field, Coordinates(coordinates.row + 1, coordinates.col - 1), Colour.black)) g += Vector(Coordinates(coordinates.row + 1, coordinates.col - 1))
-      if (isOponent(field, Coordinates(coordinates.row + 1, coordinates.col + 1), Colour.black)) g += Vector(Coordinates(coordinates.row + 1, coordinates.col + 1))
-      g.toVector
+
+      check_pawn_fight(_+_, field, tmp, coordinates, Colour.black)
+
     }
+  }
+
+  def check_pawn_fight(op: (Int, Int)=> Int, field: Field, tmp: Vector[Vector[Coordinates]], coordinates: Coordinates, colour: Colour): Vector[Vector[Coordinates]] = {
+    var g: mutable.Buffer[Vector[Coordinates]] = tmp.toBuffer
+    if (isOponent(field, Coordinates(op(coordinates.row, 1), coordinates.col - 1), colour)) g += Vector(Coordinates(op(coordinates.row, 1), coordinates.col - 1))
+    if (isOponent(field, Coordinates(op(coordinates.row, 1), coordinates.col + 1), colour)) g += Vector(Coordinates(op(coordinates.row, 1), coordinates.col + 1))
+    g.toVector
   }
 
   def kingMove(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {

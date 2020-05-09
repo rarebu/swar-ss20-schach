@@ -198,21 +198,13 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   override def toString: String = {
+    if (wrongInput)
+      return "Wrong Input!";
     val barrier = "|" + "♦––♦|" * SIZE + "\n"
     val line = "|" + "X|" * SIZE + "\n"
-    var box = barrier + (line + barrier) * SIZE
-    for {
-      row <- 0 until SIZE
-      col <- 0 until SIZE
-    } box = box.replaceFirst("X", cell(row, col).toString)
-    box = "Step: " + roundCounter + "\n" + box
-    if (wrongInput) {
-      "Wrong Input!"
-    } else if (changeFigure.isEmpty) {
-      box
-    } else {
-      box + "\n\n Choose a figure " + getFigures.get
-    }
+    val box = barrier + (line + barrier) * SIZE
+    val content = cells.flatten.iterator;
+    box.iterator.map(c => if(c.equals('X')) content.next() else c).mkString
   }
 
   override def getSize: Int = SIZE
