@@ -2,7 +2,6 @@ package de.htwg.se.Schach.aview.gui
 
 import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
-import de.htwg.se.Schach.util.Observer
 import javax.swing.{Icon, JOptionPane, UIManager, WindowConstants}
 
 import scala.swing.Swing.{EmptyIcon, LineBorder}
@@ -11,7 +10,7 @@ import scala.swing.event._
 
 class CellClicked(val row: Int, val column: Int) extends Event
 
-class SwingGui(controller: ControllerInterface) extends Frame with Observer {
+class SwingGui(controller: ControllerInterface) extends Frame {
   listenTo(controller)
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"
@@ -65,8 +64,6 @@ class SwingGui(controller: ControllerInterface) extends Frame with Observer {
   }
 
   visible = true
-
-  override def update(): Boolean = true
 
   def redraw = {
     for {
