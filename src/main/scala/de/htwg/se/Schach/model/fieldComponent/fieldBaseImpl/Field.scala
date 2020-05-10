@@ -13,7 +13,6 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) extends FieldInterface {
-  var wrongInput: Boolean = false
 
   def this() = this(new Matrix[Cell]((row, col) => {
     val a = (row, col) match {
@@ -141,9 +140,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     }
     a match {
       case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
+      case None =>
     }
     a
   }
@@ -166,9 +163,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     val a = PawnPromotion.changePawn(this, changeFigure, input)
     a match {
       case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
+      case None =>
     }
     a
   }
@@ -177,9 +172,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     val a = PawnPromotion.undoChangePawn(this, input)
     a match {
       case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
+      case None =>
     }
     a
   }
@@ -198,8 +191,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   override def toString: String = {
-    if (wrongInput)
-      return "Wrong Input!";
     val barrier = "|" + "♦––♦|" * SIZE + "\n"
     val line = "|" + "X|" * SIZE + "\n"
     val box = barrier + (line + barrier) * SIZE
