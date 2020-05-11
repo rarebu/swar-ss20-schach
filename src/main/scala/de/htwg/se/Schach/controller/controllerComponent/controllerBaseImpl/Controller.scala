@@ -4,7 +4,6 @@ import GameStatus._
 import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl.FileIOJson
-import de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl.FileIOXml
 import de.htwg.se.Schach.util.UndoManager
 import play.api.libs.json.JsValue
 

@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, ControllerInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import javax.swing.{Icon, JOptionPane, UIManager, WindowConstants}
 
@@ -19,16 +19,14 @@ class SwingGui(controller: ControllerInterface) extends Frame {
 
   def gridPanel: GridPanel = new GridPanel(Field.SIZE, Field.SIZE) {
     border = LineBorder(java.awt.Color.BLACK, 2)
-    for {
-      outerRow <- 0 until Field.SIZE
-      outerColumn <- 0 until Field.SIZE
-    } {
+    (0 until Field.SIZE).foreach(outerRow => (0 until Field.SIZE).foreach(outerColumn => {
       val row = outerRow
       val col = outerColumn
       val cellPanel = new CellPanel(row, col, controller)
       cells(row)(col) = cellPanel
       contents += cellPanel
     }
+    ))
   }
 
   val statusline = new TextField("spawn", 20)
@@ -65,11 +63,8 @@ class SwingGui(controller: ControllerInterface) extends Frame {
 
   visible = true
 
-  def redraw = {
-    for {
-      row <- 0 until Field.SIZE
-      column <- 0 until Field.SIZE
-    } cells(row)(column).redraw
+  def redraw: Unit = {
+    (0 until Field.SIZE).foreach(row => (0 until Field.SIZE).foreach(col => cells(row)(col).redraw))
     val tmp = controller.pawnPromoting
     if (tmp.isDefined) {
       controller.choose(chooseFigure(tmp.get))

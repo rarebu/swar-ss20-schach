@@ -3,7 +3,7 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl
 
 import de.htwg.se.Schach.model.fileIoComponent.FileIO
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange, RemovedFigures}
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Field, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange}
 
 import scala.xml.{NodeSeq, PrettyPrinter}
 

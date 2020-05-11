@@ -8,8 +8,6 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field._
 import de.htwg.se.Schach.util.Utils
 import play.api.libs.json._
 
-import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) extends FieldInterface {
 
