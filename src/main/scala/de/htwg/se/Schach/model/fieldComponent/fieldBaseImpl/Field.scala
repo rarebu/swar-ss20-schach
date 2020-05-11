@@ -216,10 +216,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     )
   }
   override def toJson: JsValue = Json.obj(
-    "figurePostions" -> Json.toJson(
-      for (figure <- this.getField.getFigurePositions)
-      yield Json.toJson(figure))
-  )
+    "figurePostions" -> Json.toJson( this.getField.getFigurePositions.map(figure => Json.toJson(figure))))
 }
 
 object Field {

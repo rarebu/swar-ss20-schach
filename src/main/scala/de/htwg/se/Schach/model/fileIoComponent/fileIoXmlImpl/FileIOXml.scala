@@ -82,7 +82,7 @@ class FileIOXml extends FileIO {
 
   def figurePositionsToXml(figurePositions: List[FigureInterface]) = {
     <figurePositions>
-      { for(figure <- figurePositions) yield figureToXml(figure) }
+      { figurePositions.map(figure => figureToXml(figure)) }
     </figurePositions>
   }
 
@@ -110,7 +110,7 @@ class FileIOXml extends FileIO {
 
   def removedFiguresToXml(removedFigures: List[RemovedFigureInterface]) = {
     <removedFigures>
-      {for (removedFigure <- removedFigures) yield removedFigureToXml(removedFigure)}
+      {removedFigures.map(removedFigure => removedFigureToXml(removedFigure))}
     </removedFigures>
   }
 
