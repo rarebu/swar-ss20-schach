@@ -63,7 +63,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
 
   override def getField:FieldDataInterface = {
-    val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
 
     def factorChangeFigure(change: ToChange) = {
       val figure = change.figure
@@ -73,19 +72,13 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     }
 
     val toChange = if(changeFigure.isDefined) factorChangeFigure(changeFigure.get) else Option.empty
-
-    for {
-      row <- 0 until SIZE
-      col <- 0 until SIZE
-    } if(cell(row, col).contains.isDefined) {
+    val figureList = (0 until SIZE).flatMap(row => (0 until SIZE)
+      .filter(col => cell(row, col).contains.isDefined).map(col => {
       val tmpFigure = cell(row, col).contains.get
-      val tmpFigureColourIsBlack = tmpFigure.colour == Colour.black
-      val tmpFigureKind = tmpFigure.getName
-      val tmpFigureStepCount = tmpFigure.getStepCount
-      figureList. += (PersistFigure(tmpFigureColourIsBlack, tmpFigureKind, tmpFigureStepCount, (row,col)))
-    }
-    removedFigures.persistRemoveFigures
-    PersistField(figureList.toList, toChange, removedFigures.persistRemoveFigures, roundCounter)
+      PersistFigure(tmpFigure.colour == Colour.black, tmpFigure.getName, tmpFigure.getStepCount, (row,col))
+    })).toList
+
+    PersistField(figureList, toChange, removedFigures.persistRemoveFigures, roundCounter)
   }
 
   def cell(row: Int, col: Int): Cell = cells.cell(row, col)
