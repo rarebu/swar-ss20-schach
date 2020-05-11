@@ -14,13 +14,7 @@ object Schach {
   controller.publish(new CellChanged)
 
   def main(args: Array[String]): Unit = {
-    //    if (args.size > 0) {
-    //      var input: String = args(0)
-    //      if (!input.isEmpty) tui.processInputLine(input)
-    //    }
-    var input: String = "" //args(0)
-    //    if (!input.isEmpty) tui.processInputLine(input)
-    //    else
+    var input: String = ""
     do {
       input = readLine()
       tui.processInputLine(input)
