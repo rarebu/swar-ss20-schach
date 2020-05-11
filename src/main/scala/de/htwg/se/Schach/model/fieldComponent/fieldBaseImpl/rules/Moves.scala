@@ -26,7 +26,7 @@ object Moves {
     goMultiStepsCross(field, colour, coordinates) ++ goMultiStepsDiagonal(field, colour, coordinates)
 
   def pawnMove(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {
-    def inited_fight_check = if (colour == Colour.white) {
+    def initedFightCheck = if (colour == Colour.white) {
       val tmp: Vector[Vector[Coordinates]] = if (!isOponent(field, Coordinates(coordinates.row - 1, coordinates.col), Colour.white)) {
         if (ability)
           if (isOponent(field, Coordinates(coordinates.row - 2, coordinates.col), Colour.white)) removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepDown(coordinates))))
@@ -34,7 +34,7 @@ object Moves {
         else removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepDown(coordinates))))
       } else Nil.toVector
 
-      check_pawn_fight(_ - _, _: Field, tmp, _: Coordinates, Colour.white)
+      checkPawnFight(_ - _, _: Field, tmp, _: Coordinates, Colour.white)
     } else {
       val tmp: Vector[Vector[Coordinates]] = if (!isOponent(field, Coordinates(coordinates.row + 1, coordinates.col), Colour.black)) {
         if (ability)
@@ -43,12 +43,12 @@ object Moves {
         else removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepUp(coordinates))))
       } else Nil.toVector
 
-      check_pawn_fight(_ + _, _: Field, tmp, _: Coordinates, Colour.black)
+      checkPawnFight(_ + _, _: Field, tmp, _: Coordinates, Colour.black)
     }
-    inited_fight_check(field, coordinates)
+    initedFightCheck(field, coordinates)
   }
 
-  def check_pawn_fight(op: (Int, Int) => Int, field: Field, tmp: Vector[Vector[Coordinates]], coordinates: Coordinates, colour: Colour): Vector[Vector[Coordinates]] = {
+  def checkPawnFight(op: (Int, Int) => Int, field: Field, tmp: Vector[Vector[Coordinates]], coordinates: Coordinates, colour: Colour): Vector[Vector[Coordinates]] = {
     val firstPosition = isOponent(field, Coordinates(op(coordinates.row, 1), coordinates.col - 1), colour)
     val secondPosition = isOponent(field, Coordinates(op(coordinates.row, 1), coordinates.col + 1), colour)
     if (firstPosition && secondPosition) tmp ++ Vector(Vector(Coordinates(op(coordinates.row, 1), coordinates.col - 1)), Vector(Coordinates(op(coordinates.row, 1), coordinates.col + 1)))
