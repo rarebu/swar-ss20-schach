@@ -1,7 +1,5 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
-import java.util
-
 import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
@@ -18,13 +16,16 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     val a = (row, col) match {
       case (ROW_BLACK, column) => getFigure(Colour.black, column)
       case (ROW_WHITE, column) => getFigure(Colour.white, column)
-      case (ROW_BLACK_PAWN, column) => Option.apply(new Pawn(Colour.black, 0))
-      case (ROW_WHITE_PAWN, column) => Option.apply(new Pawn(Colour.white, 0))
+      case (ROW_BLACK_PAWN, _) => Option.apply(Pawn(Colour.black, 0))
+      case (ROW_WHITE_PAWN, _) => Option.apply(Pawn(Colour.white, 0))
       case _ => Option.empty
     }
-    if (row % 2 == 0)
-      if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
-    else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
+
+    def isEven(number: Int) = number % 2 == 0
+
+    if (isEven(row))
+      if (isEven(col)) Cell(Colour.white, a) else Cell(Colour.black, a)
+    else if (isEven(col)) Cell(Colour.black, a) else Cell(Colour.white, a)
   }), None, 0, new RemovedFigures())
 
   def this(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) =
@@ -219,7 +220,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   )
 }
 
-//private[fieldComponent]
 object Field {
   val SIZE = 8
 
