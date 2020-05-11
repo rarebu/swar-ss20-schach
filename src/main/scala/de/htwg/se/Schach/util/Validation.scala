@@ -16,15 +16,9 @@ object Validation {
     vector
   }
 
-  def removeInvalidsFromMultiVector(field: Field, colour: Colour, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] = {
-    var newMultiVector: Vector[Vector[Coordinates]] = Vector()
-    multiVector foreach {
-      vector =>
-        val b = cleanVec(field, removeInvalidsFromVector(vector), colour)
-        if (b.nonEmpty) newMultiVector = newMultiVector :+ b
-    }
-    newMultiVector
-  }
+  def removeInvalidsFromMultiVector(field: Field, colour: Colour, multiVector: Vector[Vector[Coordinates]]): Vector[Vector[Coordinates]] =
+    multiVector.map(vector => cleanVec(field, removeInvalidsFromVector(vector), colour)).filter(vector => vector.nonEmpty)
+
 
 
   def cellContainsFigure(field: Field, coordinates: Coordinates): Boolean = field.cell(coordinates.row, coordinates.col).contains.isDefined

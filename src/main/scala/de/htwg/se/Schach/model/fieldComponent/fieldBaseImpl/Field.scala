@@ -1,54 +1,57 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
-import java.util
-
 import de.htwg.se.Schach.model._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Figure._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field._
+import de.htwg.se.Schach.util.Utils
 import play.api.libs.json._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) extends FieldInterface {
-  var wrongInput: Boolean = false
 
   def this() = this(new Matrix[Cell]((row, col) => {
     val a = (row, col) match {
       case (ROW_BLACK, column) => getFigure(Colour.black, column)
       case (ROW_WHITE, column) => getFigure(Colour.white, column)
-      case (ROW_BLACK_PAWN, column) => Option.apply(new Pawn(Colour.black, 0))
-      case (ROW_WHITE_PAWN, column) => Option.apply(new Pawn(Colour.white, 0))
+      case (ROW_BLACK_PAWN, _) => Option.apply(Pawn(Colour.black, 0))
+      case (ROW_WHITE_PAWN, _) => Option.apply(Pawn(Colour.white, 0))
       case _ => Option.empty
     }
-    if (row % 2 == 0)
-      if (col % 2 == 0) Cell(Colour.white, a) else Cell(Colour.black, a)
-    else if (col % 2 == 0) Cell(Colour.black, a) else Cell(Colour.white, a)
+
+    val colIsEven = Utils.isEven(col)
+    if (Utils.isEven(row))
+      if (colIsEven) Cell(Colour.white, a) else Cell(Colour.black, a)
+    else if (colIsEven) Cell(Colour.black, a) else Cell(Colour.white, a)
   }), None, 0, new RemovedFigures())
 
   def this(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) =
     this(new Matrix[Cell]((row, col) => {
-      val ab: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
-      var d:Option[Figure] = Option.empty
-      if(ab.isDefined) {
-        val tmpFig = ab.get
+      val content: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
+
+      def figureInterfaceToFigure(tmpFig: FigureInterface) = {
         val tmpColour = if (tmpFig.isBlack) Colour.black else Colour.white
-        d = Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
+        Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
       }
-      if (row % 2 == 0)
-        if (col % 2 == 0) Cell(Colour.white, d) else Cell(Colour.black, d)
-      else if (col % 2 == 0) Cell(Colour.black, d) else Cell(Colour.white, d)
+
+      val d:Option[Figure] = if (content.isDefined) figureInterfaceToFigure(content.get) else Option.empty
+
+      if (Utils.isEven(row))
+        if (Utils.isEven(col)) Cell(Colour.white, d) else Cell(Colour.black, d)
+      else if (Utils.isEven(col)) Cell(Colour.black, d) else Cell(Colour.white, d)
     }),
-      { val tmpChangeFigure: Option[ToChange] = if (toChange.isDefined) {
-        val tmpToChange = toChange.get
-        val tmpFigurePers = tmpToChange.getFigure
-        val tmpFigureCol = if (tmpFigurePers.isBlack) Colour.black else Colour.white
-        val tmpFigure: Figure = Figure.apply(tmpFigurePers.getKind, tmpFigureCol, tmpFigurePers.getStepCount).get
-        val tmpFigurePosition = tmpToChange.getFigure.getPosition
-        Option.apply(ToChange(Coordinates(tmpFigurePosition._1, tmpFigurePosition._2), if(tmpToChange.isBlack) Colour.black else Colour.white, tmpFigure))
-      } else Option.empty
+      {
+        def factorToChange(tmpToChange:ToChangeInterface) = {
+            val tmpFigurePers = tmpToChange.getFigure
+            val tmpFigureCol = if (tmpFigurePers.isBlack) Colour.black else Colour.white
+            val tmpFigure: Figure = Figure.apply(tmpFigurePers.getKind, tmpFigureCol, tmpFigurePers.getStepCount).get
+            val tmpFigurePosition = tmpToChange.getFigure.getPosition
+            Option.apply(ToChange(Coordinates(tmpFigurePosition._1, tmpFigurePosition._2), if(tmpToChange.isBlack) Colour.black else Colour.white, tmpFigure))
+        }
+        val tmpChangeFigure: Option[ToChange] = if (toChange.isDefined) factorToChange(toChange.get) else Option.empty
         tmpChangeFigure
       }, roundCount, {
         val tmpRemovedFigures:RemovedFigures = new RemovedFigures(removedFigures)
@@ -57,15 +60,20 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
   def this (field:FieldDataInterface) = this(field.getFigurePositions, field.getToChange, field.getRemovedFigures, field.getRoundCount)
 
+
+
   override def getField:FieldDataInterface = {
     val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
-    val toChange = if(changeFigure.isDefined) {
-      val change = changeFigure.get
+
+    def factorChangeFigure(change: ToChange) = {
       val figure = change.figure
-      val colourIsBlack = change.colour == Colour.black
       val coords = change.coordinates
-      Option.apply(PersistToChange(PersistFigure(figure.colour == Colour.black, figure.getName, figure.getStepCount, (coords.row,coords.col)), colourIsBlack))
-    } else Option.empty
+      Option.apply(PersistToChange(PersistFigure(figure.colour == Colour.black, figure.getName, figure.getStepCount, (coords.row,coords.col)),
+        change.colour == Colour.black))
+    }
+
+    val toChange = if(changeFigure.isDefined) factorChangeFigure(changeFigure.get) else Option.empty
+
     for {
       row <- 0 until SIZE
       col <- 0 until SIZE
@@ -142,9 +150,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     }
     a match {
       case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
+      case None =>
     }
     a
   }
@@ -167,9 +173,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     val a = PawnPromotion.changePawn(this, changeFigure, input)
     a match {
       case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
+      case None =>
     }
     a
   }
@@ -178,9 +182,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     val a = PawnPromotion.undoChangePawn(this, input)
     a match {
       case Some(_) =>
-      case None => {
-        wrongInput = true
-      }
+      case None =>
     }
     a
   }
@@ -201,19 +203,9 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   override def toString: String = {
     val barrier = "|" + "♦––♦|" * SIZE + "\n"
     val line = "|" + "X|" * SIZE + "\n"
-    var box = barrier + (line + barrier) * SIZE
-    for {
-      row <- 0 until SIZE
-      col <- 0 until SIZE
-    } box = box.replaceFirst("X", cell(row, col).toString)
-    box = "Step: " + roundCounter + "\n" + box
-    if (wrongInput) {
-      "Wrong Input!"
-    } else if (changeFigure.isEmpty) {
-      box
-    } else {
-      box + "\n\n Choose a figure " + getFigures.get
-    }
+    val box = barrier + (line + barrier) * SIZE
+    val content = cells.flatten.iterator;
+    box.iterator.map(c => if(c.equals('X')) content.next() else c).mkString
   }
 
   override def getSize: Int = SIZE
@@ -237,7 +229,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   )
 }
 
-//private[fieldComponent]
 object Field {
   val SIZE = 8
 

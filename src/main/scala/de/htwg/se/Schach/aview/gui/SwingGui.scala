@@ -2,7 +2,6 @@ package de.htwg.se.Schach.aview.gui
 
 import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
-import de.htwg.se.Schach.util.Observer
 import javax.swing.{Icon, JOptionPane, UIManager, WindowConstants}
 
 import scala.swing.Swing.{EmptyIcon, LineBorder}
@@ -11,7 +10,7 @@ import scala.swing.event._
 
 class CellClicked(val row: Int, val column: Int) extends Event
 
-class SwingGui(controller: ControllerInterface) extends Frame with Observer {
+class SwingGui(controller: ControllerInterface) extends Frame {
   listenTo(controller)
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"
@@ -66,8 +65,6 @@ class SwingGui(controller: ControllerInterface) extends Frame with Observer {
 
   visible = true
 
-  override def update(): Boolean = true
-
   def redraw = {
     for {
       row <- 0 until Field.SIZE
@@ -89,7 +86,7 @@ class SwingGui(controller: ControllerInterface) extends Frame with Observer {
     }
 
     def showOptions[A <: Enumeration](
-                                       parent: Component = null,
+                                       parent: Option[Component] = None,
                                        message: Any,
                                        title: String = UIManager.getString("OptionPane.titleText"),
                                        messageType: Dialog.Message.Value = Dialog.Message.Question,
@@ -97,7 +94,7 @@ class SwingGui(controller: ControllerInterface) extends Frame with Observer {
                                        entries: A,
                                        initial: A#Value): Option[A#Value] = {
       val r = JOptionPane.showOptionDialog(
-        if (parent == null) null else parent.peer, message, title, 0,
+        if (parent.isEmpty) null else parent.get.peer, message, title, 0,
         messageType.id, Swing.wrapIcon(icon),
         entries.values.toArray[AnyRef], initial)
       if (r < 0) None else Some(entries(r))

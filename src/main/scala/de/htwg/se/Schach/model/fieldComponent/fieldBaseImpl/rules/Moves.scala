@@ -3,10 +3,8 @@ package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Castling._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Colour, Coordinates, Field}
-import de.htwg.se.Schach.util.Utils._
+import de.htwg.se.Schach.util.StepUtils._
 import de.htwg.se.Schach.util.Validation.{isOponent, removeInvalidsFromMultiVector}
-
-import scala.collection.mutable
 
 object Moves {
   def bishopMove(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsDiagonal(field, colour, coordinates)
@@ -28,17 +26,15 @@ object Moves {
     goMultiStepsCross(field, colour, coordinates) ++ goMultiStepsDiagonal(field, colour, coordinates)
 
   def pawnMove(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {
-    if (colour == Colour.white) {
+    def inited_fight_check = if (colour == Colour.white) {
       val tmp: Vector[Vector[Coordinates]] = if (!isOponent(field, Coordinates(coordinates.row - 1, coordinates.col), Colour.white)) {
         if (ability)
           if (isOponent(field, Coordinates(coordinates.row - 2, coordinates.col), Colour.white)) removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepDown(coordinates))))
           else goTwoStepsDownOrOneStepDown(field, colour, coordinates)
         else removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepDown(coordinates))))
       } else Nil.toVector
-      var g: mutable.Buffer[Vector[Coordinates]] = tmp.toBuffer
-      if (isOponent(field, Coordinates(coordinates.row - 1, coordinates.col - 1), Colour.white)) g += Vector(Coordinates(coordinates.row - 1, coordinates.col - 1))
-      if (isOponent(field, Coordinates(coordinates.row - 1, coordinates.col + 1), Colour.white)) g += Vector(Coordinates(coordinates.row - 1, coordinates.col + 1))
-      g.toVector
+
+      check_pawn_fight(_ - _, _: Field, tmp, _: Coordinates, Colour.white)
     } else {
       val tmp: Vector[Vector[Coordinates]] = if (!isOponent(field, Coordinates(coordinates.row + 1, coordinates.col), Colour.black)) {
         if (ability)
@@ -46,11 +42,19 @@ object Moves {
           else goTwoStepsUpOrOneStepUp(field, colour, coordinates)
         else removeInvalidsFromMultiVector(field, colour, Vector(Vector(goOneStepUp(coordinates))))
       } else Nil.toVector
-      var g: mutable.Buffer[Vector[Coordinates]] = tmp.toBuffer
-      if (isOponent(field, Coordinates(coordinates.row + 1, coordinates.col - 1), Colour.black)) g += Vector(Coordinates(coordinates.row + 1, coordinates.col - 1))
-      if (isOponent(field, Coordinates(coordinates.row + 1, coordinates.col + 1), Colour.black)) g += Vector(Coordinates(coordinates.row + 1, coordinates.col + 1))
-      g.toVector
+
+      check_pawn_fight(_ + _, _: Field, tmp, _: Coordinates, Colour.black)
     }
+    inited_fight_check(field, coordinates)
+  }
+
+  def check_pawn_fight(op: (Int, Int) => Int, field: Field, tmp: Vector[Vector[Coordinates]], coordinates: Coordinates, colour: Colour): Vector[Vector[Coordinates]] = {
+    val firstPosition = isOponent(field, Coordinates(op(coordinates.row, 1), coordinates.col - 1), colour)
+    val secondPosition = isOponent(field, Coordinates(op(coordinates.row, 1), coordinates.col + 1), colour)
+    if (firstPosition && secondPosition) tmp ++ Vector(Vector(Coordinates(op(coordinates.row, 1), coordinates.col - 1)), Vector(Coordinates(op(coordinates.row, 1), coordinates.col + 1)))
+    else if  (firstPosition) tmp :+ Vector(Coordinates(op(coordinates.row, 1), coordinates.col - 1))
+    else if (secondPosition) tmp :+ Vector(Coordinates(op(coordinates.row, 1), coordinates.col + 1))
+    else tmp
   }
 
   def kingMove(field: Field, colour: Colour, coordinates: Coordinates, ability: Boolean): Vector[Vector[Coordinates]] = {
