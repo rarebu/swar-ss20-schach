@@ -41,13 +41,13 @@ object Utils {
     Vector(Vector(goOneStepLeftUp(coordinates)), Vector(goOneStepLeftDown(coordinates)),
       Vector(goOneStepRightUp(coordinates)), Vector(goOneStepRightDown(coordinates))))
 
-  def goMultiSteps(coordinates: Coordinates, fn: Coordinates => Coordinates): Vector[Coordinates] = {
-    var tmp: ListBuffer[Coordinates] = ListBuffer()
-    tmp += fn(coordinates)
-    0 to 6 foreach { i =>
-      tmp += fn(tmp(i))
-    }
-    tmp.toVector
+  def goMultiSteps(coordinates: Coordinates, fn: Coordinates => Coordinates): Vector[Coordinates] = multiSptepsRecursive(fn, Vector(fn(coordinates)))
+
+  def multiSptepsRecursive(fn: Coordinates => Coordinates, vector: Vector[Coordinates]): Vector[Coordinates] = multiSptepsRecursive(fn, vector, 0)
+
+  def multiSptepsRecursive(fn: Coordinates => Coordinates, vector: Vector[Coordinates], index: Int): Vector[Coordinates] = {
+    if (index < 7) multiSptepsRecursive(fn, vector :+ fn(vector(index)), index + 1)
+    else vector
   }
 
   def goMultiStepsLeftUp(coordinates: Coordinates): Vector[Coordinates] = goMultiSteps(coordinates, goOneStepLeftUp)
