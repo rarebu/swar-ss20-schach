@@ -5,6 +5,7 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.{Castling, PawnPromotion, ToChange}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Figure._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field._
+import de.htwg.se.Schach.util.Utils
 import play.api.libs.json._
 
 import scala.collection.mutable
@@ -21,33 +22,36 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
       case _ => Option.empty
     }
 
-    def isEven(number: Int) = number % 2 == 0
-
-    if (isEven(row))
-      if (isEven(col)) Cell(Colour.white, a) else Cell(Colour.black, a)
-    else if (isEven(col)) Cell(Colour.black, a) else Cell(Colour.white, a)
+    val colIsEven = Utils.isEven(col)
+    if (Utils.isEven(row))
+      if (colIsEven) Cell(Colour.white, a) else Cell(Colour.black, a)
+    else if (colIsEven) Cell(Colour.black, a) else Cell(Colour.white, a)
   }), None, 0, new RemovedFigures())
 
   def this(figurePositions:List[FigureInterface], toChange: Option[ToChangeInterface], removedFigures: List[RemovedFigureInterface], roundCount:Int) =
     this(new Matrix[Cell]((row, col) => {
-      val ab: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
-      val d:Option[Figure] = if(ab.isDefined) {
-        val tmpFig = ab.get
+      val content: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
+
+      def figureInterfaceToFigure(tmpFig: FigureInterface) = {
         val tmpColour = if (tmpFig.isBlack) Colour.black else Colour.white
         Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
-      } else Option.empty
-      if (row % 2 == 0)
-        if (col % 2 == 0) Cell(Colour.white, d) else Cell(Colour.black, d)
-      else if (col % 2 == 0) Cell(Colour.black, d) else Cell(Colour.white, d)
+      }
+
+      val d:Option[Figure] = if (content.isDefined) figureInterfaceToFigure(content.get) else Option.empty
+
+      if (Utils.isEven(row))
+        if (Utils.isEven(col)) Cell(Colour.white, d) else Cell(Colour.black, d)
+      else if (Utils.isEven(col)) Cell(Colour.black, d) else Cell(Colour.white, d)
     }),
-      { val tmpChangeFigure: Option[ToChange] = if (toChange.isDefined) {
-        val tmpToChange = toChange.get
-        val tmpFigurePers = tmpToChange.getFigure
-        val tmpFigureCol = if (tmpFigurePers.isBlack) Colour.black else Colour.white
-        val tmpFigure: Figure = Figure.apply(tmpFigurePers.getKind, tmpFigureCol, tmpFigurePers.getStepCount).get
-        val tmpFigurePosition = tmpToChange.getFigure.getPosition
-        Option.apply(ToChange(Coordinates(tmpFigurePosition._1, tmpFigurePosition._2), if(tmpToChange.isBlack) Colour.black else Colour.white, tmpFigure))
-      } else Option.empty
+      {
+        def factorToChange(tmpToChange:ToChangeInterface) = {
+            val tmpFigurePers = tmpToChange.getFigure
+            val tmpFigureCol = if (tmpFigurePers.isBlack) Colour.black else Colour.white
+            val tmpFigure: Figure = Figure.apply(tmpFigurePers.getKind, tmpFigureCol, tmpFigurePers.getStepCount).get
+            val tmpFigurePosition = tmpToChange.getFigure.getPosition
+            Option.apply(ToChange(Coordinates(tmpFigurePosition._1, tmpFigurePosition._2), if(tmpToChange.isBlack) Colour.black else Colour.white, tmpFigure))
+        }
+        val tmpChangeFigure: Option[ToChange] = if (toChange.isDefined) factorToChange(toChange.get) else Option.empty
         tmpChangeFigure
       }, roundCount, {
         val tmpRemovedFigures:RemovedFigures = new RemovedFigures(removedFigures)
@@ -56,15 +60,20 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
   def this (field:FieldDataInterface) = this(field.getFigurePositions, field.getToChange, field.getRemovedFigures, field.getRoundCount)
 
+
+
   override def getField:FieldDataInterface = {
     val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
-    val toChange = if(changeFigure.isDefined) {
-      val change = changeFigure.get
+
+    def factorChangeFigure(change: ToChange) = {
       val figure = change.figure
-      val colourIsBlack = change.colour == Colour.black
       val coords = change.coordinates
-      Option.apply(PersistToChange(PersistFigure(figure.colour == Colour.black, figure.getName, figure.getStepCount, (coords.row,coords.col)), colourIsBlack))
-    } else Option.empty
+      Option.apply(PersistToChange(PersistFigure(figure.colour == Colour.black, figure.getName, figure.getStepCount, (coords.row,coords.col)),
+        change.colour == Colour.black))
+    }
+
+    val toChange = if(changeFigure.isDefined) factorChangeFigure(changeFigure.get) else Option.empty
+
     for {
       row <- 0 until SIZE
       col <- 0 until SIZE

@@ -4,11 +4,10 @@ package de.htwg.se.Schach.util
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Coordinates, Field}
 
-import scala.collection.mutable.ListBuffer
 import de.htwg.se.Schach.util.Validation.removeInvalidsFromMultiVector
 
 
-object Utils {
+object StepUtils {
   def goOneStepUp(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row + 1, coordinates.col)
 
   def goOneStepDown(coordinates: Coordinates): Coordinates = Coordinates(coordinates.row - 1, coordinates.col)
@@ -80,4 +79,10 @@ object Utils {
 
   def goTwoStepsDownOrOneStepDown(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = removeInvalidsFromMultiVector(field,
     colour, Vector(Vector(goOneStepDown(coordinates)) ++ Vector(twoStepsDown(coordinates))))
+
+
+}
+
+object Utils {
+  def isEven(number: Int):Boolean = number % 2 == 0
 }

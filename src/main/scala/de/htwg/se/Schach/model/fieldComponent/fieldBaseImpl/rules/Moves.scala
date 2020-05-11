@@ -3,10 +3,8 @@ package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Castling._
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Colour, Coordinates, Field}
-import de.htwg.se.Schach.util.Utils._
+import de.htwg.se.Schach.util.StepUtils._
 import de.htwg.se.Schach.util.Validation.{isOponent, removeInvalidsFromMultiVector}
-
-import scala.collection.mutable
 
 object Moves {
   def bishopMove(field: Field, colour: Colour, coordinates: Coordinates): Vector[Vector[Coordinates]] = goMultiStepsDiagonal(field, colour, coordinates)
