@@ -2,6 +2,7 @@ package de.htwg.se.Schach.aview
 
 import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, ControllerInterface}
 
+import scala.reflect.internal.util.Collections
 import scala.swing.Reactor
 import scala.util.{Failure, Success, Try}
 
@@ -26,7 +27,7 @@ class TUI(controller: Try[ControllerInterface]) extends Reactor {
           case "l" => controller.load
           case _ => input.toList.filter(c => c != ' ').filter(_.isDigit).map(c => c.toString.toInt) match {
             case row :: column :: newRow :: newColumn :: Nil => {
-              controller.move(row, column, newRow, newColumn) match {
+              for(a <- Vector(controller.move(row, column, newRow, newColumn))) a match {
                 case Failure(_) => println("Wrong input!")
                 case _ => println("Good input")
               }
