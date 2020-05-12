@@ -8,8 +8,6 @@ import scala.swing.event._
 
 class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends FlowPanel {
 
-//  def myCell = controller.cell(row, column)
-
   def cellText(row: Int, col: Int) = controller.cellContains(row, col)
 
   val label =
