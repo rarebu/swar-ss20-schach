@@ -67,7 +67,7 @@ class SwingGui(controller: ControllerInterface) extends Frame {
     (0 until Field.SIZE).foreach(row => (0 until Field.SIZE).foreach(col => cells(row)(col).redraw))
     val tmp = controller.pawnPromoting
     if (tmp.isDefined) {
-      controller.choose(chooseFigure(tmp.get))
+      controller.choose(chooseFigure(tmp.get)) //potential error
     }
     statusline.text = controller.statusText
     repaint

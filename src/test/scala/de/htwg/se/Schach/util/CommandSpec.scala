@@ -1,14 +1,17 @@
 package de.htwg.se.Schach.util
 
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.Controller
 import org.junit.runner.RunWith
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.junit.JUnitRunner
 
+import scala.util.{Success, Try}
+
 class incrCommand extends Command {
   var state: Int = 0
 
-  override def doStep: Boolean = {
-    state += 1; true
+  override def doStep: Try[Controller] = {
+    state += 1; Success(null)
   }
 
   override def undoStep: Unit = state -= 1

@@ -1,10 +1,12 @@
 package de.htwg.se.Schach.aview.gui
 
 import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, ControllerInterface}
+import javax.swing.JOptionPane
 
 import scala.swing.Swing.LineBorder
 import scala.swing._
 import scala.swing.event._
+import scala.util.Failure
 
 class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends FlowPanel {
 
@@ -29,10 +31,17 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
         label.text = cellText(row, column)
         repaint
       }
-      case MouseClicked(src, pt, mod, clicks, pops) => {
+      case MouseClicked(_, _, _, _, _) => {
         if (Storage.store.isDefined) {
           val tmp = Storage.store.get
-          controller.move(tmp._1, tmp._2, row, column)
+          controller.move(tmp._1, tmp._2, row, column) match {
+            case Failure(_) => JOptionPane.showMessageDialog(
+              null,
+              "Wrong Move",
+              "Error",
+              JOptionPane.ERROR_MESSAGE)
+            case _ =>
+          }//potential error
           Storage.store = None
         } else {
           Storage.store = Option.apply((row, column))
@@ -41,6 +50,7 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
       }
     }
   }
+  contents += cell
   contents += cell
 
   def redraw = {

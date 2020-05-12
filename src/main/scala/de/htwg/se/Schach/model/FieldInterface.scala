@@ -1,6 +1,5 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Coordinates, Field, Figure}
 import play.api.libs.json.JsValue
 
 trait FieldInterface {

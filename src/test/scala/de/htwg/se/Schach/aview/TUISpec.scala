@@ -6,13 +6,15 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
 
+import scala.util.Success
+
 @RunWith(classOf[JUnitRunner])
 class TUISpec extends WordSpec with Matchers {
   "The TUI" when {
     "new" should {
       val field = new Field
       val controller = new Controller(field)
-      val tui = new TUI(controller)
+      val tui = new TUI(Success(controller))
       "do nothing on input 'q" in {
         tui.processInputLine("q")
       }

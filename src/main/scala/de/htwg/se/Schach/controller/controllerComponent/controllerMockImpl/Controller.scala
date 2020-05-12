@@ -5,6 +5,8 @@ import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldMockImpl.Field
 import play.api.libs.json.JsValue
 
+import scala.util.Try
+
 class Controller(var field: FieldInterface) extends ControllerInterface {
 
   field = new Field
@@ -17,9 +19,9 @@ class Controller(var field: FieldInterface) extends ControllerInterface {
 
   override def pawnPromoting: Option[String] = ???
 
-  override def choose(representation: String): Unit = ???
+  override def choose(representation: String): Try[ControllerInterface] = ???
 
-  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = ???
+  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Try[ControllerInterface] = ???
 
   override def statusText: String = ???
 
