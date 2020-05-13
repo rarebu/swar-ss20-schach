@@ -3,15 +3,15 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Field, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange}
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
 import de.htwg.se.Schach.model.fileIoComponent.FileIO
-import play.api.libs.json.{JsLookupResult, JsResult, JsValue, Json, Reads, Writes}
+import play.api.libs.json.{JsLookupResult, JsObject, JsValue, Json, Writes}
 
 import scala.io.Source
 
 class FileIOJson extends FileIO {
   override def load: FieldInterface = {
-    val source:String = Source.fromFile("field.json").getLines.mkString
+    val source: String = Source.fromFile("field.json").getLines.mkString
     val json: JsValue = Json.parse(source)
-    val field = ( json \ "field")
+    val field = (json \ "field")
     val round = (field \ "round").get.toString().toInt
     val figurePositions = loadFigurePositions((field \ "figurePositions"))
     val optionToChange = loadOptionToChange((field \ "option"))
@@ -19,30 +19,30 @@ class FileIOJson extends FileIO {
     new Field(PersistField(figurePositions, optionToChange, removedFigures, round))
   }
 
-  def loadFigure(figure:JsValue):FigureInterface = {
+  def loadFigure(figure: JsValue): FigureInterface = {
     val isBlack = (figure \ "isBlack").get.toString().toBoolean
-    val kind =(figure \ "kind").get.toString().filterNot("\"".toSet)
+    val kind = (figure \ "kind").get.toString().filterNot("\"".toSet)
     val stepCount = (figure \ "stepCount").get.toString().toInt
     val row = (figure \ "row").get.toString().toInt
     val col = (figure \ "col").get.toString().toInt
-    PersistFigure(isBlack,kind,stepCount,(row,col))
+    PersistFigure(isBlack, kind, stepCount, (row, col))
   }
 
-  def loadFigurePositions(figurePositions:JsLookupResult):List[FigureInterface] =
+  def loadFigurePositions(figurePositions: JsLookupResult): List[FigureInterface] =
     figurePositions.get.as[List[JsValue]].map(figure => loadFigure(figure))
 
 
-  def loadOptionToChange(optionToCHange:JsLookupResult):Option[ToChangeInterface] = {
+  def loadOptionToChange(optionToCHange: JsLookupResult): Option[ToChangeInterface] = {
     val isDefined = (optionToCHange \ "isDefined").get.toString().toBoolean
     if (isDefined) {
       val isBlack = (optionToCHange \ "isBlack").get.toString().toBoolean
       val figurE = (optionToCHange \ "figure").get
-      val figure= loadFigure(figurE)
+      val figure = loadFigure(figurE)
       Option.apply(PersistToChange(figure, isBlack))
     } else Option.empty
   }
 
-  def loadRemovedFigures(removedFigures:JsLookupResult):List[RemovedFigureInterface] = {
+  def loadRemovedFigures(removedFigures: JsLookupResult): List[RemovedFigureInterface] = {
     removedFigures.get.as[List[JsValue]].map(removedFigure => PersistRemovedFigure(loadFigure((removedFigure \ "figure").get),
       (removedFigure \ "round").get.toString().toInt))
   }
@@ -55,7 +55,7 @@ class FileIOJson extends FileIO {
   }
 
   implicit val figureWrites = new Writes[FigureInterface] {
-    def writes(figure:FigureInterface) = Json.obj(
+    def writes(figure: FigureInterface) = Json.obj(
       "isBlack" -> figure.isBlack,
       "kind" -> figure.getKind,
       "stepCount" -> figure.getStepCount,
@@ -65,14 +65,14 @@ class FileIOJson extends FileIO {
   }
 
   implicit val removedFigureWrites = new Writes[RemovedFigureInterface] {
-    def writes(removedFigure:RemovedFigureInterface) = Json.obj(
+    def writes(removedFigure: RemovedFigureInterface) = Json.obj(
       "round" -> removedFigure.getRound,
       "figure" -> Json.toJson(removedFigure.getFigure)
     )
   }
 
   implicit val optionToChangeWrites = new Writes[Option[ToChangeInterface]] {
-    def writes(optionToChange:Option[ToChangeInterface]) = {
+    def writes(optionToChange: Option[ToChangeInterface]) = {
       if (optionToChange.isDefined) {
         val toChange = optionToChange.get
         Json.obj(
@@ -88,20 +88,14 @@ class FileIOJson extends FileIO {
     }
   }
 
-  def fieldToJson(field: FieldDataInterface) = {
-    Json.obj(
-      "field" -> Json.obj(
-        "round" -> field.getRoundCount,
-        "figurePositions" -> Json.toJson(
-        for (figure <- field.getFigurePositions)
-          yield Json.toJson(figure)
-        ),
+  def fieldToJson(field: FieldDataInterface): JsObject = Json.obj(
+    "field" -> Json.obj(
+      "round" -> field.getRoundCount,
+      "figurePositions" -> Json.toJson(field.getFigurePositions.map(figure => Json.toJson(figure)),
         "option" -> Json.toJson(field.getToChange),
-        "removedFigures" -> Json.toJson(
-          for (removedFigure <- field.getRemovedFigures)
-            yield Json.toJson(removedFigure)
-        )
+        "removedFigures" -> Json.toJson(field.getRemovedFigures.map(removedFigure => Json.toJson(removedFigure)))
       )
     )
-  }
+  )
+
 }

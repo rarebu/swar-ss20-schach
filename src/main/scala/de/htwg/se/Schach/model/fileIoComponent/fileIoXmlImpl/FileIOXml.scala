@@ -3,7 +3,7 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl
 
 import de.htwg.se.Schach.model.fileIoComponent.FileIO
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Cell, Colour, Field, Figure, Matrix, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange, RemovedFigures}
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Field, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange}
 
 import scala.xml.{NodeSeq, PrettyPrinter}
 
@@ -82,7 +82,7 @@ class FileIOXml extends FileIO {
 
   def figurePositionsToXml(figurePositions: List[FigureInterface]) = {
     <figurePositions>
-      { for(figure <- figurePositions) yield figureToXml(figure) }
+      { figurePositions.map(figure => figureToXml(figure)) }
     </figurePositions>
   }
 
@@ -110,7 +110,7 @@ class FileIOXml extends FileIO {
 
   def removedFiguresToXml(removedFigures: List[RemovedFigureInterface]) = {
     <removedFigures>
-      {for (removedFigure <- removedFigures) yield removedFigureToXml(removedFigure)}
+      {removedFigures.map(removedFigure => removedFigureToXml(removedFigure))}
     </removedFigures>
   }
 

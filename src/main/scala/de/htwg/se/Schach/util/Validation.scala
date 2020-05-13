@@ -38,7 +38,7 @@ object Validation {
 
   def isAValidValueInsideTheField(value: Int): Boolean = value >= 0 && value < 8
 
-  def isOponent(field: Field, coordinates: Coordinates, colour: Colour): Boolean = {
+  def isOpponent(field: Field, coordinates: Coordinates, colour: Colour): Boolean = {
     validCoordinate(coordinates) && {
       val container = field.cell(coordinates.row, coordinates.col).contains
       (container.isDefined && container.get.colour != colour)
