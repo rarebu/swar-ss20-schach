@@ -3,6 +3,7 @@ package de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl
 import play.api.libs.json.JsValue
 
 import scala.swing.Publisher
+import scala.util.Try
 
 trait ControllerInterface extends Publisher {
 
@@ -18,9 +19,9 @@ def load: Unit
 
 def pawnPromoting: Option[String]
 
-def choose(representation: String): Unit
+def choose(representation: String): Try[ControllerInterface]
 
-def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit
+def move(row: Int, col: Int, newRow: Int, newCol: Int): Try[ControllerInterface]
 
 def statusText: String
 

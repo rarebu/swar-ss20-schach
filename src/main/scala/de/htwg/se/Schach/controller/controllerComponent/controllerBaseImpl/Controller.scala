@@ -4,11 +4,11 @@ import GameStatus._
 import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl.FileIOJson
-import de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl.FileIOXml
 import de.htwg.se.Schach.util.UndoManager
 import play.api.libs.json.JsValue
 
 import scala.swing.Publisher
+import scala.util.Try
 
 class Controller(var field: FieldInterface) extends ControllerInterface with Publisher {
   var gameStatus: GameStatus = GameStatus.IDLE
@@ -19,16 +19,22 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
     publish(new CellChanged)
   }
 
-  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = {
-    undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this))
-    gameStatus = MOVE
-    publish(new CellChanged)
+  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Try[ControllerInterface] = {//what to return, controller:
+    val x = undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this)) //if invalid step returns error
+    if (x.isSuccess) {
+      gameStatus = MOVE
+      publish(new CellChanged)
+    }
+    x
   }
 
-  override def choose(representation: String): Unit = {
-    undoManager.doStep(new ChooseCommand(representation, this))
-    gameStatus = CHOOSE
-    publish(new CellChanged)
+  override def choose(representation: String): Try[ControllerInterface] = {
+    val x = undoManager.doStep(new ChooseCommand(representation, this)) //if invalid character returns error
+    if (x.isSuccess) {
+      gameStatus = CHOOSE
+      publish(new CellChanged)
+    }
+    x
   }
 
   override def getChangeableFigures: String = field.CHANGEABLE_BLACK_FIGURES + field.CHANGEABLE_WHITE_FIGURES
@@ -48,8 +54,6 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
   }
 
   override def statusText: String = GameStatus.message(gameStatus)
-
-//  def cell(row: Int, col: Int) = field.cell(row, col)
 
   override def cellIsBlack(row: Int, col: Int): Boolean = field.cellIsBlack(row, col)
 

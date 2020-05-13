@@ -1,8 +1,12 @@
 package de.htwg.se.Schach.util
 
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface
+
+import scala.util.{Failure, Try}
+
 trait Command {
 
-  def doStep: Boolean
+  def doStep: Try[ControllerInterface]
 
   def undoStep: Unit
 
@@ -15,11 +19,12 @@ class UndoManager {
   private var redoStack: List[Command] = Nil
 
   def doStep(command: Command) = {
-    val v = command
-    if (command.doStep) {
+    val x = command.doStep
+    if (x.isSuccess) {
       redoStack = Nil
       undoStack = command :: undoStack
     }
+    x
   }
 
   def undoStep = {

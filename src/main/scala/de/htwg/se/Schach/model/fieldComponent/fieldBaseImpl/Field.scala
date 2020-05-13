@@ -8,8 +8,6 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field._
 import de.htwg.se.Schach.util.Utils
 import play.api.libs.json._
 
-import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 
 case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCounter: Int, removedFigures: RemovedFigures) extends FieldInterface {
 
@@ -63,7 +61,6 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
 
 
   override def getField:FieldDataInterface = {
-    val figureList:mutable.Buffer[FigureInterface] = new ListBuffer[FigureInterface]()
 
     def factorChangeFigure(change: ToChange) = {
       val figure = change.figure
@@ -73,19 +70,13 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     }
 
     val toChange = if(changeFigure.isDefined) factorChangeFigure(changeFigure.get) else Option.empty
-
-    for {
-      row <- 0 until SIZE
-      col <- 0 until SIZE
-    } if(cell(row, col).contains.isDefined) {
+    val figureList = (0 until SIZE).flatMap(row => (0 until SIZE)
+      .filter(col => cell(row, col).contains.isDefined).map(col => {
       val tmpFigure = cell(row, col).contains.get
-      val tmpFigureColourIsBlack = tmpFigure.colour == Colour.black
-      val tmpFigureKind = tmpFigure.getName
-      val tmpFigureStepCount = tmpFigure.getStepCount
-      figureList. += (PersistFigure(tmpFigureColourIsBlack, tmpFigureKind, tmpFigureStepCount, (row,col)))
-    }
-    removedFigures.persistRemoveFigures
-    PersistField(figureList.toList, toChange, removedFigures.persistRemoveFigures, roundCounter)
+      PersistFigure(tmpFigure.colour == Colour.black, tmpFigure.getName, tmpFigure.getStepCount, (row,col))
+    })).toList
+
+    PersistField(figureList, toChange, removedFigures.persistRemoveFigures, roundCounter)
   }
 
   def cell(row: Int, col: Int): Cell = cells.cell(row, col)
@@ -129,30 +120,32 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
   }
 
   override def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[Field] = {
-    val a = if (changeFigure.isDefined || cell(row, col).contains.isEmpty) None else {
+    if (!(changeFigure.isDefined || cell(row, col).contains.isEmpty)) {
+
       val figure = cell(row, col).contains.get
       val t = figure.getPossibleNewPositions(this, Coordinates(row, col)).flatten
+
       if (t.contains(Coordinates(newRow, newCol))) {
-        figure match {
-          case king: King => if (Math.abs(col - newCol) == 2) return Option.apply(Castling.doCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king))
+        val v:Option[Field] = figure match {
+          case king: King => if (Math.abs(col - newCol) == 2) Option.apply(Castling.doCastling(Coordinates(row, col), Coordinates(newRow, newCol), this, king)) else None
           case pawn: Pawn => PawnPromotion.doPawnPromotion(Coordinates(row, col), Coordinates(newRow, newCol), pawn, this) match {
             case Some(ret) => {
               removedFigures.append(Entry(pawn.move, Coordinates(newRow, newCol), roundCounter + 2))
-              return Option.apply(ret)
+              Option.apply(ret)
             }
-            case _ =>
+            case _ => None
           }
-          case _ =>
+          case _ => None
         }
-        if (cell(newRow, newCol).contains.isDefined) removedFigures.append(Entry(cell(newRow, newCol).contains.get, Coordinates(newRow, newCol), roundCounter + 1))
-        Option.apply(moveOneFigure(Coordinates(row, col), Coordinates(newRow, newCol), None, figure.move))
+        v match {
+          case Some(ret) => Option.apply(ret)
+          case _ => {
+            if (cell(newRow, newCol).contains.isDefined) removedFigures.append(Entry(cell(newRow, newCol).contains.get, Coordinates(newRow, newCol), roundCounter + 1))
+            Option.apply(moveOneFigure(Coordinates(row, col), Coordinates(newRow, newCol), None, figure.move))
+          }
+        }
       } else None
-    }
-    a match {
-      case Some(_) =>
-      case None =>
-    }
-    a
+    } else None
   }
 
   override def unMove(row: Int, col: Int, newRow: Int, newCol: Int): Field = {
@@ -223,10 +216,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     )
   }
   override def toJson: JsValue = Json.obj(
-    "figurePostions" -> Json.toJson(
-      for (figure <- this.getField.getFigurePositions)
-      yield Json.toJson(figure))
-  )
+    "figurePostions" -> Json.toJson( this.getField.getFigurePositions.map(figure => Json.toJson(figure))))
 }
 
 object Field {
