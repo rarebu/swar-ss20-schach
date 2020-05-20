@@ -1,6 +1,7 @@
 package de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl
 
 import GameStatus._
+import de.htwg.se.Schach.controller.controllerComponent.{CellChanged, LogicControllerInterface}
 import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl.FileIOJson
@@ -10,7 +11,7 @@ import play.api.libs.json.JsValue
 
 import scala.swing.Publisher
 
-class Controller(var field: FieldInterface) extends ControllerInterface with Publisher {
+class LogicController(var field: FieldInterface) extends LogicControllerInterface with Publisher {
   var gameStatus: GameStatus = GameStatus.IDLE
   private val undoManager = new UndoManager
 
@@ -49,14 +50,14 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Pub
 
   override def statusText: String = GameStatus.message(gameStatus)
 
-//  def cell(row: Int, col: Int) = field.cell(row, col)
-
   override def cellIsBlack(row: Int, col: Int): Boolean = field.cellIsBlack(row, col)
 
   override def cellContains(row: Int, col: Int): String = {
-    var tmp = field.cellContains(row, col)
-    if ( tmp.isDefined) tmp.get.toString else ""
+    val tmp = field.cellContains(row, col)
+    if ( tmp.isDefined) tmp.get else ""
   }
+
+  override def cellContentBlack(row: Int, col: Int): Option[Boolean] = field.cellContentIsBlack(row, col)
 
   override def pawnPromoting: Option[String] = field.getFigures
 

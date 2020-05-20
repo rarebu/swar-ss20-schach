@@ -2,7 +2,7 @@ package de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.Schach.util.Command
 
-class ChooseCommand(input: String, controller: Controller) extends Command {
+class ChooseCommand(input: String, controller: LogicController) extends Command {
   override def doStep: Boolean = {
     val tmp = controller.field.changePawn(input)
     if (tmp.isDefined) {

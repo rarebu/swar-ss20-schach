@@ -2,7 +2,7 @@ package de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.Schach.util.Command
 
-class MoveCommand(row: Int, col: Int, newRow: Int, newCol: Int, controller: Controller) extends Command {
+class MoveCommand(row: Int, col: Int, newRow: Int, newCol: Int, controller: LogicController) extends Command {
   override def doStep: Boolean = {
     val tmp = controller.field.move(row, col, newRow, newCol)
     if (tmp.isDefined) {

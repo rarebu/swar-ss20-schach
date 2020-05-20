@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.aview.gui
 
-import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
+import de.htwg.se.Schach.controller.controllerComponent.{CellChanged, LogicControllerInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import javax.swing.{Icon, JOptionPane, UIManager, WindowConstants}
 
@@ -10,7 +10,7 @@ import scala.swing.event._
 
 class CellClicked(val row: Int, val column: Int) extends Event
 
-class SwingGui(controller: ControllerInterface) extends Frame {
+class SwingGui(controller: LogicControllerInterface) extends Frame {
   listenTo(controller)
   peer.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
   title = "HTWG Schach"

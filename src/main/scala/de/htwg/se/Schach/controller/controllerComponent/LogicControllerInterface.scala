@@ -1,10 +1,10 @@
-package de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl
+package de.htwg.se.Schach.controller.controllerComponent
 
 import play.api.libs.json.JsValue
 
 import scala.swing.Publisher
 
-trait ControllerInterface extends Publisher {
+trait LogicControllerInterface extends Publisher {
 
 def newField: Unit
 
@@ -29,6 +29,8 @@ def getChangeableFigures: String
 def fieldToString: String
 
 def cellContains(row: Int, col: Int): String
+
+def cellContentBlack(row: Int, col: Int): Option[Boolean]
 
 def cellIsBlack(row: Int, col: Int): Boolean
 

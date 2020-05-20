@@ -1,6 +1,5 @@
 package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.Schach.model.FigureInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.rules.Moves._
 

@@ -1,10 +1,10 @@
 package de.htwg.se.Schach.aview
 
-import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{CellChanged, Controller, ControllerInterface}
+import de.htwg.se.Schach.controller.controllerComponent.{CellChanged, LogicControllerInterface}
 
 import scala.swing.Reactor
 
-class TUI(controller: ControllerInterface) extends Reactor {
+class TUI(controller: LogicControllerInterface) extends Reactor {
   listenTo(controller)
 
   def processInputLine(input: String): Unit = {

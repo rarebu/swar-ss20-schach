@@ -3,10 +3,10 @@ package de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import org.scalatest.{Matchers, WordSpec}
 
-class ControllerSpec extends WordSpec with Matchers {
-  "A Controller" when {
+class LogicControllerSpec extends WordSpec with Matchers {
+  "A LogicController" when {
     val field = new Field
-    val controller = new Controller(field)
+    val controller = new LogicController(field)
     "empty" should {
       "moving on and handle undo/redo of a field correctly, choose should fail with a and some stuff" in {
         controller.cellContains(0, 0) should be("♜")
