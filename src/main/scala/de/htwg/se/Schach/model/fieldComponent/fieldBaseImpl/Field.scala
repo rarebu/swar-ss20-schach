@@ -200,7 +200,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     if (tmp.isDefined) Some(tmp.get.toString) else None
   }
 
-  override def cellContentIsBlack()(row: Int, col: Int): Option[Boolean] = {
+  override def cellContentIsBlack(row: Int, col: Int): Option[Boolean] = {
     val tmp = cell(row, col).contains
     if (tmp.isDefined) Some(if(tmp.get.colour == Colour.black) true else false) else None
   }

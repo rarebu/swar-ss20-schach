@@ -32,4 +32,6 @@ class Field extends FieldInterface {
   override def getField: FieldDataInterface = ???
 
   override def toJson: JsValue = ???
+
+  override def cellContentIsBlack(row: Int, col: Int): Option[Boolean] = ???
 }

@@ -36,4 +36,6 @@ class Controller(var field: FieldInterface) extends LogicControllerInterface {
   override def load: Unit = ???
 
   override def toJson: JsValue = ???
+
+  override def cellContentBlack(row: Int, col: Int): Option[Boolean] = ???
 }
