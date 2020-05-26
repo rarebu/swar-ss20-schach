@@ -3,7 +3,7 @@ package de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Field, PersistField, PersistFigure, PersistRemovedFigure, PersistToChange}
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
 import de.htwg.se.Schach.model.fileIoComponent.FileIO
-import play.api.libs.json.{JsLookupResult, JsResult, JsValue, Json, Reads, Writes}
+import play.api.libs.json.{JsLookupResult, JsValue, Json, Writes}
 
 import scala.io.Source
 

@@ -14,12 +14,13 @@ class UndoManager {
   private var undoStack: List[Command] = Nil
   private var redoStack: List[Command] = Nil
 
-  def doStep(command: Command) = {
-    val v = command
-    if (command.doStep) {
+  def doStep(command: Command): Boolean = {
+    val v = command.doStep
+    if (v) {
       redoStack = Nil
       undoStack = command :: undoStack
     }
+    v
   }
 
   def undoStep = {
