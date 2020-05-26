@@ -6,4 +6,6 @@ object Colour extends Enumeration {
   val black, white = Value
 
   def getBlackColour(isBlack:Boolean) = if(isBlack) Colour.black else Colour.white
+
+  def isBlack() = if (Value == Colour.black) true else false
 }

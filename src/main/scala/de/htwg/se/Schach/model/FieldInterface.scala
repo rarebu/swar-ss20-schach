@@ -8,6 +8,8 @@ trait FieldInterface {
 
   def cellContains(row: Int, col: Int): Option[String]
 
+  def cellContentIsBlack(row: Int, col: Int): Option[Boolean]
+
   def getFigures: Option[String]
 
   def move(row: Int, col: Int, newRow: Int, newCol: Int): Option[FieldInterface]

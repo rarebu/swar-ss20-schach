@@ -3,6 +3,19 @@ organization  := "de.htwg.se"
 version       := "0.0.2"
 scalaVersion  := "2.12.8"
 
+//lazy val root = (project in file("."))
+//  .aggregate(logic, user)
+//
+//
+//
+//lazy val logic = (project in file("logic"))
+//
+//lazy val user = (project in file("user"))
+
+
+
+
+
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 libraryDependencies += "junit" % "junit" % "4.12" % "test"

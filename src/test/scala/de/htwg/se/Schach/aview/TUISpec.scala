@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.aview
 
-import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.LogicController
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -11,7 +11,7 @@ class TUISpec extends WordSpec with Matchers {
   "The TUI" when {
     "new" should {
       val field = new Field
-      val controller = new Controller(field)
+      val controller = new LogicController(field)
       val tui = new TUI(controller)
       "do nothing on input 'q" in {
         tui.processInputLine("q")

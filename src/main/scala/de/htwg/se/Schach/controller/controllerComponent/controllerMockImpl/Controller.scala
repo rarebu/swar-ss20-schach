@@ -1,11 +1,11 @@
 package de.htwg.se.Schach.controller.controllerComponent.controllerMockImpl
 
-import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface
+import de.htwg.se.Schach.controller.controllerComponent.LogicControllerInterface
 import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldMockImpl.Field
 import play.api.libs.json.JsValue
 
-class Controller(var field: FieldInterface) extends ControllerInterface {
+class Controller(var field: FieldInterface) extends LogicControllerInterface {
 
   field = new Field
 
@@ -36,4 +36,6 @@ class Controller(var field: FieldInterface) extends ControllerInterface {
   override def load: Unit = ???
 
   override def toJson: JsValue = ???
+
+  override def cellContentBlack(row: Int, col: Int): Option[Boolean] = ???
 }
