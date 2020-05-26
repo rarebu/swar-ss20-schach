@@ -18,9 +18,9 @@ def load: Unit
 
 def pawnPromoting: Option[String]
 
-def choose(representation: String): Unit
+def choose(representation: String): Boolean
 
-def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit
+def move(row: Int, col: Int, newRow: Int, newCol: Int): Boolean
 
 def statusText: String
 

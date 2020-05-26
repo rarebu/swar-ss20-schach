@@ -17,9 +17,9 @@ class Controller(var field: FieldInterface) extends LogicControllerInterface {
 
   override def pawnPromoting: Option[String] = ???
 
-  override def choose(representation: String): Unit = ???
+  override def choose(representation: String): Boolean = ???
 
-  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = ???
+  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Boolean = ???
 
   override def statusText: String = ???
 

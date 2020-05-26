@@ -5,7 +5,6 @@ import de.htwg.se.Schach.controller.controllerComponent.{CellChanged, LogicContr
 import de.htwg.se.Schach.model.FieldInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Schach.model.fileIoComponent.fileIoJsonImpl.FileIOJson
-import de.htwg.se.Schach.model.fileIoComponent.fileIoXmlImpl.FileIOXml
 import de.htwg.se.Schach.util.UndoManager
 import play.api.libs.json.JsValue
 
@@ -20,16 +19,22 @@ class LogicController(var field: FieldInterface) extends LogicControllerInterfac
     publish(new CellChanged)
   }
 
-  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Unit = {
-    undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this))
-    gameStatus = MOVE
-    publish(new CellChanged)
+  override def move(row: Int, col: Int, newRow: Int, newCol: Int): Boolean = {
+    val tmp = undoManager.doStep(new MoveCommand(row, col, newRow, newCol, this))
+    if(tmp) {
+      gameStatus = MOVE
+      publish(new CellChanged)
+    }
+    tmp
   }
 
-  override def choose(representation: String): Unit = {
-    undoManager.doStep(new ChooseCommand(representation, this))
-    gameStatus = CHOOSE
-    publish(new CellChanged)
+  override def choose(representation: String): Boolean = {
+    val tmp = undoManager.doStep(new ChooseCommand(representation, this))
+    if(tmp) {
+      gameStatus = CHOOSE
+      publish(new CellChanged)
+    }
+    tmp
   }
 
   override def getChangeableFigures: String = field.CHANGEABLE_BLACK_FIGURES + field.CHANGEABLE_WHITE_FIGURES
