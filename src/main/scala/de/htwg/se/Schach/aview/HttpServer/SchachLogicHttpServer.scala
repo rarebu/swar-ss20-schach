@@ -59,7 +59,7 @@ case class SchachLogicHttpServer(logicControllerInterface: LogicControllerInterf
     },
 //      fieldToString
     get {
-      path("logic" / "getField") {
+      path("logic" / "fieldToString") {
         complete(logicControllerInterface.fieldToString)
       }
     },
