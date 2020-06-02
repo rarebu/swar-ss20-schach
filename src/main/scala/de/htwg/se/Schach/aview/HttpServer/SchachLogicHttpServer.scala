@@ -6,9 +6,9 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
+import de.htwg.se.Schach.Schach
 import de.htwg.se.Schach.controller.controllerComponent.{CellChanged, LogicControllerInterface}
 import de.htwg.se.Schach.util.Observable
-import play.api.libs.json.{JsValue, Json}
 
 import scala.concurrent.Future
 import scala.swing.Reactor
@@ -131,6 +131,12 @@ case class SchachLogicHttpServer(logicControllerInterface: LogicControllerInterf
           complete("")
         }
 
+      }
+    },
+    post{
+      path("logic" / "shutDown") {
+        Schach.shutdown = true
+        complete("")
       }
     }
   )
