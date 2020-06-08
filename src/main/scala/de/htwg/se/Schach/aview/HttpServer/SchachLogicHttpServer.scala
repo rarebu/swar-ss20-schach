@@ -145,7 +145,7 @@ case class SchachLogicHttpServer(logicControllerInterface: LogicControllerInterf
     case event: CellChanged => notifyObservers()
   }
 
-  val bindingFuture: Future[Http.ServerBinding] = Http().bindAndHandle(route, "localhost", 9090)
+  val bindingFuture: Future[Http.ServerBinding] = Http().bindAndHandle(route, "0.0.0.0", 9090)
 
   def shutdownWebServer() : Unit = {
     bindingFuture
