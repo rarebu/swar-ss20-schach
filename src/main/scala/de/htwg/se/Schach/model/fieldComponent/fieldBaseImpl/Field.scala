@@ -32,12 +32,7 @@ case class Field(cells: Matrix[Cell], changeFigure: Option[ToChange], roundCount
     this(new Matrix[Cell]((row, col) => {
       val content: Option[FigureInterface] = figurePositions.find(figure => { figure.getPosition == (row, col) })
 
-      def figureInterfaceToFigure(tmpFig: FigureInterface) = {
-        val tmpColour = if (tmpFig.isBlack) Colour.black else Colour.white
-        Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
-      }
-
-      val d:Option[Figure] = if (content.isDefined) figureInterfaceToFigure(content.get) else Option.empty
+      val d:Option[Figure] = if (content.isDefined) Utils.figureInterfaceToFigure(content.get) else Option.empty
 
       if (Utils.isEven(row))
         if (Utils.isEven(col)) Cell(Colour.white, d) else Cell(Colour.black, d)

@@ -2,6 +2,8 @@ package de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl
 
 import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
 
+
+
 case class PersistFigure(isBlackColour:Boolean, kind:String, stepCount:Int, position:(Int,Int)) extends FigureInterface {
   override def isBlack: Boolean = isBlackColour
 
@@ -11,6 +13,8 @@ case class PersistFigure(isBlackColour:Boolean, kind:String, stepCount:Int, posi
 
   override def getPosition: (Int, Int) = position
 }
+
+
 
 case class PersistRemovedFigure(figure:FigureInterface, round:Int) extends RemovedFigureInterface {
   override def getFigure: FigureInterface = figure

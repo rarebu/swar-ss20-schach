@@ -1,6 +1,6 @@
 package de.htwg.se.Schach.model
 
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Coordinates, Field, Figure}
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{PersistFigure, PersistRemovedFigure, PersistToChange}
 import play.api.libs.json.JsValue
 
 trait FieldInterface {
@@ -56,16 +56,51 @@ trait FigureInterface {
 
   def getPosition:(Int, Int)
 
+  override def toString: String = isBlack.toString + " " + getKind + " " + getStepCount + " " + getPosition._1 + " " + getPosition._2
+
+}
+
+object FigureInterface {
+  def fromString(figureAsString: String): FigureInterface = {
+    val figureSplit = figureAsString.split(" ")
+    val isBlack = figureSplit(0).toBoolean
+    val kind = figureSplit(1)
+    val stepCount = figureSplit(2).toInt
+    val position = (figureSplit(3).toInt, figureSplit(4).toInt)
+    PersistFigure(isBlack, kind, stepCount, position)
+  }
 }
 
 trait RemovedFigureInterface {
   def getFigure:FigureInterface
 
   def getRound:Int
+
+  override def toString: String = getFigure.toString + " " + getRound
+}
+
+object RemovedFigureInterface {
+  def fromString(removedFigureAsString: String): RemovedFigureInterface = {
+    val removedFigureSplit = removedFigureAsString.splitAt(removedFigureAsString.lastIndexOf(" "))
+    val figure = FigureInterface.fromString(removedFigureSplit._1)
+    val round = removedFigureSplit._2.toInt
+    PersistRemovedFigure(figure, round)
+  }
 }
 
 trait ToChangeInterface {
   def getFigure:FigureInterface
 
   def isBlack:Boolean
+
+  override def toString: String = getFigure.toString + " " + isBlack.toString
+}
+
+object ToChangeInterface {
+  def fromString(toChangeAsString: String): ToChangeInterface = {
+    val toChangeSplit = toChangeAsString.splitAt(toChangeAsString.lastIndexOf(" "))
+    val figure = FigureInterface.fromString(toChangeSplit._1)
+    val isBlackColour = toChangeSplit._2.toBoolean
+    PersistToChange(figure, isBlackColour)
+  }
 }

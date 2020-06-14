@@ -1,9 +1,9 @@
 
 package de.htwg.se.Schach.util
 
+import de.htwg.se.Schach.model.{FieldDataInterface, FieldInterface, FigureInterface}
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Colour.Colour
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Coordinates, Field}
-
+import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.{Colour, Coordinates, Field, Figure, PersistField}
 import de.htwg.se.Schach.util.Validation.removeInvalidsFromMultiVector
 
 
@@ -85,4 +85,9 @@ object StepUtils {
 
 object Utils {
   def isEven(number: Int):Boolean = number % 2 == 0
+
+  def figureInterfaceToFigure(tmpFig: FigureInterface) = {
+    val tmpColour = if (tmpFig.isBlack) Colour.black else Colour.white
+    Figure.apply(tmpFig.getKind, tmpColour, tmpFig.getStepCount)
+  }
 }
