@@ -10,7 +10,7 @@ import scala.concurrent.duration.Duration
 
 class LogicDatabase extends LogicDatabaseInterface {
   val fieldDatabase = TableQuery[PersistanceMapping]
-  val db = Database.forConfig("mydb")
+  val db = Database.forConfig("mysql")
 
   ///SQL INSERT
   override def create(name: String, field: FieldDataInterface): Boolean = {
