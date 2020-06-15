@@ -15,9 +15,10 @@ class LogicDatabase extends LogicDatabaseInterface {
   ///SQL INSERT
   override def create(name: String, field: FieldDataInterface): Boolean = {
     val insertAction = DBIO.seq(
+      fieldDatabase.schema.create,
       fieldDatabase += (new FieldDatabase(name, field))
     )
-    db.run(insertAction)
+    Await.result(db.run(insertAction), Duration.Inf)
     true
   }
 
@@ -31,14 +32,14 @@ class LogicDatabase extends LogicDatabaseInterface {
   ///SQL UPDATE
   override def update(name: String, field: FieldDataInterface): Boolean = {
     val upsertAction = fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
-    db.run(upsertAction)
+    Await.result(db.run(upsertAction), Duration.Inf)
     true
   }
 
   ///SQL DELETE
   override def delete(name: String): Boolean = {
     val deleteAction = fieldDatabase.filter(_.uniqueName === name).delete
-    db.run(deleteAction)
+    Await.result(db.run(deleteAction), Duration.Inf)
     true
   }
 }
