@@ -63,7 +63,6 @@ trait FigureInterface {
 object FigureInterface {
   def fromString(figureAsString: String): FigureInterface = {
     val figureSplit = figureAsString.split(" ")
-    println("2 " + figureSplit)
     val isBlack = figureSplit(0).toBoolean
     val kind = figureSplit(1)
     val stepCount = figureSplit(2).toInt
