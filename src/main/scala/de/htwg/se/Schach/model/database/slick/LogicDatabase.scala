@@ -57,7 +57,8 @@ case class FieldDatabase(uniqueName: String, figurePositions: String, toChange: 
     val figurePositions = this.figurePositions.split(",").map(figurePosition => FigureInterface.fromString(figurePosition)).toList
     val toChange = this.toChange.map(x => ToChangeInterface.fromString(x))
     println("1 " + this.removedFigures)
-    val removedFigures = this.removedFigures.split(",").map(removedFigure => RemovedFigureInterface.fromString(removedFigure)).toList
+    val removedFiguresArray = this.removedFigures.split(",")
+    val removedFigures = if(removedFiguresArray.size > 0) removedFiguresArray.map(removedFigure => RemovedFigureInterface.fromString(removedFigure)).toList else List.empty
     PersistField(figurePositions, toChange, removedFigures, roundCount)
   }
 }
