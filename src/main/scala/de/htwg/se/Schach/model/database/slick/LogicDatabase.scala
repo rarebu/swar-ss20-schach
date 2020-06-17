@@ -19,7 +19,7 @@ class LogicDatabase extends LogicDatabaseInterface {
   ///SQL INSERT
   override def create(name: String, field: FieldDataInterface): Boolean = {
     val insertAction = DBIO.seq(
-      fieldDatabase += (new FieldDatabase(name, field))
+      fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
     )
     Await.result(db.run(insertAction), Duration.Inf)
     true
