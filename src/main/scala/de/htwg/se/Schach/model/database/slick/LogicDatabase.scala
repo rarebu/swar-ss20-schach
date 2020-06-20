@@ -1,5 +1,6 @@
 package de.htwg.se.Schach.model.database.slick
 
+import akka.actor.Status.Success
 import de.htwg.se.Schach.model.{FieldDataInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
 import de.htwg.se.Schach.model.database.LogicDatabaseInterface
 import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.PersistField
@@ -7,43 +8,43 @@ import slick.driver.MySQLDriver.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import scala.util.Try
 
 class LogicDatabase extends LogicDatabaseInterface {
   val fieldDatabase = TableQuery[PersistanceMapping]
   val db = Database.forConfig("mysql")
-  val createTableAction = DBIO.seq(
-    fieldDatabase.schema.create
-  )
-  Await.result(db.run(createTableAction), Duration.Inf)
 
   ///SQL INSERT
-  override def create(name: String, field: FieldDataInterface): Boolean = {
+  override def create(name: String, field: FieldDataInterface): Try[Unit] = {
     val insertAction = DBIO.seq(
       fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
     )
-    Await.result(db.run(insertAction), Duration.Inf)
-    true
+    Try(Await.result(db.run(insertAction), Duration.Inf))
   }
 
   ///SQL SELECT
-  override def read(name: String): Option[FieldDataInterface] = {
+  override def read(name: String): Try[FieldDataInterface] = {
     val readAction = fieldDatabase.filter(_.uniqueName === name).result
-    Some(Await.result(db.run(readAction), Duration.Inf).map(x => x.toPersistField).head)
-//    null
+    Try(Await.result(db.run(readAction), Duration.Inf).map(x => x.toPersistField).head)
   }
 
   ///SQL UPDATE
-  override def update(name: String, field: FieldDataInterface): Boolean = {
+  override def update(name: String, field: FieldDataInterface): Try[Unit] = {
     val upsertAction = fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
-    Await.result(db.run(upsertAction), Duration.Inf)
-    true
+    Try(Await.result(db.run(upsertAction), Duration.Inf))
   }
 
   ///SQL DELETE
-  override def delete(name: String): Boolean = {
+  override def delete(name: String): Try[Unit] = {
     val deleteAction = fieldDatabase.filter(_.uniqueName === name).delete
-    Await.result(db.run(deleteAction), Duration.Inf)
-    true
+    Try(Await.result(db.run(deleteAction), Duration.Inf))
+  }
+
+  override def initStorage: Try[Unit] = {
+    val createTableAction = DBIO.seq(
+      fieldDatabase.schema.create
+    )
+    Try(Await.result(db.run(createTableAction), Duration.Inf))
   }
 }
 
