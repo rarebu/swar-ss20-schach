@@ -1,9 +1,7 @@
 package de.htwg.se.Schach.model.database.slick
 
-import akka.actor.Status.Success
-import de.htwg.se.Schach.model.{FieldDataInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
-import de.htwg.se.Schach.model.database.LogicDatabaseInterface
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.PersistField
+import de.htwg.se.Schach.model.FieldDataInterface
+import de.htwg.se.Schach.model.database.{FieldDatabase, LogicDatabaseInterface}
 import slick.driver.MySQLDriver.api._
 
 import scala.concurrent.Await
@@ -48,25 +46,7 @@ class LogicDatabase extends LogicDatabaseInterface {
   }
 }
 
-case class FieldDatabase(uniqueName: String, figurePositions: String, toChange: Option[String], removedFigures: String, roundCount: Int) {
-  def this(uniqueName: String, field: FieldDataInterface) = this(
-    uniqueName,
-    field.getFigurePositions.map(figurePosition => figurePosition.toString).mkString(","),
-    if(field.getToChange.isDefined) Some(field.getToChange.get.toString) else None,
-    field.getRemovedFigures.map(removedFigure => removedFigure.toString).mkString(","),
-    field.getRoundCount
-  )
 
-  def toPersistField: PersistField = {
-    val figurePositions = this.figurePositions.split(",").map(figurePosition => FigureInterface.fromString(figurePosition)).toList
-    val toChange = this.toChange.map(x => ToChangeInterface.fromString(x))
-    val removedFigures = if(this.removedFigures.size > 0) {
-      val removedFiguresArray = this.removedFigures.split(",")
-      removedFiguresArray.map(removedFigure => RemovedFigureInterface.fromString(removedFigure)).toList
-    } else List.empty
-    PersistField(figurePositions, toChange, removedFigures, roundCount)
-  }
-}
 
 class PersistanceMapping(tag:Tag) extends Table[FieldDatabase](tag, "logic") {
   def uniqueName = column[String]("name", O.PrimaryKey)
