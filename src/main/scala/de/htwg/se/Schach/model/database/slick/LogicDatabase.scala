@@ -2,7 +2,7 @@ package de.htwg.se.Schach.model.database.slick
 
 import de.htwg.se.Schach.model.FieldDataInterface
 import de.htwg.se.Schach.model.database.{FieldDatabase, LogicDatabaseInterface}
-import slick.driver.MySQLDriver.api._
+import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -14,9 +14,7 @@ class LogicDatabase extends LogicDatabaseInterface {
 
   ///SQL INSERT
   override def create(name: String, field: FieldDataInterface): Try[Unit] = {
-    val insertAction = DBIO.seq(
-      fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
-    )
+    val insertAction = fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
     Try(Await.result(db.run(insertAction), Duration.Inf))
   }
 
@@ -39,9 +37,7 @@ class LogicDatabase extends LogicDatabaseInterface {
   }
 
   override def initStorage: Try[Unit] = {
-    val createTableAction = DBIO.seq(
-      fieldDatabase.schema.create
-    )
+    val createTableAction = fieldDatabase.schema.create
     Try(Await.result(db.run(createTableAction), Duration.Inf))
   }
 }
