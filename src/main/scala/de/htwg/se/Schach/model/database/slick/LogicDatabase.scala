@@ -1,64 +1,48 @@
 package de.htwg.se.Schach.model.database.slick
 
-import de.htwg.se.Schach.model.{FieldDataInterface, FigureInterface, RemovedFigureInterface, ToChangeInterface}
-import de.htwg.se.Schach.model.database.LogicDatabaseInterface
-import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.PersistField
-import slick.driver.MySQLDriver.api._
+import de.htwg.se.Schach.model.FieldDataInterface
+import de.htwg.se.Schach.model.database.{FieldDatabase, LogicDatabaseInterface}
+import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import scala.util.Try
 
 class LogicDatabase extends LogicDatabaseInterface {
   val fieldDatabase = TableQuery[PersistanceMapping]
   val db = Database.forConfig("mysql")
 
   ///SQL INSERT
-  override def create(name: String, field: FieldDataInterface): Boolean = {
-    val insertAction = DBIO.seq(
-      fieldDatabase += (new FieldDatabase(name, field))
-    )
-    db.run(insertAction)
-    true
+  override def create(name: String, field: FieldDataInterface): Try[Unit] = {
+    val insertAction = fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
+    Try(Await.result(db.run(insertAction), Duration.Inf))
   }
 
   ///SQL SELECT
-  override def read(name: String): Option[FieldDataInterface] = {
+  override def read(name: String): Try[FieldDataInterface] = {
     val readAction = fieldDatabase.filter(_.uniqueName === name).result
-    Some(Await.result(db.run(readAction), Duration.Inf).map(x => x.toPersistField).head)
-//    null
+    Try(Await.result(db.run(readAction), Duration.Inf).map(x => x.toPersistField).head)
   }
 
   ///SQL UPDATE
-  override def update(name: String, field: FieldDataInterface): Boolean = {
+  override def update(name: String, field: FieldDataInterface): Try[Unit] = {
     val upsertAction = fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
-    db.run(upsertAction)
-    true
+    Try(Await.result(db.run(upsertAction), Duration.Inf))
   }
 
   ///SQL DELETE
-  override def delete(name: String): Boolean = {
+  override def delete(name: String): Try[Unit] = {
     val deleteAction = fieldDatabase.filter(_.uniqueName === name).delete
-    db.run(deleteAction)
-    true
+    Try(Await.result(db.run(deleteAction), Duration.Inf))
+  }
+
+  override def initStorage: Try[Unit] = {
+    val createTableAction = fieldDatabase.schema.create
+    Try(Await.result(db.run(createTableAction), Duration.Inf))
   }
 }
 
-case class FieldDatabase(uniqueName: String, figurePositions: String, toChange: Option[String], removedFigures: String, roundCount: Int) {
-  def this(uniqueName: String, field: FieldDataInterface) = this(
-    uniqueName,
-    field.getFigurePositions.map(figurePosition => figurePosition.toString).mkString(","),
-    if(field.getToChange.isDefined) Some(field.getToChange.get.toString) else None,
-    field.getRemovedFigures.map(removedFigure => removedFigure.toString).mkString(","),
-    field.getRoundCount
-  )
 
-  def toPersistField: PersistField = {
-    val figurePositions = this.figurePositions.split(",").map(figurePosition => FigureInterface.fromString(figurePosition)).toList
-    val toChange = this.toChange.map(x => ToChangeInterface.fromString(x))
-    val removedFigures = this.removedFigures.split(",").map(removedFigure => RemovedFigureInterface.fromString(removedFigure)).toList
-    PersistField(figurePositions, toChange, removedFigures, roundCount)
-  }
-}
 
 class PersistanceMapping(tag:Tag) extends Table[FieldDatabase](tag, "logic") {
   def uniqueName = column[String]("name", O.PrimaryKey)
