@@ -19,7 +19,13 @@ object DataAccessObject {
   def read(name: String): FieldDataInterface = {
     while(true) {
       val field = database.read(name)
-      if(field.isSuccess) return field.get
+//      if(field.isSuccess) return field.get
+      if(field.isSuccess) {
+        println(field.get)
+        return field.get
+      } else {
+        println("error: " + field.failed.get.getMessage)
+      }
     }
     null
   }

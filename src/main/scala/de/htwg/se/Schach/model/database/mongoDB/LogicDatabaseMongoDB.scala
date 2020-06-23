@@ -20,12 +20,18 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
       "toChange" -> {if(fieldDatabase.toChange.isDefined) fieldDatabase.toChange.get else ""}, "removedFigures" -> fieldDatabase.removedFigures,
       "roundCount" -> fieldDatabase.roundCount)
 
-    Try(Await.result(collection.insertOne(document).toFuture(), Duration.Inf))
+    Try(if(Await.result(collection.countDocuments().toFuture(), Duration.Inf) > 0)
+      {Await.result(collection.insertOne(document).toFuture(), Duration.Inf)}
+    else {
+      val filterDocument: Document = Document("uniqueName" -> name)
+      Await.result(collection.updateOne(filterDocument, document).toFuture(), Duration.Inf)
+    })
+
   }
 
   override def read(name: String): Try[FieldDataInterface] = {
     val collection: MongoCollection[Document] = database.getCollection("logic")
-
+    println("read") //DEBUG
     Try(Await.result(collection.find().toFuture(), Duration.Inf).filter(document => document.get("uniqueName") == name).map(document =>
       FieldDatabase(document.get("uniqueName").get.asString().getValue, document.get("figurePositions").get.asString().getValue,
         if(document.get("toChange").get.asString().getValue.length > 0) Some(document.get("toChange").get.asString().getValue) else None,
