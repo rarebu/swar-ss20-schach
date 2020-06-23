@@ -8,7 +8,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.util.Try
 
-class LogicDatabase extends LogicDatabaseInterface {
+class LogicDatabaseMySQL extends LogicDatabaseInterface {
   val fieldDatabase = TableQuery[PersistanceMapping]
   val db = Database.forConfig("mysql")
 
