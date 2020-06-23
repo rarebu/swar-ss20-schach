@@ -6,7 +6,11 @@ import de.htwg.se.Schach.model.FieldDataInterface
 object DataAccessObject {
   val injector = Guice.createInjector(new DatabaseTypeInjection)
   val database = injector.getInstance(classOf[LogicDatabaseInterface])
-  database.initStorage
+  val x = database.initStorage
+  if (x.isFailure)
+    println(x.failed.get.getMessage)
+  else
+    println("Good")
 
   def create(name: String, field: FieldDataInterface): Unit = {
     while(database.create(name, field).isFailure){}
