@@ -9,7 +9,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B
 RUN apt-get update
 RUN apt-get install sbt -y --allow-unauthenticated
 RUN git clone https://github.com/rarebu/swar-ss20-schach
-RUN cd /swar-ss20-schach && sbt compile
+RUN cd /swar-ss20-schach && git pull && git checkout -t origin/slick && && sbt compile
 ENTRYPOINT service mysql start && cd /swar-ss20-schach && PASSWORD=$(cat /etc/mysql/debian.cnf | grep "password"| head -1 | sed -n -e 's/^.*= //p') sbt run
 
 
