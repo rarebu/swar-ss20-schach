@@ -25,6 +25,7 @@ object DataAccessObject {
         return field.get
       } else {
         println("error: " + field.failed.get.getMessage)
+        System.exit(1)
       }
     }
     null

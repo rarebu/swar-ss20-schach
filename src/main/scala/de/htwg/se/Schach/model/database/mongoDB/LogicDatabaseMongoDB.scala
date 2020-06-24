@@ -34,11 +34,14 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
     val collection: MongoCollection[Document] = database.getCollection("logic")
 
     println("read") //DEBUG
-    Try(Await.result(collection.find(equal("uniqueName", name)).first().map(document =>
-      FieldDatabase(document.get("uniqueName").get.asString().getValue, document.get("figurePositions").get.asString().getValue,
-        if(document.get("toChange").get.asString().getValue.length > 0) Some(document.get("toChange").get.asString().getValue) else None,
-        document.get("removedFigures").get.asString().getValue, document.get("roundCount").get.asInt32().getValue)).toFuture(), Duration.Inf)
-        .head.toPersistField)
+    Try({
+      val a = Await.result(collection.find(equal("uniqueName", name)).first().map(document =>
+        FieldDatabase(document.get("uniqueName").get.asString().getValue, document.get("figurePositions").get.asString().getValue,
+          if(document.get("toChange").get.asString().getValue.length > 0) Some(document.get("toChange").get.asString().getValue) else None,
+          document.get("removedFigures").get.asString().getValue, document.get("roundCount").get.asInt32().getValue)).toFuture(), Duration.Inf)
+      println(a + " " + a.size)
+      a.head.toPersistField
+    })
   }
 
   override def update(name: String, field: FieldDataInterface): Try[Unit] = {
