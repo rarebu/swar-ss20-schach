@@ -19,8 +19,9 @@ object DataAccessObject {
         println("Success")
         return
       } else {
-        println(a.failed.get.getMessage)
-        System.exit(1)
+        println("Failure: " + a.failed.get.getMessage)
+//        System.exit(1)
+        return
       }
     }
   }
