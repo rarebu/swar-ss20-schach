@@ -3,6 +3,7 @@ package de.htwg.se.Schach.model.database.mongoDB
 import de.htwg.se.Schach.model.FieldDataInterface
 import de.htwg.se.Schach.model.database.{FieldDatabase, LogicDatabaseInterface}
 import org.mongodb.scala._
+import org.mongodb.scala.model.Filters._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -31,11 +32,13 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
 
   override def read(name: String): Try[FieldDataInterface] = {
     val collection: MongoCollection[Document] = database.getCollection("logic")
+
     println("read") //DEBUG
-    Try(Await.result(collection.find().toFuture(), Duration.Inf).filter(document => document.get("uniqueName").get.asString().getValue == name).map(document =>
+    Try(Await.result(collection.find(equal("uniqueName", name)).first().map(document =>
       FieldDatabase(document.get("uniqueName").get.asString().getValue, document.get("figurePositions").get.asString().getValue,
         if(document.get("toChange").get.asString().getValue.length > 0) Some(document.get("toChange").get.asString().getValue) else None,
-        document.get("removedFigures").get.asString().getValue, document.get("roundCount").get.asInt32().getValue)).head.toPersistField)
+        document.get("removedFigures").get.asString().getValue, document.get("roundCount").get.asInt32().getValue)).toFuture(), Duration.Inf)
+        .head.toPersistField)
   }
 
   override def update(name: String, field: FieldDataInterface): Try[Unit] = {
