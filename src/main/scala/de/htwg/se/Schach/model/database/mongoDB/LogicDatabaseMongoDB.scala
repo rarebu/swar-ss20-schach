@@ -21,7 +21,9 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
       "toChange" -> {if(fieldDatabase.toChange.isDefined) fieldDatabase.toChange.get else ""}, "removedFigures" -> fieldDatabase.removedFigures,
       "roundCount" -> fieldDatabase.roundCount)
 
-    Try(if(Await.result(collection.countDocuments().toFuture(), Duration.Inf) > 0)
+    val g = Await.result(collection.countDocuments().toFuture(), Duration.Inf)
+    println("size is: " + g)
+    Try(if(g > 0)
       {
         println("create")
         Await.result(collection.insertOne(document).toFuture(), Duration.Inf)
