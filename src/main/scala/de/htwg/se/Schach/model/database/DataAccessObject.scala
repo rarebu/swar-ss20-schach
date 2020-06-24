@@ -13,7 +13,16 @@ object DataAccessObject {
     println("Good")
 
   def create(name: String, field: FieldDataInterface): Unit = {
-    while(database.create(name, field).isFailure){}
+    while(true){
+      val a = database.create(name, field)
+      if(a.isSuccess) {
+        println("Success")
+        return
+      } else {
+        println(a.failed.get.getMessage)
+        System.exit(1)
+      }
+    }
   }
 
   def read(name: String): FieldDataInterface = {

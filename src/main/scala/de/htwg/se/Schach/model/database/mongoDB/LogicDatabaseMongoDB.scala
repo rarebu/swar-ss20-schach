@@ -22,8 +22,12 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
       "roundCount" -> fieldDatabase.roundCount)
 
     Try(if(Await.result(collection.countDocuments().toFuture(), Duration.Inf) > 0)
-      {Await.result(collection.insertOne(document).toFuture(), Duration.Inf)}
+      {
+        println("create")
+        Await.result(collection.insertOne(document).toFuture(), Duration.Inf)
+      }
     else {
+      println("Already created")
       val filterDocument: Document = Document("uniqueName" -> name)
       Await.result(collection.updateOne(filterDocument, document).toFuture(), Duration.Inf)
     })
