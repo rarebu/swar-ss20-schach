@@ -85,7 +85,7 @@ object RemovedFigureInterface {
     println("Removed Figure Field 1: " + removedFigureSplit._1 + " Removed Figure Field 1: " + removedFigureSplit._2)
     val figure = FigureInterface.fromString(removedFigureSplit._1)
     println("Figure: " + figure)
-    val round = removedFigureSplit._2.toInt
+    val round = removedFigureSplit._2.trim.toInt
     println("Round: " + round)
     PersistRemovedFigure(figure, round)
   }
