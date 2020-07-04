@@ -10,7 +10,7 @@ import de.htwg.se.Schach.model.fieldComponent.fieldBaseImpl.Field
 
 object Schach {
   val controller = new LogicController(new Field())
-  val tui = new TUI(controller)
+//  val tui = new TUI(controller)
 //  val gui = new SwingGui(controller)
   val server = new SchachLogicHttpServer(controller)
   @volatile var shutdown = false

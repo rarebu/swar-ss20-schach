@@ -23,14 +23,14 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
 
     val filterDocument: Document = Document("uniqueName" -> name)
     val g = Await.result(collection.countDocuments(filterDocument).toFuture(), Duration.Inf)
-    println("size is: " + g)
+//    println("size is: " + g)
     Try(
       if(g == 0) {
-        println("create")
+//        println("create")
         Await.result(collection.insertOne(document).toFuture(), Duration.Inf)
       }
     else {
-      println("Already created")
+//      println("Already created")
       Await.result(collection.updateOne(filterDocument, document).toFuture(), Duration.Inf)
     })
 
@@ -39,13 +39,13 @@ class LogicDatabaseMongoDB extends LogicDatabaseInterface {
   override def read(name: String): Try[FieldDataInterface] = {
     val collection: MongoCollection[Document] = database.getCollection("logic")
 
-    println("read") //DEBUG
+//    println("read") //DEBUG
     Try({
       val a = Await.result(collection.find(equal("uniqueName", name)).first().map(document =>
         FieldDatabase(document.get("uniqueName").get.asString().getValue, document.get("figurePositions").get.asString().getValue,
           if(document.get("toChange").get.asString().getValue.length > 0) Some(document.get("toChange").get.asString().getValue) else None,
           document.get("removedFigures").get.asString().getValue, document.get("roundCount").get.asInt32().getValue)).toFuture(), Duration.Inf)
-      println(a + " " + a.size)
+//      println(a + " " + a.size)
       a.head.toPersistField
     })
   }

@@ -10,16 +10,16 @@ object DataAccessObject {
   if (x.isFailure)
     println(x.failed.get.getMessage)
   else
-    println("Good")
+//    println("Good")
 
   def create(name: String, field: FieldDataInterface): Unit = {
     while(true){
       val a = database.create(name, field)
       if(a.isSuccess) {
-        println("Success")
+//        println("Success")
         return
       } else {
-        println("Failure: " + a.failed.get.getMessage)
+//        println("Failure: " + a.failed.get.getMessage)
 //        System.exit(1)
         return
       }
@@ -31,7 +31,7 @@ object DataAccessObject {
       val field = database.read(name)
 //      if(field.isSuccess) return field.get
       if(field.isSuccess) {
-        println(field.get)
+//        println(field.get)
         return field.get
       } else {
         println("error: " + field.failed.get.getMessage)

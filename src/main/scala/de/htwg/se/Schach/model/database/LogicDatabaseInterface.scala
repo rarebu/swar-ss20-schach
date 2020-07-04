@@ -24,17 +24,17 @@ case class FieldDatabase(uniqueName: String, figurePositions: String, toChange: 
 
   def toPersistField: PersistField = {
     val figurePositions = this.figurePositions.split(",").map(figurePosition => FigureInterface.fromString(figurePosition)).toList
-    println("figurePositions: " + figurePositions)
+//    println("figurePositions: " + figurePositions)
     val toChange = this.toChange.map(x => ToChangeInterface.fromString(x))
-    println("toChange: " + toChange)
+//    println("toChange: " + toChange)
     val removedFigures = if(this.removedFigures.size > 0) {
       val removedFiguresArray = this.removedFigures.split(",")
-      println("removedFiguresArray: " + removedFiguresArray.deep.mkString("\n"))
+//      println("removedFiguresArray: " + removedFiguresArray.deep.mkString("\n"))
       removedFiguresArray.map(removedFigure => {
-        println(removedFigure)
+//        println(removedFigure)
         RemovedFigureInterface.fromString(removedFigure)}).toList
     } else List.empty
-    println("removedFigures: " + removedFigures)
+//    println("removedFigures: " + removedFigures)
     PersistField(figurePositions, toChange, removedFigures, roundCount)
   }
 }
