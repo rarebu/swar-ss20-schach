@@ -9,7 +9,7 @@ object DataAccessObject {
   val x = database.initStorage
   if (x.isFailure)
     println(x.failed.get.getMessage)
-  else
+//  else
 //    println("Good")
 
   def create(name: String, field: FieldDataInterface): Unit = {
