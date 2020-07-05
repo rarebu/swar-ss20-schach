@@ -9,17 +9,20 @@ import scala.concurrent.duration.Duration
 import scala.util.Try
 
 class LogicDatabaseMySQL extends LogicDatabaseInterface {
+  println("start mysql")
   val fieldDatabase = TableQuery[PersistanceMapping]
   val db = Database.forConfig("mysql")
 
   ///SQL INSERT
   override def create(name: String, field: FieldDataInterface): Try[Unit] = {
+    println("create")
     val insertAction = fieldDatabase.insertOrUpdate(new FieldDatabase(name, field))
     Try(Await.result(db.run(insertAction), Duration.Inf))
   }
 
   ///SQL SELECT
   override def read(name: String): Try[FieldDataInterface] = {
+    println("read")
     val readAction = fieldDatabase.filter(_.uniqueName === name).result
     Try(Await.result(db.run(readAction), Duration.Inf).map(x => x.toPersistField).head)
   }
