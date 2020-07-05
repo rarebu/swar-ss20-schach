@@ -7,6 +7,6 @@ import net.codingwell.scalaguice.ScalaModule
 
 class DatabaseTypeInjection  extends AbstractModule with ScalaModule {
   override def configure(): Unit = {
-    bind[LogicDatabaseInterface].to[LogicDatabaseMongoDB]
+    bind[LogicDatabaseInterface].to[LogicDatabaseMySQL]
   }
 }
