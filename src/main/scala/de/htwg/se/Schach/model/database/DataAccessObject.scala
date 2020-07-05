@@ -31,7 +31,7 @@ object DataAccessObject {
       val field = database.read(name)
       if(field.isSuccess) return field.get
       if(field.isSuccess) {
-        println(field.get)
+        println("The field is: " + field.get)
         return field.get
       } else {
         println("error: " + field.failed.get.getMessage)
